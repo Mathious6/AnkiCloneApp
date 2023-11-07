@@ -6,13 +6,15 @@ import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {NgOptimizedImage} from "@angular/common";
-import { FooterComponent } from './components/footer/footer.component';
+import {FooterComponent} from './components/footer/footer.component';
+import {HomeCarousselComponent} from './components/home-caroussel/home-caroussel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    HomeCarousselComponent
   ],
   imports: [
     BrowserModule,
