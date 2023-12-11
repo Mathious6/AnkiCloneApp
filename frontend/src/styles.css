@@ -7,4 +7,10 @@ html, body {
   border-radius: 15pt;
   border-style: wave;
   background-color: #ABBAEA;
+  text-align: center;
+  display: inline-block;
+}
+
+.button1{
+  place-content: baseline;
 }
