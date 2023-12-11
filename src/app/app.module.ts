@@ -8,13 +8,19 @@ import {NavbarComponent} from './components/navbar/navbar.component';
 import {NgOptimizedImage} from "@angular/common";
 import {FooterComponent} from './components/footer/footer.component';
 import {HomeCarousselComponent} from './components/home-caroussel/home-caroussel.component';
+import { ExploreLessonComponent } from './explore-lesson/explore-lesson.component';
+import { StudyNowComponent } from './study-now/study-now.component';
+import { SharedDecksComponent } from './shared-decks/shared-decks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    HomeCarousselComponent
+    HomeCarousselComponent,
+    ExploreLessonComponent,
+    StudyNowComponent,
+    SharedDecksComponent
   ],
   imports: [
     BrowserModule,

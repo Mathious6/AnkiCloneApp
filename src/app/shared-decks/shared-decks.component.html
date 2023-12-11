@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  <form>
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" name="title">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" name="description">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="category">Category</label>
+          <input type="text" class="form-control" id="category" name="category">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="level">Level</label>
+          <input type="text" class="form-control" id="level" name="level">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="tags">Tags</label>
+          <input type="text" class="form-control" id="tags" name="tags">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="author">Author</label>
+          <input type="text" class="form-control" id="author" name="author">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="lastModifiedDateStart">Last Modified Date (Start)</label>
+          <input type="date" class="form-control" id="lastModifiedDateStart" name="lastModifiedDateStart">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="lastModifiedDateEnd">Last Modified Date (End)</label>
+          <input type="date" class="form-control" id="lastModifiedDateEnd" name="lastModifiedDateEnd">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="numericFieldMin">Numeric Field (Min)</label>
+          <input type="number" class="form-control" id="numericFieldMin" name="numericFieldMin">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="numericFieldMax">Numeric Field (Max)</label>
+          <input type="number" class="form-control" id="numericFieldMax" name="numericFieldMax">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="stringOperator">String Operator</label>
+          <select class="form-control" id="stringOperator" name="stringOperator">
+            <option value="contains-ignore-case">Contains (Ignore Case)</option>
+            <option value="like">Like</option>
+            <option value="case-insensitive-like">Case-Insensitive Like</option>
+            <option value="starts-with">Starts With</option>
+            <option value="exact">Exact</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary">Search</button>
+  </form>
+</div>
+
