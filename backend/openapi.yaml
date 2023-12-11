@@ -1,0 +1,208 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Anki Learning Packages API
+  description: API for managing learning packages
+paths:
+  /api/packages:
+    get:
+      summary: Get all packages
+      operationId: getPackages
+      tags:
+        - Packages
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackage'
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a new package
+      operationId: createPackage
+      tags:
+        - Packages
+      requestBody:
+        description: The package to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningPackage'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackage'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+  /api/packages-summaries:
+    get:
+      summary: Get all packages summaries
+      operationId: getPackagesSummaries
+      tags:
+        - Summaries
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackageSummary'
+        '500':
+          description: Internal Server Error
+  /api/packages/{id}:
+    get:
+      summary: Get a package by id
+      operationId: getPackageById
+      tags:
+        - Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the package
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Update a package by id
+      operationId: updatePackageById
+      tags:
+        - Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the package
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The package to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningPackage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/packages-all/search:
+    get:
+      summary: Search packages
+      operationId: searchPackages
+      tags:
+        - Packages
+      parameters:
+        - name: title
+          in: query
+          description: The search title
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: The search description
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: The search category
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+servers:
+  [
+    {
+      url: http://localhost:3000,
+      description: Development server
+    }
+  ]
+components:
+  schemas:
+    LearningPackage:
+      type: object
+      properties:
+        id:
+          type: number
+          description: The id of the learning package
+          example: 1
+        title:
+          type: string
+          description: The title of the learning package
+          example: Learn TypeScript
+        description:
+          type: string
+          description: The description of the learning package
+          example: A comprehensive guide to understanding TypeScript, a statically typed superset of JavaScript.
+        category:
+          type: string
+          description: The category of the learning package
+          example: Programming Language
+        targetAudience:
+          type: string
+          description: The target audience of the learning package
+          example: Developers familiar with JavaScript
+        difficultyLevel:
+          type: number
+          description: The difficulty level of the learning package
+          example: 8
+      required:
+        - id
+        - title
+    LearningPackageSummary:
+      type: object
+      properties:
+        id:
+          type: number
+          description: The id of the learning package
+          example: 1
+        title:
+          type: string
+          description: The title of the learning package
+          example: Learn TypeScript
+      required:
+        - id
+        - title
