@@ -66,7 +66,8 @@
               "browserTarget": "AnkiCloneApp:build:production"
             },
             "development": {
-              "browserTarget": "AnkiCloneApp:build:development"
+              "browserTarget": "AnkiCloneApp:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
