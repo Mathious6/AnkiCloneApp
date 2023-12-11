@@ -1,3 +1,21 @@
+# Backend - AnkiCloneApp
+
+Before running the app, make sure you have created the `.env` file:
+
+```shell
+touch .env
+```
+
+Then, add the following environment variables to the `.env` file:
+
+```shell
+DB_NAME=anki_app
+DB_USER=db_user
+DB_PASSWORD=db_password
+DB_HOST=localhost
+DB_PORT=5432
+```
+
 # AnkiCloneApp
 
 An Anki-inspired web application for learning via spaced repetition, built with Angular, Node.js, Express, and
