@@ -7,6 +7,8 @@ import {HomeCarousselComponent} from "./components/home-caroussel/home-caroussel
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {StudyNowComponent} from "./study-now/study-now.component";
 import {SharedDecksComponent} from "./shared-decks/shared-decks.component";
+import {ProgressStatisticsComponent} from "./progress-statistics/progress-statistics.component";
+import {AchievementsComponent} from "./achievements/achievements.component";
 
 
 const routes: Routes = [
@@ -16,7 +18,9 @@ const routes: Routes = [
   {path : 'home-caroussel', component:HomeCarousselComponent},
   {path : 'header', component : NavbarComponent},
   {path : 'study-now', component : StudyNowComponent},
-  {path : 'shared-decks', component : SharedDecksComponent}
+  {path : 'shared-decks', component : SharedDecksComponent},
+  {path : 'progess-statistics', component : ProgressStatisticsComponent},
+  {path : 'achievements', component : AchievementsComponent}
 ];
 
 @NgModule({
