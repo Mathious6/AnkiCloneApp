@@ -11,6 +11,8 @@ import {HomeCarousselComponent} from './components/home-caroussel/home-caroussel
 import { ExploreLessonComponent } from './explore-lesson/explore-lesson.component';
 import { StudyNowComponent } from './study-now/study-now.component';
 import { SharedDecksComponent } from './shared-decks/shared-decks.component';
+import { ProgressStatisticsComponent } from './progress-statistics/progress-statistics.component';
+import { AchievementsComponent } from './achievements/achievements.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SharedDecksComponent } from './shared-decks/shared-decks.component';
     HomeCarousselComponent,
     ExploreLessonComponent,
     StudyNowComponent,
-    SharedDecksComponent
+    SharedDecksComponent,
+    ProgressStatisticsComponent,
+    AchievementsComponent
   ],
   imports: [
     BrowserModule,
