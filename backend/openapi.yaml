@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
-  title: Anki Learning Packages API
-  description: API for managing learning packages
+  version: 0.0.1
+  title: Anki Clone Application API
+  description: API for managing our Anki app
 paths:
-  /api/packages:
+  /api/user:
     get:
-      summary: Get all packages
-      operationId: getPackages
+      summary: Get all users
+      operationId: getUser
       tags:
-        - Packages
+        - Users
       responses:
         '200':
           description: OK
@@ -18,59 +18,44 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/LearningPackage'
+                  $ref: '#/components/schemas/User'
         '500':
           description: Internal Server Error
     post:
-      summary: Create a new package
-      operationId: createPackage
+      summary: Create a new user
+      operationId: createUser
       tags:
-        - Packages
+        - Users
       requestBody:
-        description: The package to create
+        description: The user to create
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningPackage'
+              $ref: '#/components/schemas/User'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningPackage'
+                $ref: '#/components/schemas/User'
         '400':
           description: Bad Request
+        '409':
+          description: Conflict
         '500':
           description: Internal Server Error
-  /api/packages-summaries:
+  /api/user/{id}:
     get:
-      summary: Get all packages summaries
-      operationId: getPackagesSummaries
+      summary: Get a user by id
+      operationId: getUserById
       tags:
-        - Summaries
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LearningPackageSummary'
-        '500':
-          description: Internal Server Error
-  /api/packages/{id}:
-    get:
-      summary: Get a package by id
-      operationId: getPackageById
-      tags:
-        - Packages
+        - Users
       parameters:
         - name: id
           in: path
-          description: The id of the package
+          description: The id of the user
           required: true
           schema:
             type: number
@@ -80,79 +65,68 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningPackage'
+                $ref: '#/components/schemas/User'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
     put:
-      summary: Update a package by id
-      operationId: updatePackageById
+      summary: Update a user by id
+      operationId: updateUserById
       tags:
-        - Packages
+        - Users
       parameters:
         - name: id
           in: path
-          description: The id of the package
+          description: The id of the user
           required: true
           schema:
             type: number
       requestBody:
-        description: The package to update
+        description: The user to update
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningPackage'
+              $ref: '#/components/schemas/User'
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningPackage'
+                $ref: '#/components/schemas/User'
         '404':
           description: Not Found
+        '409':
+          description: Conflict
         '500':
           description: Internal Server Error
-  /api/packages-all/search:
-    get:
-      summary: Search packages
-      operationId: searchPackages
+  /api/user-deactivate/{id}:
+    put:
+      summary: Deactivate a user by id
+      operationId: deactivateUserById
       tags:
-        - Packages
+        - Users
       parameters:
-        - name: title
-          in: query
-          description: The search title
-          required: false
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
           schema:
-            type: string
-        - name: description
-          in: query
-          description: The search description
-          required: false
-          schema:
-            type: string
-        - name: category
-          in: query
-          description: The search category
-          required: false
-          schema:
-            type: string
+            type: number
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Updated
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LearningPackage'
+                $ref: '#/components/schemas/User'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
+
 servers:
   [
     {
@@ -162,10 +136,48 @@ servers:
   ]
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: number
+          description: The id of the user
+          example: 1
+        mail:
+          type: string
+          description: The mail of the user
+          example: john.doe@gmail.com
+        pseudo:
+          type: string
+          description: The pseudo of the user
+          example: John
+        password:
+          type: string
+          description: The password of the user
+          example: 123456
+        registrationDate:
+          type: string
+          description: The registration date of the user
+          example: 2021-01-01
+        profilePicture:
+          type: string
+          description: The profile picture of the user
+          example: https://www.google.com/
+        isActive:
+          type: boolean
+          description: The status of the user
+          example: true
+      required:
+        - userId
+        - mail
+        - pseudo
+        - password
+        - registrationDate
+        - isActive
     LearningPackage:
       type: object
       properties:
-        id:
+        packageId:
           type: number
           description: The id of the learning package
           example: 1
@@ -185,13 +197,23 @@ components:
           type: string
           description: The target audience of the learning package
           example: Developers familiar with JavaScript
-        difficultyLevel:
+        duration:
           type: number
-          description: The difficulty level of the learning package
-          example: 8
+          description: The duration of the learning package in hours
+          example: 2
+        creationDate:
+          type: string
+          description: The creation date of the learning package
+          example: 2021-01-01
+        creatorId:
+          type: number
+          description: The id of the creator of the learning package
+          example: 1
       required:
-        - id
+        - packageId
         - title
+        - creationDate
+        - creatorId
     LearningPackageSummary:
       type: object
       properties:

@@ -5,10 +5,10 @@ import User from './user.model';
 class LearningPackage extends Model {
     public packageId!: number;
     public title!: string;
-    public description!: string;
-    public category!: string;
-    public targetAudience!: string;
-    public duration!: number;
+    public description: string;
+    public category: string;
+    public targetAudience: string;
+    public duration: number;
     public creationDate!: Date;
     public creatorId!: number;
 }

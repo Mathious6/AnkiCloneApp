@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import { Router } from 'express';
 import LearningPackage from '../config/learningPackage.model';
+import User from "../config/user.model";
 
 const router = Router();
 
@@ -83,14 +84,24 @@ router.get('/package/:id', async (req: Request, res: Response) => {
 });
 
 router.post('/package', async (req: Request, res: Response) => {
-    const {title, description, category, targetAudience, duration} = req.body;
+    const title: string = req.body.title;
+    const description: string = req.body.description;
+    const category: string = req.body.category;
+    const targetAudience: string = req.body.targetAudience;
+    const duration: number = req.body.duration;
+    const creatorId: number = req.body.creatorId;
+
     console.log('Handling POST request for /api/package. Data:', req.body);
 
-    if (!title || !description || !category || !targetAudience || typeof duration !== 'number') {
-        res.status(HTTP_BAD_REQUEST).send({error: 'Mandatory fields are missing'});
+    if (!title || !description || !category || !targetAudience || typeof duration !== 'number' || typeof creatorId !== 'number') {
+        res.status(HTTP_BAD_REQUEST).send({error: 'Mandatory fields are missing or invalid'});
     } else {
         try {
-            const creatorId: number = 1; // TD: Get the creator ID from the request
+            const userExists: User | null = await User.findByPk(creatorId);
+            if (!userExists) {
+                return res.status(HTTP_BAD_REQUEST).send({error: `User with ID ${creatorId} does not exist.`});
+            }
+
             const creationDate: Date = new Date();
             const newPackage = {title, description, category, targetAudience, duration, creationDate, creatorId};
             const createdPackage: LearningPackage = await LearningPackage.create(newPackage);
