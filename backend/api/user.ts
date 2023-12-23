@@ -86,7 +86,7 @@ router.put('/user/:id', handlers_errors, async (req: Request, res: Response) => 
     }
 });
 
-router.put('/user-deactivate/:id', async (req: Request, res: Response) => {
+router.put('/user/:id/deactivate', async (req: Request, res: Response) => {
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) {

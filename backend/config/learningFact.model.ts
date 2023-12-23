@@ -8,11 +8,11 @@ class LearningFact extends Model {
     public front!: string;
     public back!: string;
     public source!: string;
-    public relatedImages: string;
-    public relatedLinks: string;
+    public relatedImage: string;
+    public relatedLink: string;
     public isActive!: boolean;
     public packageId!: number;
-    public userId!: number;
+    public creatorId!: number;
 }
 
 LearningFact.init(
@@ -35,25 +35,33 @@ LearningFact.init(
             type: new DataTypes.STRING(256),
             allowNull: false,
         },
-        relatedImages: {
+        relatedImage: {
             type: new DataTypes.STRING(512),
             allowNull: true,
         },
-        relatedLinks: {
+        relatedLink: {
             type: new DataTypes.STRING(512),
             allowNull: true,
         },
         isActive: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false,
+            defaultValue: true,
         },
-        learningPackageId: {
+        packageId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: LearningPackage,
                 key: 'packageId',
+            },
+        },
+        creatorId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: User,
+                key: 'userId',
             },
         },
     },
