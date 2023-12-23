@@ -1,9 +1,8 @@
-import {Request, Response} from 'express';
-import { Router } from 'express';
+import {Request, Response, Router} from 'express';
 
 import LearningPackage from '../config/learningPackage.model';
 import User from '../config/user.model';
-import UserPackageLearning from "../config/userPackageLearning.model";
+import UserLearningPackage from "../config/userLearningPackage.model";
 import LearningFact from "../config/learningFact.model";
 import UserLearningFact from "../config/userLearningFact.model";
 
@@ -40,7 +39,7 @@ router.post('/user/:userId/package/:packageId/start-session', async (req: Reques
             return;
         }
 
-        let userPackageLearning: UserPackageLearning = await UserPackageLearning.findOne({
+        let userPackageLearning: UserLearningPackage = await UserLearningPackage.findOne({
             where: {
                 learningPackageId: packageId,
                 userId: userId
@@ -51,7 +50,7 @@ router.post('/user/:userId/package/:packageId/start-session', async (req: Reques
             userPackageLearning.minutesPerDayObjective = minutesPerDayObjective;
             await userPackageLearning.save();
         } else {
-            userPackageLearning = await UserPackageLearning.create({
+            userPackageLearning = await UserLearningPackage.create({
                 learningPackageId: packageId,
                 userId: userId,
                 expectedEndDate: expectedEndDate,

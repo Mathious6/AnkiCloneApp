@@ -127,6 +127,160 @@ paths:
         '500':
           description: Internal Server Error
 
+  /api/package:
+    get:
+      summary: Get all learning packages
+      operationId: getLearningPackage
+      tags:
+        - Learning Packages
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackage'
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a new learning package
+      operationId: createLearningPackage
+      tags:
+        - Learning Packages
+      requestBody:
+        description: The learning package to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningPackage'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackage'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{id}:
+    get:
+      summary: Get a learning package by id
+      operationId: getLearningPackageById
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Update a learning package by id
+      operationId: updateLearningPackageById
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The learning package to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningPackage'
+      responses:
+        '204':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackage'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package-summary:
+    get:
+      summary: Get all learning packages summaries and return only id and title
+      operationId: getLearningPackageSummary
+      tags:
+        - Learning Packages
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackageSummary'
+        '500':
+          description: Internal Server Error
+  /api/package-search:
+    get:
+      summary: Get all learning packages by title, description or category
+      operationId: getLearningPackageByTitleDescriptionOrCategory
+      tags:
+        - Learning Packages
+      parameters:
+        - name: title
+          in: query
+          description: The title of the learning package
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: The description of the learning package
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: The category of the learning package
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
 servers:
   [
     {

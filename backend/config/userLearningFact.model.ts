@@ -2,7 +2,7 @@ import {DataTypes, Model} from 'sequelize';
 import {sequelize} from './database';
 import LearningFact from './learningFact.model';
 import User from './user.model';
-import userPackageLearning from './userPackageLearning.model';
+import userPackageLearning from './userLearningPackage.model';
 
 class UserLearningFact extends Model {
     public userLearningFactId!: number;

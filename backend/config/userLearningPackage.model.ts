@@ -3,7 +3,7 @@ import {sequelize} from './database';
 import User from './user.model';
 import LearningPackage from './learningPackage.model';
 
-class UserPackageLearning extends Model {
+class UserLearningPackage extends Model {
     public userPackageLearningId!: number;
     public startDate!: Date;
     public expectedEndDate: Date;
@@ -14,7 +14,7 @@ class UserPackageLearning extends Model {
     public learningPackageId!: number;
 }
 
-UserPackageLearning.init({
+UserLearningPackage.init({
     userPackageLearningId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -61,8 +61,8 @@ UserPackageLearning.init({
         }
     }
 }, {
-    tableName: 'UserPackageLearning',
+    tableName: 'UserLearningPackage',
     sequelize: sequelize,
 });
 
-export default UserPackageLearning;
+export default UserLearningPackage;

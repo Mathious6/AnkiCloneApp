@@ -1,6 +1,6 @@
 import {Request, Response, Router} from 'express';
-import User from '../config/user.model';
 import {check, validationResult} from "express-validator";
+import User from '../config/user.model';
 
 const router = Router();
 

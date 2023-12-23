@@ -1,8 +1,6 @@
 // IMPORTS
 import * as express from 'express';
 import {Express} from 'express';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 // IMPORTS FOR SWAGGER
 import {serve as swaggerServe, setup as swaggerSetup} from 'swagger-ui-express';
@@ -14,7 +12,7 @@ import {sequelize} from '../config/database';
 import LearningPackage from '../config/learningPackage.model';
 import LearningFact from '../config/learningFact.model';
 import User from '../config/user.model';
-import UserPackageLearning from "../config/userPackageLearning.model";
+import UserLearningPackage from "../config/userLearningPackage.model";
 import UserLearningFact from "../config/userLearningFact.model";
 import Tag from "../config/tag.model";
 import LearningPackageTag from "../config/learningPackageTag.model";
@@ -38,7 +36,7 @@ async function initializeServer(): Promise<void> {
         await User.sync();
         await LearningPackage.sync();
         await LearningFact.sync();
-        await UserPackageLearning.sync();
+        await UserLearningPackage.sync();
         await UserLearningFact.sync();
         await Tag.sync();
         await LearningPackageTag.sync();

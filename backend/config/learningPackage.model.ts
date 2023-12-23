@@ -1,4 +1,4 @@
-import {DataTypes, Model} from 'sequelize';
+import {DataTypes, Model, Sequelize} from 'sequelize';
 import {sequelize} from './database';
 import User from './user.model';
 
@@ -44,6 +44,7 @@ LearningPackage.init(
         creationDate: {
             type: DataTypes.DATE,
             allowNull: false,
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
         creatorId: {
             type: DataTypes.INTEGER,
