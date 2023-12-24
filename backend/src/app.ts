@@ -21,6 +21,7 @@ import LearningPackageTag from "../config/learningPackageTag.model";
 import learningPackageApi from '../api/learningPackage';
 import learningFactApi from '../api/learningFact';
 import userApi from '../api/user';
+import tagApi from '../api/tag';
 import otherApi from '../api/other';
 
 // CONSTANTS
@@ -55,6 +56,7 @@ async function initializeServer(): Promise<void> {
 app.use('/api', learningPackageApi);
 app.use('/api', learningFactApi);
 app.use('/api', userApi);
+app.use('/api', tagApi);
 app.use('/api', otherApi);
 
 initializeServer().then(_ => console.log("Server initialized."));

@@ -7,7 +7,6 @@ import User from "../config/user.model";
 const router = Router();
 
 const HTTP_OK: number = 200;
-const HTTP_CREATED: number = 201;
 const HTTP_UPDATED: number = 204;
 const HTTP_BAD_REQUEST: number = 400;
 const HTTP_NOT_FOUND: number = 404;
