@@ -9,18 +9,21 @@ import {StudyNowComponent} from "./study-now/study-now.component";
 import {SharedDecksComponent} from "./shared-decks/shared-decks.component";
 import {ProgressStatisticsComponent} from "./progress-statistics/progress-statistics.component";
 import {AchievementsComponent} from "./achievements/achievements.component";
+import {NewComponent} from "./new/new.component";
 
 
 const routes: Routes = [
   {path : 'explore-lesson', component:ExploreLessonComponent},
   {path : 'app', component:AppComponent},
   {path : 'footer', component: FooterComponent},
-  {path : 'home-caroussel', component:HomeCarousselComponent},
+  {path : 'home', component:HomeCarousselComponent},
   {path : 'header', component : NavbarComponent},
   {path : 'study-now', component : StudyNowComponent},
   {path : 'shared-decks', component : SharedDecksComponent},
   {path : 'progess-statistics', component : ProgressStatisticsComponent},
-  {path : 'achievements', component : AchievementsComponent}
+  {path : 'achievements', component : AchievementsComponent},
+  {path : '', redirectTo : '/home', pathMatch: 'full'},
+  {path : 'new', component : NewComponent}
 ];
 
 @NgModule({

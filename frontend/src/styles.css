@@ -8,9 +8,19 @@ html, body {
   border-style: wave;
   background-color: #ABBAEA;
   text-align: center;
-  display: inline-block;
 }
 
 .button1{
-  place-content: baseline;
+  margin-right: 340px;
+  margin-left: 20px;
+}
+
+.row1{
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.col1{
+  margin-right: 350px;
+  margin-left: 10px;
 }

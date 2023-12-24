@@ -14,6 +14,7 @@ import { SharedDecksComponent } from './shared-decks/shared-decks.component';
 import { ProgressStatisticsComponent } from './progress-statistics/progress-statistics.component';
 import { AchievementsComponent } from './achievements/achievements.component';
 import {HttpClientModule} from "@angular/common/http";
+import { NewComponent } from './new/new.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {HttpClientModule} from "@angular/common/http";
     StudyNowComponent,
     SharedDecksComponent,
     ProgressStatisticsComponent,
-    AchievementsComponent
+    AchievementsComponent,
+    NewComponent
   ],
   imports: [
     BrowserModule,

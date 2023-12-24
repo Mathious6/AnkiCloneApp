@@ -8,10 +8,10 @@ import {UserLearningFact} from "../model/UserLearningFact";
 import {userLearningPackage} from "../model/userLearningPackage";
 
 @Component({
-  selector: 'app-study-now',
-  templateUrl: './study-now.component.html',
-  styleUrls: ['./study-now.component.css']
+  selector: 'app-new',
+  templateUrl: './new.component.html',
+  styleUrls: ['./new.component.css']
 })
-export class StudyNowComponent {
+export class NewComponent {
 
 }
