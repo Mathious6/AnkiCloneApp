@@ -281,6 +281,88 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/package/{id}/tag:
+    get:
+      summary: Get all tags by learning package id
+      operationId: getTagByLearningPackageId
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a new tag associated to a learning package
+      operationId: createTag
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The tag to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{id}/tag/{tagId}:
+    delete:
+      summary: Delete a tag associated to a learning package
+      operationId: deleteTagByLearningPackageIdAndTagId
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: tagId
+          in: path
+          description: The id of the tag
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
   /api/package/summary:
     get:
       summary: Get all learning packages summaries and return only id and title

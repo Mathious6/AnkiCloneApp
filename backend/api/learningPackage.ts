@@ -1,9 +1,11 @@
 import {Request, Response, Router} from 'express';
 import {body, check, validationResult} from "express-validator";
-import LearningPackage from '../config/learningPackage.model';
-import User from "../config/user.model";
 import {Op} from "sequelize";
+import LearningPackage from '../config/learningPackage.model';
 import LearningFact from "../config/learningFact.model";
+import User from "../config/user.model";
+import LearningPackageTag from "../config/learningPackageTag.model";
+import Tag from "../config/tag.model";
 
 const router = Router();
 
@@ -127,6 +129,74 @@ router.post('/package/:id/fact', handlers_errors_f, async (req: Request, res: Re
         const newFact = {front, back, source, relatedImage, relatedLink, packageId, creatorId};
         const createdFact: LearningFact = await LearningFact.create(newFact);
         res.status(HTTP_CREATED).send(createdFact);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.get('/package/:id/tag', async (req: Request, res: Response) => {
+    try {
+        const packageTags: LearningPackageTag[] = await LearningPackageTag.findAll({
+            where: {packageId: req.params.id}
+        });
+        const tagIds = packageTags.map(pkgTag => pkgTag.tagId);
+        const tags: Tag[] = await Tag.findAll({
+            where: {tagId: tagIds}
+        });
+        res.status(HTTP_OK).send(tags);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.post('/package/:id/tag', async (req: Request, res: Response) => {
+    try {
+        const packageId: number = +req.params.id;
+        const packageExists: LearningPackage | null = await LearningPackage.findByPk(packageId);
+        if (!packageExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `Package with ID ${packageId} does not exist.`});
+        }
+
+        const {tagId} = req.body;
+        const tagExists: Tag | null = await Tag.findByPk(tagId);
+        if (!tagExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `Tag with ID ${tagId} does not exist.`});
+        }
+
+        const packageTagExists: LearningPackageTag | null = await LearningPackageTag.findOne({
+            where: {
+                packageId,
+                tagId
+            }
+        });
+        if (packageTagExists) {
+            return res.status(HTTP_BAD_REQUEST).send({error: `Tag with ID ${tagId} is already associated with package with ID ${packageId}.`});
+        }
+
+        const newPackageTag = {packageId, tagId};
+        const createdPackageTag: LearningPackageTag = await LearningPackageTag.create(newPackageTag);
+        res.status(HTTP_CREATED).send(createdPackageTag);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.delete('/package/:id/tag/:tagId', async (req: Request, res: Response) => {
+    try {
+        const packageId: number = +req.params.id;
+        const packageExists: LearningPackage | null = await LearningPackage.findByPk(packageId);
+        if (!packageExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `Package with ID ${packageId} does not exist.`});
+        }
+
+        const tagId: number = +req.params.tagId;
+        const tagExists: Tag | null = await Tag.findByPk(tagId);
+        if (!tagExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `Tag with ID ${tagId} does not exist.`});
+        }
+
+        await LearningPackageTag.destroy({where: {packageId, tagId}});
+        res.status(HTTP_UPDATED).send({message: `Tag with ID ${tagId} was removed from package with ID ${packageId}.`});
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
