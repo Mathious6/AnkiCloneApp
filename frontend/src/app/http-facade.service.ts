@@ -13,6 +13,12 @@ export interface Package {
   creatorId: number;
 }
 
+export interface tag {
+  tagId: number;
+  englishKeyword: string;
+  frenchTranslation: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +28,7 @@ export class HttpFacadeService {
 
   }
 
-  testGet(): Observable<Package> {
-    return this.httpClient.get<Package>('api/package')
+  getTags(): Observable<tag[]> {
+    return this.httpClient.get<tag[]>('api/tag')
   }
 }

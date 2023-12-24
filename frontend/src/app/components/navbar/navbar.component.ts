@@ -17,8 +17,8 @@ export class NavbarComponent {
     this.isCollapsed = !this.isCollapsed;
   }
 
-  test() {
-    this.httpFacadeService.testGet().subscribe((data) => {
+  getTags(): void {
+    this.httpFacadeService.getTags().subscribe((data) => {
       console.log(data);
     })
   }
