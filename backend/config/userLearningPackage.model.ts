@@ -4,18 +4,17 @@ import User from './user.model';
 import LearningPackage from './learningPackage.model';
 
 class UserLearningPackage extends Model {
-    public userPackageLearningId!: number;
+    public userLearningPackageId!: number;
     public startDate!: Date;
     public expectedEndDate: Date;
     public minutesPerDayObjective: number;
     public progress!: number;
-    public disable!: boolean;
     public userId!: number;
     public learningPackageId!: number;
 }
 
 UserLearningPackage.init({
-    userPackageLearningId: {
+    userLearningPackageId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -38,11 +37,6 @@ UserLearningPackage.init({
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0,
-    },
-    disable: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
     },
     userId: {
         type: DataTypes.INTEGER,

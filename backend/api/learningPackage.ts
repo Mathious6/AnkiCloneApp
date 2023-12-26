@@ -6,6 +6,7 @@ import LearningFact from "../config/learningFact.model";
 import User from "../config/user.model";
 import LearningPackageTag from "../config/learningPackageTag.model";
 import Tag from "../config/tag.model";
+import userLearningPackage from "../config/userLearningPackage.model";
 
 const router = Router();
 
@@ -238,5 +239,110 @@ router.get('/package/search', async (req: Request, res: Response) => {
     }
 });
 
+router.get('/package/user/:userId', async (req: Request, res: Response) => {
+    try {
+        const userId = +req.params.userId;
+        const userExists = await User.findByPk(userId);
+        if (!userExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${userId} does not exist.`});
+        }
+
+        const userLearningPackages = await userLearningPackage.findAll({
+            where: {userId}
+        });
+
+        const learningPackageIds = userLearningPackages.map(userLearningPackage => userLearningPackage.learningPackageId);
+
+        const learningPackages = await LearningPackage.findAll({
+            where: {packageId: {[Op.in]: learningPackageIds}}
+        });
+        res.status(HTTP_OK).send(learningPackages);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.post('/package/:id/start/:userId', async (req: Request, res: Response) => {
+    try {
+        const packageId: number = +req.params.id;
+        const packageExists: LearningPackage | null = await LearningPackage.findByPk(packageId);
+        if (!packageExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `Package with ID ${packageId} does not exist.`});
+        }
+
+        const userId: number = +req.params.userId;
+        const userExists: User | null = await User.findByPk(userId);
+        if (!userExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${userId} does not exist.`});
+        }
+
+        const learningPackageId = packageId;
+        const userPackageExists: userLearningPackage | null = await userLearningPackage.findOne({
+            where: {
+                learningPackageId,
+                userId
+            }
+        });
+        if (userPackageExists) {
+            return res.status(HTTP_BAD_REQUEST).send({error: `User with ID ${userId} has already started package with ID ${packageId}.`});
+        }
+
+        const newUserPackage = {learningPackageId, userId};
+        const createdUserPackage: userLearningPackage = await userLearningPackage.create(newUserPackage);
+        res.status(HTTP_CREATED).send(createdUserPackage);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.put('/package/:id/reset/:userId', async (req: Request, res: Response) => {
+    try {
+        const learningPackageId: number = +req.params.id;
+        const userId: number = +req.params.userId;
+
+        const userPackageExists: userLearningPackage | null = await userLearningPackage.findOne({
+            where: {
+                learningPackageId,
+                userId
+            }
+        });
+        if (!userPackageExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${userId} has not started package with ID ${learningPackageId}.`});
+        }
+
+        const resetUserPackage = {
+            startDate: new Date(),
+            progress: 0,
+            expectedEndDate: null,
+            minutesPerDayObjective: null
+        };
+        await userPackageExists.update(resetUserPackage);
+        res.status(HTTP_UPDATED).send({message: `User with ID ${userId} has reset package with ID ${learningPackageId}.`});
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.delete('/package/:id/stop/:userId', async (req: Request, res: Response) => {
+    try {
+        const learningPackageId: number = +req.params.id;
+        const userId: number = +req.params.userId;
+
+        const userPackageExists: userLearningPackage | null = await userLearningPackage.findOne({
+            where: {
+                learningPackageId,
+                userId
+            }
+        });
+        if (!userPackageExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${userId} has not started package with ID ${learningPackageId}.`});
+        }
+
+        await userPackageExists.destroy();
+        res.status(HTTP_UPDATED).send({message: `User with ID ${userId} has stopped package with ID ${learningPackageId}.`});
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
 
 export default router;

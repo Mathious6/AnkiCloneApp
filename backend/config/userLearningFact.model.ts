@@ -2,7 +2,7 @@ import {DataTypes, Model} from 'sequelize';
 import {sequelize} from './database';
 import LearningFact from './learningFact.model';
 import User from './user.model';
-import userPackageLearning from './userLearningPackage.model';
+import UserLearningPackage from './userLearningPackage.model';
 
 class UserLearningFact extends Model {
     public userLearningFactId!: number;
@@ -40,12 +40,12 @@ UserLearningFact.init({
         type: DataTypes.DATE,
         allowNull: false,
     },
-    userPackageLearningId: {
+    userLearningPackageId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: userPackageLearning,
-            key: 'userPackageLearningId'
+            model: UserLearningPackage,
+            key: 'userLearningPackageId'
         }
     },
     factId: {

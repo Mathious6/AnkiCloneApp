@@ -418,6 +418,114 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/package/user/{userId}:
+    get:
+      summary: Get all learning packages started by a user
+      operationId: getLearningPackageByUserId
+      tags:
+        - Learning Packages
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{id}/start/{userId}:
+    post:
+      summary: Start a learning package by id
+      operationId: startLearningPackageById
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{id}/reset/{userId}:
+    put:
+      summary: Reset a learning package by id
+      operationId: resetLearningPackageById
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Updated
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{id}/stop/{userId}:
+    delete:
+      summary: Stop a learning package by id
+      operationId: stopLearningPackageById
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 
   /api/fact:
     get:
@@ -778,3 +886,40 @@ components:
       required:
         - tagId
         - englishKeyword
+    UserLearningPackage:
+      type: object
+      properties:
+        userLearningPackageId:
+          type: number
+          description: The id of the user learning package
+          example: 1
+        startDate:
+          type: string
+          description: The start date of the user learning package
+          example: 2021-01-01
+        expectedEndDate:
+          type: string
+          description: The expected end date of the user learning package
+          example: 2021-01-01
+        minutesPerDayObjective:
+          type: number
+          description: The minutes per day objective of the user learning package
+          example: 30
+        progress:
+          type: number
+          description: The progress of the user learning package
+          example: 0
+        userId:
+          type: number
+          description: The id of the user
+          example: 1
+        learningPackageId:
+          type: number
+          description: The id of the learning package
+          example: 1
+      required:
+        - userLearningPackageId
+        - startDate
+        - progress
+        - userId
+        - learningPackageId
