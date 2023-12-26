@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {LearningPackage} from "./model/LearningPackage";
 
-export interface Package {
+/*export interface Package {
   packageId: number;
   title: string;
   description: string;
@@ -11,7 +12,7 @@ export interface Package {
   duration: number;
   creationDate: Date;
   creatorId: number;
-}
+}*/
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,13 @@ export class HttpFacadeService {
 
   }
 
-  testGet(): Observable<Package> {
-    return this.httpClient.get<Package>('api/package')
+  testGet(): Observable<LearningPackage> {
+    return this.httpClient.get<LearningPackage>('api/package')
   }
+
+  getPackage(): Observable<LearningPackage[]> {
+    return this.httpClient.get<LearningPackage[]>('api/package')
+  }
+
+
 }
