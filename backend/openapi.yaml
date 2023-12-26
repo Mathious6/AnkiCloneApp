@@ -22,7 +22,7 @@ paths:
         '500':
           description: Internal Server Error
     post:
-      summary: Create a new package
+      summary: Create a new-card package
       operationId: createPackage
       tags:
         - Packages

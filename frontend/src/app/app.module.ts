@@ -14,7 +14,9 @@ import { SharedDecksComponent } from './shared-decks/shared-decks.component';
 import { ProgressStatisticsComponent } from './progress-statistics/progress-statistics.component';
 import { AchievementsComponent } from './achievements/achievements.component';
 import {HttpClientModule} from "@angular/common/http";
-import { NewComponent } from './new/new.component';
+import { NewCardComponent } from './new-card/new-card.component';
+import { NewPackageComponent } from './new-package/new-package.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -27,14 +29,17 @@ import { NewComponent } from './new/new.component';
     SharedDecksComponent,
     ProgressStatisticsComponent,
     AchievementsComponent,
-    NewComponent
+    NewCardComponent,
+    NewPackageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     NgOptimizedImage,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
