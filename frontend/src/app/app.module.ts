@@ -40,7 +40,8 @@ import { SettingsComponent } from './settings/settings.component';
     GlossaryComponent,
     DocumentationComponent,
     AboutComponent,
-    SettingsComponent
+    SettingsComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

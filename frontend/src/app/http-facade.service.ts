@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {LearningPackage} from "./model/LearningPackage";
 import {ExploreLessonComponent} from "./explore-lesson/explore-lesson.component";
 
-/*export interface Package {
+export interface Package {
   packageId: number;
   title: string;
   description: string;
@@ -13,7 +13,7 @@ import {ExploreLessonComponent} from "./explore-lesson/explore-lesson.component"
   duration: number;
   creationDate: Date;
   creatorId: number;
-}*/
+}
 
 export interface tag {
   tagId: number;
@@ -54,8 +54,4 @@ export class HttpFacadeService {
   getSearchPackage(title: string, description : string, category : string): Observable<LearningPackage[]> {
     return this.httpClient.get<LearningPackage[]>('api/package/search')
   }
-
-
-
-
 }

@@ -30,7 +30,7 @@ const routes: Routes = [
   {path : 'achievements', component : AchievementsComponent},
   {path : '', redirectTo : '/home', pathMatch: 'full'},
   {path : 'new-card', component : NewCardComponent},
-  {path : 'new-package', component : NewPackageComponent}
+  {path : 'new-package', component : NewPackageComponent},
   {path : 'new', component : NewComponent},
   {path : 'glossary', component : GlossaryComponent},
   {path : 'documentation', component : DocumentationComponent},
