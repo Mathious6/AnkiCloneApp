@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <form>
+  <form [formGroup]="searchForm">
     <div class="row">
       <div class="col-md-3 mb-2">
         <div class="form-group rounded">
@@ -21,20 +21,22 @@
       </div>
     </div>
 
-      <!--<div class="col-md-3 mb-2">
-        <div class="form-group rounded">
-          <label for="stringOperator">String Operator</label>
-          <select class="form-control" id="stringOperator" name="stringOperator">
-            <option value="contains-ignore-case">Contains (Ignore Case)</option>
-            <option value="like">Like</option>
-            <option value="case-insensitive-like">Case-Insensitive Like</option>
-            <option value="starts-with">Starts With</option>
-            <option value="exact">Exact</option>
-          </select>
-        </div>
-      </div>-->
 
-    <button type="button" class="btn btn-primary">Search</button>
+    <button type="button" class="btn btn-primary" (click)="getSearchPackage()">Search</button>
   </form>
+
+
+<div *ngFor="let p of lp" class="row app_border">
+  <div class="row row1">
+    <div class="col-2 col1">{{p.getTitle()}}</div>
+    <div class="col-2 align-content-center">New cards</div>
+    <div class="col-2 ">Current</div>
+    <div class="col-2 ">Todo</div>
+  </div>
+  <div class="row row1">
+    <button routerLink="/study-now" class="col-2 button1">study now</button>
+  </div>
+</div>
+
 </div>
 

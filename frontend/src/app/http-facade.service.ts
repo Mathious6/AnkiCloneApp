@@ -32,11 +32,17 @@ export class HttpFacadeService {
 
   getTags(): Observable<tag[]> {
     return this.httpClient.get<tag[]>('api/tag')
-
+  }
 
   getPackage(): Observable<LearningPackage[]> {
     return this.httpClient.get<LearningPackage[]>('api/package')
   }
+
+  getSearchPackage(title: string, description : string, category : string): Observable<LearningPackage[]> {
+    return this.httpClient.get<LearningPackage[]>('api/package/search')
+  }
+
+
 
 
 }

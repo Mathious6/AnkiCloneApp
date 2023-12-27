@@ -13,13 +13,6 @@ import {HttpFacadeService} from "../http-facade.service";
     templateUrl: './explore-lesson.component.html',
     styleUrls: ['./explore-lesson.component.css']
 })
-//export interface LearningPackage {
-  //packageName: string;
-  //newCount: number;
-  //currentCount: number;
-  //todoCount: number;
-
-//}
 
 export class ExploreLessonComponent {
   private httpFacadeService: any;

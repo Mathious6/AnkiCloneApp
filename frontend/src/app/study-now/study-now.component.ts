@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {LearningFact} from "../model/LearningFact";
 import {LearningPackage} from "../model/LearningPackage";
 import {LearningPackageTag} from "../model/LearningPackageTag";
@@ -14,6 +14,24 @@ import {HttpFacadeService} from "../http-facade.service";
   styleUrls: ['./study-now.component.css']
 })
 export class StudyNowComponent {
+  public lf : LearningFact[] = [];
+  public currentFactFront : string = '';
+  public currentFactBack : string = '';
+  public index : number = 0;
+  testLearningFact: LearningFact = new LearningFact(
+    1,
+    'Front Content',
+    'Back Content',
+    'Source Info',
+    'Image URL',
+    5,
+    true,
+    123,
+    456
+  );
+  showBack = false;
 
-
+  toggleBack() {
+    this.showBack = !this.showBack;
+  }
 }

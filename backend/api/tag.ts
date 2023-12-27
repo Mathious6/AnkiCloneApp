@@ -85,7 +85,7 @@ router.delete('/tag/:id', async (req: Request, res: Response) => {
     }
 });
 
-export default router;
+export default router;/*
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -174,5 +174,5 @@ router.delete('/tag/:id', (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({ error: error.message });
     }
 }));
-exports.default = router;
+exports.default = router;*/
 //# sourceMappingURL=tag.js.map

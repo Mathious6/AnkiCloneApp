@@ -1,0 +1,27 @@
+.card {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  border: 1px solid #ccc;
+  perspective: 1000px;
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transition: transform 0.5s;
+}
+
+.card-face#back {
+  transform: rotateY(180deg);
+}
+
+.show-back .card-face#front {
+  transform: rotateY(180deg);
+}
+
+.show-back .card-face #back {
+  transform: rotateY(0);
+}
