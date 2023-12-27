@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {LearningPackage} from "./model/LearningPackage";
+import {ExploreLessonComponent} from "./explore-lesson/explore-lesson.component";
 
-export interface Package {
+/*export interface Package {
   packageId: number;
   title: string;
   description: string;
@@ -11,7 +13,7 @@ export interface Package {
   duration: number;
   creationDate: Date;
   creatorId: number;
-}
+}*/
 
 export interface tag {
   tagId: number;
@@ -30,5 +32,11 @@ export class HttpFacadeService {
 
   getTags(): Observable<tag[]> {
     return this.httpClient.get<tag[]>('api/tag')
+
+
+  getPackage(): Observable<LearningPackage[]> {
+    return this.httpClient.get<LearningPackage[]>('api/package')
   }
+
+
 }

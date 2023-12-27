@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaire de Création</title>
+  <!-- Ajoutez le lien vers Bootstrap CSS ici -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    /* Ajoutez vos styles personnalisés ici, si nécessaire */
+    .rounded {
+      border-radius: 10px;
+    }
+    .barre-selection {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 80px; /* Ajustez la hauteur selon vos besoins */
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      margin: 0 auto;
+      width: 70%; /* Ajustez la largeur selon vos besoins */
+    }
+
+    .barre-selection button {
+      border: none;
+      background: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .barre-selection button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<div class="barre-selection">
+  <button routerLink="/new-card">new learning fact</button>
+  <button routerLink="/new-package">new learning package</button>
+</div>
+
+<div class="container mt-3">
+  <h1 class="text-center">NEW LEARNING FACT</h1>
+</div>
+
+<form  [formGroup]="lessonForm">
+  <div class="container mt-5">
+    <div class="form-group">
+      <label for="dropdownMenu">choose a learning package:</label>
+      <select class="form-control" id="dropdownMenu" name="dropdownMenu">
+        <option *ngFor="let package of lp" [value]="package.getTitle()">{{ package.getTitle() }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="recto" [class]="lessonForm.get('recto')?.invalid ? 'text-danger' : ''">recto :</label>
+      <textarea class="form-control" id="recto" name="recto" rows="4" formControlName="recto"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="verso" [class]="lessonForm.get('verso')?.invalid ? 'text-danger' : ''">verso :</label>
+      <textarea class="form-control" id="verso" name="verso" rows="4" formControlName="verso"></textarea>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="onCreate()" [disabled]="!lessonForm.valid">create</button>
+    <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger">Please fill out all required fields.</span>
+  </div>
+</form>
+
+</body>
+</html>
+

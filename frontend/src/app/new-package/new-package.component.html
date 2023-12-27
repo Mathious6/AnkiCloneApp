@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaire de Création</title>
+  <!-- Ajoutez le lien vers Bootstrap CSS ici -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    /* Ajoutez vos styles personnalisés ici, si nécessaire */
+    .rounded {
+      border-radius: 10px;
+    }
+    .barre-selection {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 80px; /* Ajustez la hauteur selon vos besoins */
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      margin: 0 auto;
+      width: 70%; /* Ajustez la largeur selon vos besoins */
+    }
+
+    .barre-selection button {
+      border: none;
+      background: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .barre-selection button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<div class="barre-selection">
+  <button routerLink="/new-card">new learning fact</button>
+  <button routerLink="/new-package">new learning package</button>
+</div>
+
+
+<div class="container mt-3">
+  <h1 class="text-center">NEW LEARNING PACKAGE</h1>
+</div>
+
+<form  [formGroup]="lessonForm">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="title" [class]="lessonForm.get('title')?.invalid ? 'text-danger' : ''">Title</label>
+          <input type="text" class="form-control" id="title" name="title" formControlName="title">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="level" [class]="lessonForm.get('level')?.invalid ? 'text-danger' : ''">Level</label>
+          <input type="text" class="form-control" id="level" name="level" formControlName="level">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-2">
+        <div class="form-group rounded">
+          <label for="description" [class]="lessonForm.get('description')?.invalid ? 'text-danger' : ''">Description</label>
+          <input type="text" class="form-control" id="description" name="description" formControlName="description">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="tags" [class]="lessonForm.get('tags')?.invalid ? 'text-danger' : ''">Tags</label>
+          <input type="text" class="form-control" id="tags" name="tags" formControlName="tags">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="category" [class]="lessonForm.get('category')?.invalid ? 'text-danger' : ''">Category</label>
+          <input type="text" class="form-control" id="category" name="category" formControlName="category">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="numericFieldMin" [class]="lessonForm.get('duration')?.invalid ? 'text-danger' : ''">Duration (Min)</label>
+          <input type="number" class="form-control" id="numericFieldMin" name="numericFieldMin" formControlName="duration">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+    <button type="button" class="btn btn-primary" (click)="onCreate()" [disabled]="!lessonForm.valid">create</button>
+    <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger">Please fill out all required fields.</span>
+  </div>
+</form>
+
+</body>
+</html>

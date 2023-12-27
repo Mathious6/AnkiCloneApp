@@ -9,7 +9,8 @@ import {StudyNowComponent} from "./study-now/study-now.component";
 import {SharedDecksComponent} from "./shared-decks/shared-decks.component";
 import {ProgressStatisticsComponent} from "./progress-statistics/progress-statistics.component";
 import {AchievementsComponent} from "./achievements/achievements.component";
-import {NewComponent} from "./new/new.component";
+import {NewCardComponent} from "./new-card/new-card.component";
+import {NewPackageComponent} from "./new-package/new-package.component";
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path : 'progess-statistics', component : ProgressStatisticsComponent},
   {path : 'achievements', component : AchievementsComponent},
   {path : '', redirectTo : '/home', pathMatch: 'full'},
-  {path : 'new', component : NewComponent}
+  {path : 'new-card', component : NewCardComponent},
+  {path : 'new-package', component : NewPackageComponent}
 ];
 
 @NgModule({

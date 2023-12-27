@@ -145,8 +145,13 @@ paths:
         '500':
           description: Internal Server Error
     post:
+<<<<<<< HEAD
       summary: Create a new learning package
       operationId: createLearningPackage
+=======
+      summary: Create a new-card package
+      operationId: createPackage
+>>>>>>> lucile
       tags:
         - Learning Packages
       requestBody:
