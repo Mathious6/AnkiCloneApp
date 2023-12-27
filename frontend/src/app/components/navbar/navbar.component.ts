@@ -1,25 +1,24 @@
-import {Component} from '@angular/core';
-import {HttpFacadeService} from "../../http-facade.service";
+import { Component, OnInit } from '@angular/core';
+import { HttpFacadeService } from "../../http-facade.service";
+import { AuthService } from "../../auth.service";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
-  isCollapsed: boolean = true;
+export class NavbarComponent implements OnInit {
+  userPicture: string = '';
 
-  constructor(private httpFacadeService: HttpFacadeService) {
-
+  constructor(private httpFacadeService: HttpFacadeService, private authService: AuthService) {
   }
 
-  toggleNavbar() {
-    this.isCollapsed = !this.isCollapsed;
+  ngOnInit() {
+    // Set the userPicture after component initialization
+    this.userPicture = this.authService.session?.profilePicture || 'assets/images/default_user_image.png';
   }
 
-  getTags(): void {
-    this.httpFacadeService.getTags().subscribe((data) => {
-      console.log(data);
-    })
+  logout() {
+    this.authService.logout();
   }
 }

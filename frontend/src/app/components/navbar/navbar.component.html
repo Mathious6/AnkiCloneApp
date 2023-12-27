@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" routerLink="/home">
       <img alt="Logo" class="d-inline-block align-top" height="30" src="assets/images/anki_logo.png"
            width="30">
       AnkiCloneApp
@@ -14,10 +14,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a aria-current="page" class="nav-link active" href="#">Home</a>
+          <a aria-current="page" class="nav-link active" routerLink="/home">Home</a>
         </li>
         <li class="nav-item dropdown">
-          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" routerLink="/home" role="button">
             File
           </a>
           <ul class="dropdown-menu">
@@ -25,7 +25,7 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Import</a></li>
+            <li><a class="dropdown-item" routerLink="/home">Import</a></li>
             <li><a class="dropdown-item" routerLink="/new-card">New</a></li>
             <li><a class="dropdown-item" routerLink="/shared-decks">Shared decks</a></li>
           </ul>
@@ -37,7 +37,7 @@
           <a aria-current="page" class="nav-link" routerLink="/achievements">Achievements</a>
         </li>
         <li class="nav-item dropdown">
-          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" routerLink="/home" role="button">
             Help
           </a>
           <ul class="dropdown-menu">
@@ -51,11 +51,11 @@
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item dropdown">
           <a class="nav-link" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="assets/images/default_user_image.png" alt="User Profile" class="profile-image" height="40" width="40">
+              <img [src]="userPicture" alt="User Profile" class="profile-image rounded-circle" height="40" width="40">
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Logout/Login</a></li>
             <li><a class="dropdown-item" routerLink="/settings">Settings</a></li>
+            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
           </ul>
         </li>
       </ul>

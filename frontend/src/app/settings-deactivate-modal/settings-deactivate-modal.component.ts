@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {HttpFacadeService} from "../http-facade.service";
 import {ErrorModalComponent} from "../error-modal/error-modal.component";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-settings-deactivate-modal',
@@ -13,7 +14,7 @@ export class SettingsDeactivateModalComponent {
   modalService = inject(NgbModal);
   userPseudo: string = '';
   userId: number = 0;
-  constructor(private httpFacadeService: HttpFacadeService) {}
+  constructor(private httpFacadeService: HttpFacadeService, private authService: AuthService) {}
 
   // Set the userPseudo value when the modal is opened
   setUserPseudo(userPseudo: string): void {
@@ -25,11 +26,13 @@ export class SettingsDeactivateModalComponent {
   }
   deactivateUser(userId: number) {
     this.httpFacadeService.deactivateUser(userId).subscribe({
-      next: value => this.modal.close('Ok click'),
+      next: value => {
+        this.modal.close('Ok click')
+        this.authService.logout();
+      },
       error: err => {
         this.modal.close('Ok click');
         const modalRef = this.modalService.open(ErrorModalComponent, { centered: true });
-        console.log(err.error);
         modalRef.componentInstance.setErrorMessage(err.error.error);
       },
     });
