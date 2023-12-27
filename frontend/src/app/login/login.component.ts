@@ -1,0 +1,34 @@
+import { Component } from '@angular/core';
+import {AuthService} from "../auth.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+  form: FormGroup = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+  });
+  errorMessage: string = '';
+  constructor(private authService: AuthService, private fb: FormBuilder, private router : Router){
+
+  }
+  login() {
+    this.authService.login(this.form.value.username, this.form.value.password)
+      .subscribe((userLoggedIn: boolean) => {
+        if (!userLoggedIn) {
+          this.errorMessage = 'Invalid username/email or password!';
+          setTimeout(() => {
+            this.errorMessage = ''; // Clear error message after a delay
+          }, 3000);
+        } else {
+          this.router.navigateByUrl('/home');
+        }
+      });
+  }
+
+}

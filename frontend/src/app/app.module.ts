@@ -17,11 +17,15 @@ import {HttpClientModule} from "@angular/common/http";
 import { NewCardComponent } from './new-card/new-card.component';
 import { NewPackageComponent } from './new-package/new-package.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { NewComponent } from './new/new.component';
 import { GlossaryComponent } from './glossary/glossary.component';
 import { DocumentationComponent } from './documentation/documentation.component';
 import { AboutComponent } from './about/about.component';
 import { SettingsComponent } from './settings/settings.component';
+import { SettingsDeactivateModalComponent } from './settings-deactivate-modal/settings-deactivate-modal.component';
+import { ErrorModalComponent } from './error-modal/error-modal.component';
+import { SoonComponent } from './soon/soon.component';
+import {Router, RouterModule} from "@angular/router";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -35,11 +39,15 @@ import { SettingsComponent } from './settings/settings.component';
     ProgressStatisticsComponent,
     AchievementsComponent,
     NewCardComponent,
-    NewPackageComponent
-    NewComponent,
+    NewPackageComponent,
     GlossaryComponent,
     DocumentationComponent,
     AboutComponent,
+    SettingsComponent,
+    SettingsDeactivateModalComponent,
+    ErrorModalComponent,
+    SoonComponent,
+    LoginComponent,
     SettingsComponent,
     AboutComponent
   ],
@@ -50,6 +58,9 @@ import { SettingsComponent } from './settings/settings.component';
     NgOptimizedImage,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
     ReactiveFormsModule
   ],
   providers: [],

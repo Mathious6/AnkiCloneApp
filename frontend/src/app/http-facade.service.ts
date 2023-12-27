@@ -41,10 +41,21 @@ export class HttpFacadeService {
   }
 
   getTags(): Observable<tag[]> {
-    return this.httpClient.get<tag[]>('api/tag')
+    return this.httpClient.get<tag[]>('api/tag');
   }
   getSpecificUser(userId: number): Observable<user> {
-    return this.httpClient.get<user>(`api/user/${userId}`)
+    return this.httpClient.get<user>(`api/user/${userId}`);
+  }
+  deactivateUser(userId: number): Observable<void>{
+    return this.httpClient.put<void>(`api/user/${userId}/deactivate`, {});
+  }
+
+  getAllUsers(): Observable<user[]> {
+    return this.httpClient.get<user[]>(`api/user`);
+  }
+
+  getUser(userId: number): Observable<user> {
+    return this.httpClient.get<user>(`api/user/${userId}`);
   }
 
   getPackage(): Observable<LearningPackage[]> {
