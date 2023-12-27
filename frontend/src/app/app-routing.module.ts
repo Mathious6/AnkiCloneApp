@@ -10,7 +10,9 @@ import {SharedDecksComponent} from "./shared-decks/shared-decks.component";
 import {ProgressStatisticsComponent} from "./progress-statistics/progress-statistics.component";
 import {AchievementsComponent} from "./achievements/achievements.component";
 import {NewComponent} from "./new/new.component";
-
+import {GlossaryComponent} from "./glossary/glossary.component";
+import {DocumentationComponent} from "./documentation/documentation.component";
+import {AboutComponent} from "./about/about.component";
 
 const routes: Routes = [
   {path : 'explore-lesson', component:ExploreLessonComponent},
@@ -23,7 +25,10 @@ const routes: Routes = [
   {path : 'progess-statistics', component : ProgressStatisticsComponent},
   {path : 'achievements', component : AchievementsComponent},
   {path : '', redirectTo : '/home', pathMatch: 'full'},
-  {path : 'new', component : NewComponent}
+  {path : 'new', component : NewComponent},
+  {path : 'glossary', component : GlossaryComponent},
+  {path : 'documentation', component : DocumentationComponent},
+  {path : 'about', component : AboutComponent}
 ];
 
 @NgModule({

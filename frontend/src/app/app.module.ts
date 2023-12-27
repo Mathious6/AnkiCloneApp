@@ -15,6 +15,9 @@ import { ProgressStatisticsComponent } from './progress-statistics/progress-stat
 import { AchievementsComponent } from './achievements/achievements.component';
 import {HttpClientModule} from "@angular/common/http";
 import { NewComponent } from './new/new.component';
+import { GlossaryComponent } from './glossary/glossary.component';
+import { DocumentationComponent } from './documentation/documentation.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { NewComponent } from './new/new.component';
     SharedDecksComponent,
     ProgressStatisticsComponent,
     AchievementsComponent,
-    NewComponent
+    NewComponent,
+    GlossaryComponent,
+    DocumentationComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
