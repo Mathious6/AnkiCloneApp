@@ -7,11 +7,11 @@
           <form [formGroup]="form">
             <div class="mb-3">
               <label for="username" class="form-label">Username or email</label>
-              <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter your username"/>
+              <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter your username" autocomplete="username"/>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter your password"/>
+              <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter your password" autocomplete="current-password"/>
             </div>
             <div class="mb-3 text-center">
               <div class="text-danger">{{ errorMessage }}</div>

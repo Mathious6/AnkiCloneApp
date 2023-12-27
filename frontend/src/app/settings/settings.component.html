@@ -17,7 +17,7 @@
           <p><strong>Status:</strong> {{ user.isActive ? 'Active' : 'Inactive' }}</p>
           <div class="row mt-3">
             <div class="col-md-6 d-flex justify-content-center mb-2 ">
-              <button class="btn btn-primary bg-dark border border-dark" (click)="changePassword()">Change Password</button>
+              <button class="btn btn-primary bg-dark border border-dark" (click)="openChangePassword()">Change Password</button>
             </div>
             <div class="col-md-6 d-flex justify-content-center mb-2">
               <button class="btn btn-danger" (click)="open()">Deactivate</button>
@@ -28,3 +28,4 @@
     </div>
   </div>
 </div>
+<app-change-password *ngIf="isChangePasswordClicked"></app-change-password>

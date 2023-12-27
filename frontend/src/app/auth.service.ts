@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpFacadeService, user} from "./http-facade.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
@@ -46,6 +46,22 @@ export class AuthService {
         error: err => {
           console.error('Error fetching users:', err);
           observer.next([false, false]); // Error during login attempt
+          observer.complete();
+        }
+      });
+    });
+  }
+
+  changePassword(password: string): Observable<boolean> {
+    return new Observable<boolean>((observer) => {
+      this.httpFacadeService.changePassword(this.session, password).subscribe({
+        next: (userData) => {
+          this.session = userData;
+          observer.next(true); // Password change successful
+          observer.complete();
+        },
+        error: () => {
+          observer.next(false); // Error during password change
           observer.complete();
         }
       });

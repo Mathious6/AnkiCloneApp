@@ -14,10 +14,9 @@ import {DocumentationComponent} from "./documentation/documentation.component";
 import {AboutComponent} from "./about/about.component";
 import {SettingsComponent} from "./settings/settings.component";
 import {authGuard} from "./auth.guard";
-import {NewCardComponent} from "./new-card/new-card.component";
-import {NewPackageComponent} from "./new-package/new-package.component";
 import {LoginComponent} from "./login/login.component";
 import {SoonComponent} from "./soon/soon.component";
+import {ChangePasswordComponent} from "./change-password/change-password.component";
 
 const routes: Routes = [
   {path : '', redirectTo : '/login', pathMatch: 'full'},
@@ -36,6 +35,7 @@ const routes: Routes = [
   {path : 'about', component : AboutComponent, canActivate: [authGuard]},
   {path : 'settings', component : SettingsComponent, canActivate: [authGuard]},
   {path : 'soon', component : SoonComponent, canActivate: [authGuard]},
+  {path : 'change-password', component : ChangePasswordComponent, canActivate: [authGuard]},
 ];
 
 @NgModule({

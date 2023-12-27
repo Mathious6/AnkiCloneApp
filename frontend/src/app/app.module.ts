@@ -26,6 +26,7 @@ import { ErrorModalComponent } from './error-modal/error-modal.component';
 import { SoonComponent } from './soon/soon.component';
 import {Router, RouterModule} from "@angular/router";
 import { LoginComponent } from './login/login.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { LoginComponent } from './login/login.component';
     SoonComponent,
     LoginComponent,
     SettingsComponent,
-    AboutComponent
+    AboutComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, switchMap} from "rxjs";
+import {AuthService} from "./auth.service";
 export interface LearningFact {
   factId: number;
   front: string;
@@ -74,6 +75,19 @@ export class HttpFacadeService {
 
   getUser(userId: number): Observable<user> {
     return this.httpClient.get<user>(`api/user/${userId}`);
+  }
+  changePassword(user:user, password: string): Observable<user> {
+    return this.httpClient.put<void>(`api/user/${user.userId}`, {
+      userId: user.userId,
+      mail: user.mail,
+      pseudo: user.pseudo,
+      password: password,
+      registrationDate: user.registrationDate,
+      profilePicture: user.profilePicture,
+      isActive: user.isActive,
+    }).pipe(
+        switchMap(() => this.getUser(user.userId))
+    );
   }
 
   getPackage(): Observable<LearningPackage[]> {
