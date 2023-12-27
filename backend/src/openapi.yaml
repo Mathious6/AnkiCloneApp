@@ -544,6 +544,30 @@ paths:
                   $ref: '#/components/schemas/LearningFact'
         '500':
           description: Internal Server Error
+  /api/fact/user/{userId}:
+    get:
+      summary: Get all learning facts by user id
+      operationId: getLearningFactByUserId
+      tags:
+        - Learning Facts
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningFact'
+        '500':
+          description: Internal Server Error
   /api/fact/{id}:
     get:
       summary: Get a learning fact by id
@@ -624,7 +648,43 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-
+  /api/fact/{id}/review/{userId}:
+    put:
+      summary: Review a learning fact by id
+      operationId: reviewLearningFactById
+      tags:
+        - Learning Facts
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning fact
+          required: true
+          schema:
+            type: number
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The user learning fact to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLearningFact'
+      responses:
+        '204':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLearningFact'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
   /api/tag:
     get:
       summary: Get all tags
@@ -923,3 +983,42 @@ components:
         - progress
         - userId
         - learningPackageId
+    UserLearningFact:
+      type: object
+      properties:
+        userLearningFactId:
+          type: number
+          description: The id of the user learning fact
+          example: 1
+        reviewCount:
+          type: number
+          description: The review count of the user learning fact
+          example: 1
+        confidenceLevel:
+          type: string
+          description: The confidence level of the user learning fact
+          example: 1
+        lastReviewed:
+          type: string
+          description: The last reviewed date of the user learning fact
+          example: 2021-01-01
+        nextReviewDate:
+          type: string
+          description: The next review date of the user learning fact
+          example: 2021-01-01
+        factId:
+          type: number
+          description: The id of the learning fact
+          example: 1
+        userId:
+          type: number
+          description: The id of the user
+          example: 1
+      required:
+        - userLearningFactId
+        - reviewCount
+        - confidenceLevel
+        - lastReviewed
+        - nextReviewDate
+        - factId
+        - userId

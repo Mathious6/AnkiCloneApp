@@ -2,7 +2,6 @@ import {DataTypes, Model} from 'sequelize';
 import {sequelize} from './database';
 import LearningFact from './learningFact.model';
 import User from './user.model';
-import UserLearningPackage from './userLearningPackage.model';
 
 class UserLearningFact extends Model {
     public userLearningFactId!: number;
@@ -10,7 +9,6 @@ class UserLearningFact extends Model {
     public confidenceLevel!: string;
     public lastReviewed!: Date;
     public nextReviewDate!: Date;
-    public userPackageLearningId!: number;
     public factId!: number;
     public userId!: number;
 }
@@ -39,14 +37,6 @@ UserLearningFact.init({
     nextReviewDate: {
         type: DataTypes.DATE,
         allowNull: false,
-    },
-    userLearningPackageId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: UserLearningPackage,
-            key: 'userLearningPackageId'
-        }
     },
     factId: {
         type: DataTypes.INTEGER,
