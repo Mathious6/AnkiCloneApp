@@ -61,5 +61,5 @@ app.use('/api', otherApi);
 
 initializeServer().then(_ => console.log("Server initialized."));
 
-const swaggerDocs = yamlLoad(readFileSync('./openapi.yaml', 'utf8'));
+const swaggerDocs = yamlLoad(readFileSync('src/openapi.yaml', 'utf8'));
 app.use('/api-docs', swaggerServe, swaggerSetup(swaggerDocs));

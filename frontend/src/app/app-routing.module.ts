@@ -12,6 +12,10 @@ import {AchievementsComponent} from "./achievements/achievements.component";
 import {NewCardComponent} from "./new-card/new-card.component";
 import {NewPackageComponent} from "./new-package/new-package.component";
 
+import {NewComponent} from "./new/new.component";
+import {GlossaryComponent} from "./glossary/glossary.component";
+import {DocumentationComponent} from "./documentation/documentation.component";
+import {AboutComponent} from "./about/about.component";
 
 const routes: Routes = [
   {path : 'explore-lesson', component:ExploreLessonComponent},
@@ -26,6 +30,10 @@ const routes: Routes = [
   {path : '', redirectTo : '/home', pathMatch: 'full'},
   {path : 'new-card', component : NewCardComponent},
   {path : 'new-package', component : NewPackageComponent}
+  {path : 'new', component : NewComponent},
+  {path : 'glossary', component : GlossaryComponent},
+  {path : 'documentation', component : DocumentationComponent},
+  {path : 'about', component : AboutComponent}
 ];
 
 @NgModule({

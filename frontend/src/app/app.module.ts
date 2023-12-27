@@ -17,6 +17,10 @@ import {HttpClientModule} from "@angular/common/http";
 import { NewCardComponent } from './new-card/new-card.component';
 import { NewPackageComponent } from './new-package/new-package.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { NewComponent } from './new/new.component';
+import { GlossaryComponent } from './glossary/glossary.component';
+import { DocumentationComponent } from './documentation/documentation.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     AchievementsComponent,
     NewCardComponent,
     NewPackageComponent
+    NewComponent,
+    GlossaryComponent,
+    DocumentationComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
