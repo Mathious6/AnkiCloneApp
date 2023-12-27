@@ -19,16 +19,21 @@ export class LoginComponent {
   }
   login() {
     this.authService.login(this.form.value.username, this.form.value.password)
-      .subscribe((userLoggedIn: boolean) => {
-        if (!userLoggedIn) {
-          this.errorMessage = 'Invalid username/email or password!';
-          setTimeout(() => {
-            this.errorMessage = ''; // Clear error message after a delay
-          }, 3000);
-        } else {
-          this.router.navigateByUrl('/home');
-        }
-      });
+        .subscribe(([loginSuccess, userDeactivated]: [boolean, boolean]) => {
+            if (!loginSuccess) {
+                this.errorMessage = 'Invalid username/email or password!';
+                setTimeout(() => {
+                    this.errorMessage = ''; // Clear error message after a delay
+                }, 3000);
+            } else if (!userDeactivated) {
+                this.errorMessage = 'The user is deactivated, please contact the admin to activate your account.';
+                setTimeout(() => {
+                    this.errorMessage = ''; // Clear error message after a delay
+                }, 3000);
+            } else {
+                this.router.navigateByUrl('/home');
+            }
+        });
   }
 
 }
