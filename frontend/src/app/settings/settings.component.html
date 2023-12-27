@@ -1,0 +1,22 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">
+          User Profile
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <img [src]="user.profilePicture || 'assets/images/default_user_image.png'" alt="User Profile" class="profile-image img-fluid rounded-circle mb-3">
+            <h4>{{ user.pseudo }}</h4>
+            <p>{{ user.mail }}</p>
+          </div>
+          <hr>
+          <p><strong>User ID:</strong> {{ user.userId }}</p>
+          <p><strong>Registration Date:</strong> {{ user.registrationDate | date }}</p>
+          <p><strong>Status:</strong> {{ user.isActive ? 'Active' : 'Inactive' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

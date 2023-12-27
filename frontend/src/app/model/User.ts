@@ -1,79 +1,85 @@
 export class User {
-  private userId!: number;
-  private mail!: string;
-  private pseudo!: string;
-  private password!: string;
-  private registrationDate!: Date;
-  private profilePicture: string;
-  private isActive!: boolean;
+  private _userId!: number;
+  private _mail!: string;
+  private _pseudo!: string;
+  private _password!: string;
+  private _registrationDate!: Date;
+  private _profilePicture: string;
+  private _isActive!: boolean;
 
-  constructor(userId: number, mail: string, pseudo: string, password: string, registrationDate: Date,
-    profilePicture: string, isActive: boolean) {
-    this.userId = userId;
-    this.mail = mail;
-    this.pseudo = pseudo;
-    this.password = password;
-    this.registrationDate = registrationDate;
-    this.profilePicture = profilePicture;
-    this.isActive = isActive;
+  constructor(
+    userId: number,
+    mail: string,
+    pseudo: string,
+    password: string,
+    registrationDate: Date,
+    profilePicture: string,
+    isActive: boolean
+  ) {
+    this._userId = userId;
+    this._mail = mail;
+    this._pseudo = pseudo;
+    this._password = password;
+    this._registrationDate = registrationDate;
+    this._profilePicture = profilePicture;
+    this._isActive = isActive;
   }
 
   // Getters
-  getUserId(): number {
-    return this.userId;
+  get userId(): number {
+    return this._userId;
   }
 
-  getMail(): string {
-    return this.mail;
+  get mail(): string {
+    return this._mail;
   }
 
-  getPseudo(): string {
-    return this.pseudo;
+  get pseudo(): string {
+    return this._pseudo;
   }
 
-  getPassword(): string {
-    return this.password;
+  get password(): string {
+    return this._password;
   }
 
-  getRegistrationDate(): Date {
-    return this.registrationDate;
+  get registrationDate(): Date {
+    return this._registrationDate;
   }
 
-  getProfilePicture(): string {
-    return this.profilePicture;
+  get profilePicture(): string {
+    return this._profilePicture;
   }
 
-  getIsActive(): boolean {
-    return this.isActive;
+  get isActive(): boolean {
+    return this._isActive;
   }
 
   // Setters
-  setUserId(userId: number): void {
-    this.userId = userId;
+  set userId(userId: number) {
+    this._userId = userId;
   }
 
-  setMail(mail: string): void {
-    this.mail = mail;
+  set mail(mail: string) {
+    this._mail = mail;
   }
 
-  setPseudo(pseudo: string): void {
-    this.pseudo = pseudo;
+  set pseudo(pseudo: string) {
+    this._pseudo = pseudo;
   }
 
-  setPassword(password: string): void {
-    this.password = password;
+  set password(password: string) {
+    this._password = password;
   }
 
-  setRegistrationDate(registrationDate: Date): void {
-    this.registrationDate = registrationDate;
+  set registrationDate(registrationDate: Date) {
+    this._registrationDate = registrationDate;
   }
 
-  setProfilePicture(profilePicture: string): void {
-    this.profilePicture = profilePicture;
+  set profilePicture(profilePicture: string) {
+    this._profilePicture = profilePicture;
   }
 
-  setIsActive(isActive: boolean): void {
-    this.isActive = isActive;
+  set isActive(isActive: boolean) {
+    this._isActive = isActive;
   }
-
 }

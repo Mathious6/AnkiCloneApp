@@ -21,6 +21,7 @@ import { NewComponent } from './new/new.component';
 import { GlossaryComponent } from './glossary/glossary.component';
 import { DocumentationComponent } from './documentation/documentation.component';
 import { AboutComponent } from './about/about.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AboutComponent } from './about/about.component';
     NewComponent,
     GlossaryComponent,
     DocumentationComponent,
-    AboutComponent
+    AboutComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

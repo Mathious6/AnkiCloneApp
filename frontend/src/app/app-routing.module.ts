@@ -16,6 +16,7 @@ import {NewComponent} from "./new/new.component";
 import {GlossaryComponent} from "./glossary/glossary.component";
 import {DocumentationComponent} from "./documentation/documentation.component";
 import {AboutComponent} from "./about/about.component";
+import {SettingsComponent} from "./settings/settings.component";
 
 const routes: Routes = [
   {path : 'explore-lesson', component:ExploreLessonComponent},
@@ -33,7 +34,8 @@ const routes: Routes = [
   {path : 'new', component : NewComponent},
   {path : 'glossary', component : GlossaryComponent},
   {path : 'documentation', component : DocumentationComponent},
-  {path : 'about', component : AboutComponent}
+  {path : 'about', component : AboutComponent},
+  {path : 'settings', component : SettingsComponent}
 ];
 
 @NgModule({

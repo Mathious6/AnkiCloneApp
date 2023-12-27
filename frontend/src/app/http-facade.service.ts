@@ -21,6 +21,16 @@ export interface tag {
   frenchTranslation: string;
 }
 
+export interface user {
+  userId: number;
+  mail: string;
+  pseudo: string;
+  password: string;
+  registrationDate: Date;
+  profilePicture: string;
+  isActive: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,6 +42,9 @@ export class HttpFacadeService {
 
   getTags(): Observable<tag[]> {
     return this.httpClient.get<tag[]>('api/tag')
+  }
+  getSpecificUser(userId: number): Observable<user> {
+    return this.httpClient.get<user>(`api/user/${userId}`)
   }
 
   getPackage(): Observable<LearningPackage[]> {
