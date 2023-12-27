@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {LearningPackage} from "../model/LearningPackage";
-
+import {LearningPackage} from "../http-facade.service";
 @Component({
   selector: 'app-new-card',
   templateUrl: './new-card.component.html',

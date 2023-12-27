@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {LearningFact} from "../http-facade.service";
 
 @Component({
   selector: 'app-study-now',
@@ -10,17 +11,17 @@ export class StudyNowComponent {
   public currentFactFront : string = '';
   public currentFactBack : string = '';
   public index : number = 0;
-  testLearningFact: LearningFact = new LearningFact(
-    1,
-    'Front Content',
-    'Back Content',
-    'Source Info',
-    'Image URL',
-    5,
-    true,
-    123,
-    456
-  );
+  testLearningFact: LearningFact = {
+    factId: 1,
+    front: 'Front Content',
+    back: 'Back Content',
+    source: 'Source Info',
+    relatedImage: 'Image URL',
+    relatedLink: '5',
+    isActive: true,
+    packageId: 123,
+    creatorId: 456,
+  };
   showBack = false;
 
 }

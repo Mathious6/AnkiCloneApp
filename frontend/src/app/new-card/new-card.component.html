@@ -51,7 +51,7 @@
     <div class="form-group">
       <label for="dropdownMenu">choose a learning package:</label>
       <select class="form-control" id="dropdownMenu" name="dropdownMenu">
-        <option *ngFor="let package of lp" [value]="package.getTitle()">{{ package.getTitle() }}</option>
+        <option *ngFor="let package of lp" [value]="package.title">{{ package.title }}</option>
       </select>
     </div>
 

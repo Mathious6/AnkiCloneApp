@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
-import {HttpFacadeService} from "../http-facade.service";
-
+import {LearningPackage} from "../http-facade.service";
 @Component({
     selector: 'app-explore-lesson',
     templateUrl: './explore-lesson.component.html',

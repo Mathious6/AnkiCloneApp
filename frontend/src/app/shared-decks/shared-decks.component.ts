@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {HttpFacadeService, LearningPackage} from "../http-facade.service";
 
 @Component({
   selector: 'app-shared-decks',
@@ -11,7 +13,7 @@ export class SharedDecksComponent {
 
   searchForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private httpFacadeService: HttpFacadeService) {
     this.searchForm = this.formBuilder.group({
       title: [''],
       description: [''],
@@ -19,8 +21,7 @@ export class SharedDecksComponent {
     });
   }
 
-  private httpFacadeService: any;
-  public lp : LearningPackage[] = [];
+  public lp: LearningPackage[] = [];
 
   getSearchPackage(): void {
     const titleControl = this.searchForm.get('title');

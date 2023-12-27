@@ -1,10 +1,28 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {LearningPackage} from "./model/LearningPackage";
-import {ExploreLessonComponent} from "./explore-lesson/explore-lesson.component";
-
+export interface LearningFact {
+  factId: number;
+  front: string;
+  back: string;
+  source: string;
+  relatedImage: string;
+  relatedLink: string;
+  isActive: boolean;
+  packageId: number;
+  creatorId: number;
+}
 export interface Package {
+  packageId: number;
+  title: string;
+  description: string;
+  category: string;
+  targetAudience: string;
+  duration: number;
+  creationDate: Date;
+  creatorId: number;
+}
+export interface LearningPackage {
   packageId: number;
   title: string;
   description: string;

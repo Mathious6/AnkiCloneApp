@@ -9,9 +9,6 @@ import {StudyNowComponent} from "./study-now/study-now.component";
 import {SharedDecksComponent} from "./shared-decks/shared-decks.component";
 import {ProgressStatisticsComponent} from "./progress-statistics/progress-statistics.component";
 import {AchievementsComponent} from "./achievements/achievements.component";
-import {NewCardComponent} from "./new-card/new-card.component";
-import {NewPackageComponent} from "./new-package/new-package.component";
-
 import {GlossaryComponent} from "./glossary/glossary.component";
 import {DocumentationComponent} from "./documentation/documentation.component";
 import {AboutComponent} from "./about/about.component";
@@ -19,6 +16,8 @@ import {SettingsComponent} from "./settings/settings.component";
 import {SoonComponent} from "./soon/soon.component";
 import {LoginComponent} from "./login/login.component";
 import {authGuard} from "./auth.guard";
+import {NewCardComponent} from "./new-card/new-card.component";
+import {NewPackageComponent} from "./new-package/new-package.component";
 
 const routes: Routes = [
   {path : '', redirectTo : '/login', pathMatch: 'full'},
