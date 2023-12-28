@@ -13,7 +13,7 @@ export class NewCardComponent {
   public lp : LearningPackage[] = [];
 
   lessonForm: FormGroup;
-  constructor(formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder) {
     this.lessonForm = formBuilder.group({
       recto: ['', Validators.required],
       verso: ['', Validators.required]
