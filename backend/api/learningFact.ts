@@ -129,7 +129,7 @@ router.put('/fact/:id/review/:userId', handlers_errors_userLearningFact, async (
         const [userLearningFact, created] = await UserLearningFact.findOrCreate({
             where: {factId, userId},
             defaults: {
-                reviewCount: 0,
+                reviewCount: 1,
                 confidenceLevel: req.body.confidenceLevel,
                 lastReviewed: new Date(),
                 nextReviewDate
@@ -157,11 +157,11 @@ router.put('/fact/:id/review/:userId', handlers_errors_userLearningFact, async (
 function getDaysToAdd(confidenceLevel: String) {
     switch (confidenceLevel) {
         case '1':
-            return 3;
+            return 15;
         case '2':
-            return 2;
+            return 7;
         case '3':
-            return 1;
+            return 3;
         default:
             return 3;
     }
