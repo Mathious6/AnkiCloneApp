@@ -90,7 +90,7 @@ export class HttpFacadeService {
     );
   }
 
-  getPackage(): Observable<LearningPackage[]> {
+  getAllLearningPackage(): Observable<LearningPackage[]> {
     return this.httpClient.get<LearningPackage[]>('api/package')
   }
 

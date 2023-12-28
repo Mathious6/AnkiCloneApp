@@ -1,1 +1,29 @@
-<p>glossary works!</p>
+<!-- src/app/glossary/glossary.component.html -->
+
+<div class="container mt-4">
+  <h2 class="mb-4">Glossary</h2>
+
+  <!-- Alphabetical Navigation Bar -->
+  <div class="d-flex justify-content-center mb-4">
+    <ng-container *ngFor="let letter of alphabet">
+      <a (click)="selectLetter(letter)" [class.active]="selectedLetter === letter" [class.text-muted]="selectedLetter === letter" [class.text-dark]="selectedLetter !== letter" class="btn btn-link">
+        {{ letter }}
+      </a>
+    </ng-container>
+    <a (click)="clearSelection()" [class.active]="!selectedLetter" [class.text-muted]="!selectedLetter" [class.text-dark]="selectedLetter === null" [style.color]="selectedLetter === null ? 'black' : 'muted'" class="btn btn-link">
+    All
+    </a>
+  </div>
+
+  <!-- Glossary Terms -->
+  <div *ngFor="let term of glossaryTerms; let last = last" class="glossary-term mb-4">
+    <!-- Only show terms that match the selected letter -->
+    <ng-container *ngIf="!selectedLetter || term.term.startsWith(selectedLetter)">
+      <dt>{{ term.term }}</dt>
+      <dd>{{ term.definition }}</dd>
+    </ng-container>
+
+    <!-- Separator: Display if not the last term and there is more than one term -->
+    <hr class="my-4" *ngIf="!last && glossaryTerms.length > 1" />
+  </div>
+</div>

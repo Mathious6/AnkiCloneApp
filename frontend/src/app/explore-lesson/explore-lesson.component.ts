@@ -12,7 +12,7 @@ export class ExploreLessonComponent {
   public lp : LearningPackage[] = [];
 
   getPackage(): void {
-    this.httpFacadeService.getPackage().subscribe((data: LearningPackage[]) => {
+    this.httpFacadeService.getAllLearningPackage().subscribe((data: LearningPackage[]) => {
       this.lp = data;
     })
   }
