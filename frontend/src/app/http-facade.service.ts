@@ -101,4 +101,8 @@ export class HttpFacadeService {
   getAllLearningFact(): Observable<LearningFact[]> {
     return this.httpClient.get<LearningFact[]>('api/fact')
   }
+
+  getAllUserLearningPackage(): Observable<LearningPackage[]> {
+    return this.httpClient.get<LearningPackage[]>('api/package/user')
+  }
 }
