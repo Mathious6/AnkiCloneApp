@@ -19,6 +19,7 @@ import {SoonComponent} from "./soon/soon.component";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
 import {NewCardComponent} from "./new-card/new-card.component";
 import {NewPackageComponent} from "./new-package/new-package.component";
+import {LessonViewComponent} from "./lesson-view/lesson-view.component";
 
 const routes: Routes = [
   {path : '', redirectTo : '/login', pathMatch: 'full'},
@@ -40,6 +41,7 @@ const routes: Routes = [
   {path : 'change-password', component : ChangePasswordComponent, canActivate: [authGuard]},
   {path : 'new-card', component : NewCardComponent, canActivate: [authGuard]},
   {path : 'new-package', component : NewPackageComponent, canActivate: [authGuard]},
+  {path : 'lesson-view', component : LessonViewComponent, canActivate: [authGuard]},
 ];
 
 @NgModule({

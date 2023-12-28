@@ -27,6 +27,8 @@ import { SoonComponent } from './soon/soon.component';
 import {Router, RouterModule} from "@angular/router";
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { LessonViewComponent } from './lesson-view/lesson-view.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     LoginComponent,
     SettingsComponent,
     AboutComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    LessonViewComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
