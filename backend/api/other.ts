@@ -12,8 +12,6 @@ const HTTP_BAD_REQUEST: number = 400;
 const HTTP_NOT_FOUND: number = 404;
 const HTTP_INTERNAL_SERVER_ERROR: number = 500;
 
-// ADVANCED API
-
 router.post('/user/:userId/package/:packageId/start-session', async (req: Request, res: Response) => {
     const userId: number = +req.params.userId;
     const packageId: number = +req.params.packageId;
@@ -65,8 +63,6 @@ router.post('/user/:userId/package/:packageId/start-session', async (req: Reques
     }
 });
 
-
-// NOT TESTED
 router.post('/user/:userId/:factId/answer', async (req: Request, res: Response) => {
     const userId: number = +req.params.userId;
     const factId: number = +req.params.factId;
@@ -132,6 +128,62 @@ router.post('/user/:userId/:factId/answer', async (req: Request, res: Response) 
         console.error("Error answering fact:", error);
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({message: "Internal Server Error"});
     }
+});
+
+router.get('/statistics/user/:userId', async (req: Request, res: Response) => {
+    const userId: number = +req.params.userId;
+    const statistics = []
+
+    const userLearningFacts = await UserLearningFact.findAll({
+        where: {
+            userId: userId
+        }
+    });
+
+    // Send a dict with the date of the 14 next days and the number of facts to review for each day
+    const today = new Date();
+    const nextDays = {};
+
+    for (let i = 0; i < 14; i++) {
+        const dayToCheck = new Date(today);
+        dayToCheck.setDate(today.getDate() + i);
+
+        const nbFacts = userLearningFacts.filter(fact =>
+            new Date(fact.nextReviewDate).toDateString() === dayToCheck.toDateString()
+        ).length;
+
+        const formattedDate = dayToCheck.toLocaleDateString('fr');
+        nextDays[formattedDate] = nbFacts;
+    }
+
+    statistics.push({nextDays: nextDays});
+
+    // Send the number of facts to review today
+    const todayFacts = nextDays[today.toLocaleDateString('fr')];
+    statistics.push({todayFacts: todayFacts});
+
+    // Send the global progress on all the started packages
+    const userLearningPackages = await UserLearningPackage.findAll({
+        where: {
+            userId: userId
+        }
+    });
+
+    const nbPackages = userLearningPackages.length;
+    let globalProgress = 0;
+
+    for (let i = 0; i < nbPackages; i++) {
+        globalProgress += userLearningPackages[i].progress / nbPackages;
+    }
+
+    statistics.push({globalProgress: globalProgress});
+
+    // Send the number of packages created by the user
+    const nbCreatedPackages = await LearningPackage.count({where: {creatorId: userId}});
+
+    statistics.push({nbCreatedPackages: nbCreatedPackages});
+
+    res.status(200).send(statistics);
 });
 
 export default router;

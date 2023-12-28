@@ -801,6 +801,27 @@ paths:
         '500':
           description: Internal Server Error
 
+  /api/statistics/user/{userId}:
+    get:
+      summary: Get the statistics of a user by id
+      operationId: getStatisticsByUserId
+      tags:
+        - Statistics
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
 servers:
   [
     {

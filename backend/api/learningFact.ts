@@ -157,13 +157,13 @@ router.put('/fact/:id/review/:userId', handlers_errors_userLearningFact, async (
 function getDaysToAdd(confidenceLevel: String) {
     switch (confidenceLevel) {
         case '1':
-            return 15;
+            return 3;
         case '2':
             return 7;
         case '3':
-            return 3;
+            return 15;
         default:
-            return 3;
+            return 15;
     }
 }
 
