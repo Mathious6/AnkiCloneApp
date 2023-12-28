@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <div class="row mt-3">
+    <div class="col-md-12 d-flex mb-2 justify-content-center">
+      <button class="btn btn-primary btn-dark border border-dark" (click)="startLesson(packageId)">Start Lesson</button>
+    </div>
+    <div class="col-md-12 d-flex mb-2 justify-content-center">
+      <button class="btn btn-primary btn-dark border border-dark" routerLink="/explore-lesson">Explore others lessons</button>
+    </div>
+  </div>
+
+  <h2 class="text-center mb-4">Overview of the package</h2>
+  <div class="row justify-content-center">
+    <div *ngFor="let fact of userFacts" class="col-lg-3 mb-4">
+      <div class="card h-100 shadow text-center align-items-center" style="width: 100%;">
+        <div class="card-body" style="width: 100%">
+          <img class="card-img-top rounded-circle mb-3" [src]="fact.relatedImage" alt="userFact">
+          <h5 class="card-title mb-3">{{ fact.front }}</h5>
+          <p class="card-text mb-3">
+            <strong>Last Review</strong> <br>
+            {{ (fact.lastReviewed | date) || 'Not Available' }}
+          </p>
+          <p class="card-text mb-3">
+            <strong>Review Count</strong> <br>
+            {{ fact.reviewCount || 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

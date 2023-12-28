@@ -58,19 +58,16 @@ export class HttpFacadeService {
   constructor(private httpClient: HttpClient) {
 
   }
-
-  getTags(): Observable<tag[]> {
-    return this.httpClient.get<tag[]>('api/tag');
-  }
-  getSpecificUser(userId: number): Observable<user> {
-    return this.httpClient.get<user>(`api/user/${userId}`);
-  }
   deactivateUser(userId: number): Observable<void>{
     return this.httpClient.put<void>(`api/user/${userId}/deactivate`, {});
   }
 
   getAllUsers(): Observable<user[]> {
     return this.httpClient.get<user[]>(`api/user`);
+  }
+
+  getAllLearningFactByPackageId(packageId: number): Observable<LearningFact[]> {
+    return this.httpClient.get<LearningFact[]>(`api/package/${packageId}/fact`);
   }
 
   getUser(userId: number): Observable<user> {
@@ -105,4 +102,9 @@ export class HttpFacadeService {
   getAllUserLearningPackage(userId: string): Observable<any> {
     return this.httpClient.get<any>(`api/package/user/${userId}`)
   }
+
+  getOverviewUserLearningPackage(userId: string, packageId: string): Observable<any> {
+    return this.httpClient.get<any>(`api/package/${packageId}/user/${userId}/overview`)
+  }
+
 }
