@@ -434,12 +434,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LearningPackage'
         '404':
           description: Not Found
         '500':
@@ -522,6 +516,32 @@ paths:
       responses:
         '204':
           description: Deleted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{id}/user/{userId}/overview:
+    get:
+      summary: Get the overview of a learning package by id and user id
+      operationId: getLearningPackageOverviewByIdAndUserId
+      tags:
+        - Learning Packages
+      parameters:
+        - name: id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
         '404':
           description: Not Found
         '500':
@@ -685,6 +705,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+
   /api/tag:
     get:
       summary: Get all tags
@@ -775,6 +796,27 @@ paths:
       responses:
         '204':
           description: Deleted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /api/statistics/user/{userId}:
+    get:
+      summary: Get the statistics of a user by id
+      operationId: getStatisticsByUserId
+      tags:
+        - Statistics
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
         '404':
           description: Not Found
         '500':

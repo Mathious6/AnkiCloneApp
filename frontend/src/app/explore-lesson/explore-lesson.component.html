@@ -1,58 +1,13 @@
-<div class="container">
-  <button routerLink="/study-now" class="col-2 button1">study now</button>
-  <div class="row">
-    <div class="col-2 align-content-center">Package</div>
-    <div class="col-2 align-content-center">New cards</div>
-    <div class="col-2 align-content-center">Current</div>
-    <div class="col-2 align">Todo</div>
-
-  </div>
-
-  <div *ngFor="let p of lp" class="row app_border">
-    <div class="row row1">
-      <div class="col-2 col1">{{p.title}}</div>
-      <div class="col-2 align-content-center">New cards</div>
-      <div class="col-2 ">Current</div>
-      <div class="col-2 ">Todo</div>
-    </div>
-    <div class="row row1">
-      <button routerLink="/study-now" class="col-2 button1">study now</button>
-      <!--<div class="col-2">{{p.newCount}}</div>
-      <div class="col-2">{{p.currentCount}}</div>
-      <div class="col-2">{{p.todoCount}}</div>-->
-    </div>
-  </div>
+<div class="container mt-4">
+  <ul class="list-group-item">
+    <li *ngFor="let package of userLearningPackages" class="list-group-item mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ package.title }}</h5>
+          <p class="card-text">{{ package.description }}</p>
+          <button class="btn btn-primary bg-dark border border-dark" (click)="startPackage(package.packageId)">Study Now</button>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
-
-  <!--
-  <div class = "row app_border">
-      <p>paquet 1</p>
-      <p>new-card</p>
-      <p>current</p>
-      <p>to do</p>
-      <button routerLink="/study-now">study now</button>
-    </div>
-    <div class="app_border">
-      <p>paquet 2</p>
-      <p>new-card</p>
-      <p>current</p>
-      <p>to do</p>
-      <button routerLink="/study-now">study now</button>
-    </div>
-    <div class="app_border">
-      <p>paquet 3</p>
-      <p>new-card</p>
-      <p>current</p>
-      <p>to do</p>
-      <button routerLink="/study-now">study now</button>
-    </div>
-    <div class="app_border">
-      <p>paquet 4</p>
-      <p>new-card</p>
-      <p>current</p>
-      <p>to do</p>
-      <button routerLink="/study-now">study now</button>
-    </div>
-  </div>
-</div>
--->

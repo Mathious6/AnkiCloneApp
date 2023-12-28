@@ -6,7 +6,8 @@ import LearningFact from "../config/learningFact.model";
 import User from "../config/user.model";
 import LearningPackageTag from "../config/learningPackageTag.model";
 import Tag from "../config/tag.model";
-import userLearningPackage from "../config/userLearningPackage.model";
+import UserLearningPackage from "../config/userLearningPackage.model";
+import UserLearningFact from "../config/userLearningFact.model";
 
 const router = Router();
 
@@ -247,7 +248,7 @@ router.get('/package/user/:userId', async (req: Request, res: Response) => {
             return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${userId} does not exist.`});
         }
 
-        const userLearningPackages = await userLearningPackage.findAll({
+        const userLearningPackages = await UserLearningPackage.findAll({
             where: {userId}
         });
 
@@ -256,7 +257,35 @@ router.get('/package/user/:userId', async (req: Request, res: Response) => {
         const learningPackages = await LearningPackage.findAll({
             where: {packageId: {[Op.in]: learningPackageIds}}
         });
-        res.status(HTTP_OK).send(learningPackages);
+
+        let customLearningPackages = [];
+
+        // Update the progress of the user on every package started
+        for (const userLearningPackage of userLearningPackages) {
+            const learningFacts = await LearningFact.findAll({where: {packageId: userLearningPackage.learningPackageId}});
+            const nbFacts = learningFacts.length;
+
+            const userLearningFacts = await UserLearningFact.findAll({
+                where: {
+                    userId,
+                    factId: {[Op.in]: learningFacts.map(fact => fact.factId)}
+                }
+            });
+
+            const nbFactsMastered = userLearningFacts.filter(userLearningFact => userLearningFact.confidenceLevel === '3').length;
+            const progress = Math.round((nbFactsMastered / nbFacts) * 100);
+            await userLearningPackage.update({progress});
+
+            const packageIndex = learningPackages.findIndex(learningPackage => learningPackage.packageId === userLearningPackage.learningPackageId);
+            customLearningPackages.push({
+                ...learningPackages[packageIndex].toJSON(),
+                progress,
+                expectedEndDate: userLearningPackage.expectedEndDate,
+                minutesPerDayObjective: userLearningPackage.minutesPerDayObjective
+            });
+        }
+
+        res.status(HTTP_OK).send(customLearningPackages);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
@@ -277,7 +306,7 @@ router.post('/package/:id/start/:userId', async (req: Request, res: Response) =>
         }
 
         const learningPackageId = packageId;
-        const userPackageExists: userLearningPackage | null = await userLearningPackage.findOne({
+        const userPackageExists: UserLearningPackage | null = await UserLearningPackage.findOne({
             where: {
                 learningPackageId,
                 userId
@@ -288,7 +317,7 @@ router.post('/package/:id/start/:userId', async (req: Request, res: Response) =>
         }
 
         const newUserPackage = {learningPackageId, userId};
-        const createdUserPackage: userLearningPackage = await userLearningPackage.create(newUserPackage);
+        const createdUserPackage: UserLearningPackage = await UserLearningPackage.create(newUserPackage);
         res.status(HTTP_CREATED).send(createdUserPackage);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
@@ -300,7 +329,7 @@ router.put('/package/:id/reset/:userId', async (req: Request, res: Response) => 
         const learningPackageId: number = +req.params.id;
         const userId: number = +req.params.userId;
 
-        const userPackageExists: userLearningPackage | null = await userLearningPackage.findOne({
+        const userPackageExists: UserLearningPackage | null = await UserLearningPackage.findOne({
             where: {
                 learningPackageId,
                 userId
@@ -328,7 +357,7 @@ router.delete('/package/:id/stop/:userId', async (req: Request, res: Response) =
         const learningPackageId: number = +req.params.id;
         const userId: number = +req.params.userId;
 
-        const userPackageExists: userLearningPackage | null = await userLearningPackage.findOne({
+        const userPackageExists: UserLearningPackage | null = await UserLearningPackage.findOne({
             where: {
                 learningPackageId,
                 userId
@@ -340,6 +369,42 @@ router.delete('/package/:id/stop/:userId', async (req: Request, res: Response) =
 
         await userPackageExists.destroy();
         res.status(HTTP_UPDATED).send({message: `User with ID ${userId} has stopped package with ID ${learningPackageId}.`});
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.get('/package/:id/user/:userId/overview', async (req: Request, res: Response) => {
+    try {
+        const learningPackageId: number = +req.params.id;
+        const userId: number = +req.params.userId;
+
+        const userPackageExists: UserLearningPackage | null = await UserLearningPackage.findOne({
+            where: {
+                learningPackageId,
+                userId
+            }
+        });
+        if (!userPackageExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${userId} has not started package with ID ${learningPackageId}.`});
+        }
+
+        const packageOverview = [];
+        const learningFacts = await LearningFact.findAll({where: {packageId: learningPackageId}});
+        const factsIds = learningFacts.map(fact => fact.factId);
+        const userLearningFacts = await UserLearningFact.findAll({where: {userId, factId: {[Op.in]: factsIds}}});
+        for (const fact of learningFacts) {
+            const userLearningFact = userLearningFacts.find(userLearningFact => userLearningFact.factId === fact.factId);
+            packageOverview.push({
+                factId: fact.factId,
+                front: fact.front,
+                relatedImage: fact.relatedImage,
+                lastReviewed: userLearningFact?.lastReviewed || null,
+                reviewCount: userLearningFact?.reviewCount || null,
+            });
+        }
+
+        res.status(HTTP_OK).send(packageOverview);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }

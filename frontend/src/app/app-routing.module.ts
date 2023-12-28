@@ -38,8 +38,8 @@ const routes: Routes = [
   {path : 'settings', component : SettingsComponent, canActivate: [authGuard]},
   {path : 'soon', component : SoonComponent, canActivate: [authGuard]},
   {path : 'change-password', component : ChangePasswordComponent, canActivate: [authGuard]},
-  {path : 'new-card', component : NewCardComponent, canActivate : [authGuard] },
-  {path : 'new-package', component : NewPackageComponent, canActivate : [authGuard] }
+  {path : 'new-card', component : NewCardComponent, canActivate: [authGuard]},
+  {path : 'new-package', component : NewPackageComponent, canActivate: [authGuard]},
 ];
 
 @NgModule({
