@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpFacadeService, LearningPackage} from "../http-facade.service";
+import {Router} from "@angular/router";
+import {AuthService} from "../auth.service";
 @Component({
     selector: 'app-explore-lesson',
     templateUrl: './explore-lesson.component.html',
@@ -7,36 +9,26 @@ import {HttpFacadeService, LearningPackage} from "../http-facade.service";
 })
 
 export class ExploreLessonComponent implements OnInit{
-  userLearningPackages : { title : string, description:string }[] = [
-    {title: 'Angular Basics', description: 'Learn the fundamentals of Angular framework.'},
-    {title: 'React Crash Course', description: 'A quick guide to understanding React.js.'},
-    {title: 'Node.js for Beginners', description: 'Get started with server-side JavaScript using Node.js.'},
-    {title: 'Angular Basics', description: 'Learn the fundamentals of Angular framework.'},
-    {title: 'React Crash Course', description: 'A quick guide to understanding React.js.'},
-    {title: 'Node.js for Beginners', description: 'Get started with server-side JavaScript using Node.js.'},
-    {title: 'Angular Basics', description: 'Learn the fundamentals of Angular framework.'},
-    {title: 'React Crash Course', description: 'A quick guide to understanding React.js.'},
-    {title: 'Node.js for Beginners', description: 'Get started with server-side JavaScript using Node.js.'}
-  ]
-  constructor(private httpFacadeService : HttpFacadeService) {
+  userLearningPackages : { title : string, description:string, packageId: number, progress:number }[] = []
+  constructor(private httpFacadeService : HttpFacadeService, private router: Router, private authService : AuthService) {
   }
 
 
   ngOnInit(){
-    /*
-    this.httpFacadeService.getAllUserLearningPackage().subscribe({
+    this.httpFacadeService.getAllUserLearningPackage(this.authService.session.userId).subscribe({
       next: learningPackages =>{
-        this.userLearningPackages = learningPackages.map(learningPackage => ({
+        this.userLearningPackages = learningPackages.map((learningPackage: { title: string; description: string; packageId: number;progress: number; }) => ({
           title: learningPackage.title,
           description: learningPackage.description,
+          packageId: learningPackage.packageId,
+          progress: learningPackage.progress,
         }));
       } ,
-      }
-    )*/
+      });
   }
 
-  startPackage(title: string) {
-
+  startPackage(packageId: number) {
+    this.router.navigate(['/study-now'], { queryParams: { userId : this.authService.session.userId, packageId: packageId } });
   }
 }
 
