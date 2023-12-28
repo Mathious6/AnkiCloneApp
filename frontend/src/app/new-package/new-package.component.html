@@ -38,7 +38,7 @@
 </head>
 <body>
 
-<div class="barre-selection">
+<div class="barre-selection mt-3">
   <button routerLink="/new-card">new learning fact</button>
   <button routerLink="/new-package">new learning package</button>
 </div>
@@ -55,12 +55,6 @@
         <div class="form-group rounded">
           <label for="title" [class]="lessonForm.get('title')?.invalid ? 'text-danger' : ''">Title</label>
           <input type="text" class="form-control" id="title" name="title" formControlName="title">
-        </div>
-      </div>
-      <div class="col-md-3 mb-2">
-        <div class="form-group rounded">
-          <label for="level" [class]="lessonForm.get('level')?.invalid ? 'text-danger' : ''">Level</label>
-          <input type="text" class="form-control" id="level" name="level" formControlName="level">
         </div>
       </div>
     </div>
@@ -94,6 +88,12 @@
         <div class="form-group rounded">
           <label for="numericFieldMin" [class]="lessonForm.get('duration')?.invalid ? 'text-danger' : ''">Duration (Min)</label>
           <input type="number" class="form-control" id="numericFieldMin" name="numericFieldMin" formControlName="duration">
+        </div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <div class="form-group rounded">
+          <label for="targetAudience" [class]="lessonForm.get('targetAudience')?.invalid ? 'text-danger' : ''">Tags</label>
+          <input type="text" class="form-control" id="targetAudience" name="targetAudience" formControlName="targetAudience">
         </div>
       </div>
     </div>

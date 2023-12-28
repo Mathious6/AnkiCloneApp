@@ -95,6 +95,20 @@ export class HttpFacadeService {
   }
 
   getSearchPackage(title: string, description : string, category : string): Observable<LearningPackage[]> {
-    return this.httpClient.get<LearningPackage[]>('api/package/search')
+    const search = [title,description,category];
+    return this.httpClient.get<LearningPackage[]>('api/package/search/${search}')
+  }
+
+  postNewLearningFact(front: string, back : string,source : string,
+                      relatedImage : string, relatedLink : string, packageId : number, creatorId : number ): Observable<LearningFact>{
+    const values = [front, back, source, relatedImage, relatedLink, creatorId];
+    return this.httpClient.post<LearningFact>(`api/package/${packageId}/fact`, values)
+  }
+
+  postNewLearningPackage(title: string, description : string, category : string,
+                         targetAudience : string, duration : number, creatorId : number)
+  {
+    const values = [title, description, category, targetAudience, duration, creatorId];
+    return this.httpClient.post<LearningPackage>(`api/package`, values)
   }
 }

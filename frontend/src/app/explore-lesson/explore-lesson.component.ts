@@ -11,6 +11,7 @@ export class ExploreLessonComponent {
   private httpFacadeService: any;
   public lp : LearningPackage[] = [];
 
+
   getPackage(): void {
     this.httpFacadeService.getPackage().subscribe((data: LearningPackage[]) => {
       this.lp = data;
