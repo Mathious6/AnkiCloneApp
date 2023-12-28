@@ -257,7 +257,35 @@ router.get('/package/user/:userId', async (req: Request, res: Response) => {
         const learningPackages = await LearningPackage.findAll({
             where: {packageId: {[Op.in]: learningPackageIds}}
         });
-        res.status(HTTP_OK).send(learningPackages);
+
+        let customLearningPackages = [];
+
+        // Update the progress of the user on every package started
+        for (const userLearningPackage of userLearningPackages) {
+            const learningFacts = await LearningFact.findAll({where: {packageId: userLearningPackage.learningPackageId}});
+            const nbFacts = learningFacts.length;
+
+            const userLearningFacts = await UserLearningFact.findAll({
+                where: {
+                    userId,
+                    factId: {[Op.in]: learningFacts.map(fact => fact.factId)}
+                }
+            });
+
+            const nbFactsMastered = userLearningFacts.filter(userLearningFact => userLearningFact.confidenceLevel === '3').length;
+            const progress = Math.round((nbFactsMastered / nbFacts) * 100);
+            await userLearningPackage.update({progress});
+
+            const packageIndex = learningPackages.findIndex(learningPackage => learningPackage.packageId === userLearningPackage.learningPackageId);
+            customLearningPackages.push({
+                ...learningPackages[packageIndex].toJSON(),
+                progress,
+                expectedEndDate: userLearningPackage.expectedEndDate,
+                minutesPerDayObjective: userLearningPackage.minutesPerDayObjective
+            });
+        }
+
+        res.status(HTTP_OK).send(customLearningPackages);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }

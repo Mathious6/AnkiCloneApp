@@ -434,12 +434,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LearningPackage'
         '404':
           description: Not Found
         '500':
@@ -552,6 +546,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+
   /api/fact:
     get:
       summary: Get all learning facts
