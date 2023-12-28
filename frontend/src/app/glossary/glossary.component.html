@@ -10,20 +10,23 @@
         {{ letter }}
       </a>
     </ng-container>
-    <a (click)="clearSelection()" [class.active]="!selectedLetter" [class.text-muted]="!selectedLetter" [class.text-dark]="selectedLetter === null" [style.color]="selectedLetter === null ? 'black' : 'muted'" class="btn btn-link">
+    <a (click)="clearSelection()" [class.active]="!selectedLetter" [class.text-muted]="!selectedLetter" [class.text-dark]="selectedLetter === null" [style.color]="selectedLetter === null ? 'black' : 'inherit'" class="btn btn-link">
     All
     </a>
   </div>
 
+  <div *ngIf="selectedLetter" class="mb-4">
+    <h3 class="text-dark">{{ selectedLetter }}</h3>
+  </div>
+
   <!-- Glossary Terms -->
   <div *ngFor="let term of glossaryTerms; let last = last" class="glossary-term mb-4">
+
     <!-- Only show terms that match the selected letter -->
     <ng-container *ngIf="!selectedLetter || term.term.startsWith(selectedLetter)">
       <dt>{{ term.term }}</dt>
       <dd>{{ term.definition }}</dd>
     </ng-container>
 
-    <!-- Separator: Display if not the last term and there is more than one term -->
-    <hr class="my-4" *ngIf="!last && glossaryTerms.length > 1" />
   </div>
 </div>
