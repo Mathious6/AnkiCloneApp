@@ -22,12 +22,12 @@ import {NewPackageComponent} from "./new-package/new-package.component";
 import {LessonViewComponent} from "./lesson-view/lesson-view.component";
 
 const routes: Routes = [
-  {path : '', redirectTo : '/login', pathMatch: 'full'},
+  {path : '', redirectTo : '/home', pathMatch: 'full'},
   {path : 'login', component : LoginComponent},
+  {path : 'home', component:HomeCarousselComponent},
   {path : 'explore-lesson', component:ExploreLessonComponent, canActivate: [authGuard]},
   {path : 'app', component:AppComponent, canActivate: [authGuard]},
   {path : 'footer', component: FooterComponent, canActivate: [authGuard]},
-  {path : 'home', component:HomeCarousselComponent, canActivate: [authGuard]},
   {path : 'header', component : NavbarComponent, canActivate: [authGuard]},
   {path : 'study-now', component : StudyNowComponent, canActivate: [authGuard]},
   {path : 'shared-decks', component : SharedDecksComponent, canActivate: [authGuard]},
@@ -35,9 +35,9 @@ const routes: Routes = [
   {path : 'achievements', component : AchievementsComponent, canActivate: [authGuard]},
   {path : 'glossary', component : GlossaryComponent, canActivate: [authGuard]},
   {path : 'documentation', component : DocumentationComponent, canActivate: [authGuard]},
-  {path : 'about', component : AboutComponent, canActivate: [authGuard]},
+  {path : 'about', component : AboutComponent},
   {path : 'settings', component : SettingsComponent, canActivate: [authGuard]},
-  {path : 'soon', component : SoonComponent, canActivate: [authGuard]},
+  {path : 'soon', component : SoonComponent},
   {path : 'change-password', component : ChangePasswordComponent, canActivate: [authGuard]},
   {path : 'new-card', component : NewCardComponent, canActivate: [authGuard]},
   {path : 'new-package', component : NewPackageComponent, canActivate: [authGuard]},

@@ -10,8 +10,32 @@
             data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="!isLoggedIn">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" routerLink="/soon">Features</a>
+        </li>
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" routerLink="/soon">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" routerLink="/soon">FAQs</a>
+        </li>
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" routerLink="/about">About</a>
+        </li>
+      </ul>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" routerLink="/login">Sign in</a>
+        </li>
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isLoggedIn">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a aria-current="page" class="nav-link active" routerLink="/home">Home</a>
