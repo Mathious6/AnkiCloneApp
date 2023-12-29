@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AuthService} from "../auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {SharedService} from "../shared.service";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent {
     password: ['', Validators.required],
   });
   errorMessage: string = '';
-  constructor(private authService: AuthService, private fb: FormBuilder, private router : Router){
+  constructor(private authService: AuthService, private fb: FormBuilder, private router : Router, private sharedService : SharedService){
 
   }
   login() {
@@ -31,6 +32,7 @@ export class LoginComponent {
                     this.errorMessage = ''; // Clear error message after a delay
                 }, 3000);
             } else {
+                this.sharedService.notifyLoginStatusChanged(true);
                 this.router.navigateByUrl('/home');
             }
         });

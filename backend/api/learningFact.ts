@@ -148,19 +148,38 @@ router.put('/fact/:id/review/:userId', handlers_errors_userLearningFact, async (
         }
 
         const updatedRecord = await UserLearningFact.findOne({where: {factId, userId}});
-        res.status(HTTP_UPDATED).send(updatedRecord);
+        res.status(HTTP_OK).send(updatedRecord);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
 });
 
-function getDaysToAdd(confidenceLevel: String) {
+router.get('/fact/:id/user/:userId', handlers_errors_userLearningFact, async (req: Request, res: Response) => {
+    try {
+        const factId = parseInt(req.params.id);
+        const userId = parseInt(req.params.userId);
+
+        const factExists = await LearningFact.findByPk(factId);
+        const userExists = await User.findByPk(userId);
+
+        if (!factExists || !userExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `Fact or User not found.`});
+        }
+
+        const updatedRecord = await UserLearningFact.findOne({where: {factId, userId}});
+        res.status(HTTP_OK).send(updatedRecord);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+function getDaysToAdd(confidenceLevel: number) {
     switch (confidenceLevel) {
-        case '1':
+        case 3:
             return 3;
-        case '2':
+        case 2:
             return 7;
-        case '3':
+        case 1:
             return 15;
         default:
             return 15;

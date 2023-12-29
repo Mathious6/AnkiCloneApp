@@ -17,16 +17,21 @@ import {authGuard} from "./auth.guard";
 import {LoginComponent} from "./login/login.component";
 import {SoonComponent} from "./soon/soon.component";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
-import {NewPackageComponent} from "./new-package/new-package.component";
 import {NewCardComponent} from "./new-card/new-card.component";
+import {NewPackageComponent} from "./new-package/new-package.component";
+import {LessonViewComponent} from "./lesson-view/lesson-view.component";
+import {SignUpComponent} from "./sign-up/sign-up.component";
 
 const routes: Routes = [
-  {path : '', redirectTo : '/login', pathMatch: 'full'},
+  {path : '', redirectTo : '/home', pathMatch: 'full'},
   {path : 'login', component : LoginComponent},
+  {path : 'home', component:HomeCarousselComponent},
+  {path : 'about', component : AboutComponent},
+  {path : 'soon', component : SoonComponent},
+  {path : 'sign-up', component : SignUpComponent},
   {path : 'explore-lesson', component:ExploreLessonComponent, canActivate: [authGuard]},
   {path : 'app', component:AppComponent, canActivate: [authGuard]},
   {path : 'footer', component: FooterComponent, canActivate: [authGuard]},
-  {path : 'home', component:HomeCarousselComponent, canActivate: [authGuard]},
   {path : 'header', component : NavbarComponent, canActivate: [authGuard]},
   {path : 'study-now', component : StudyNowComponent, canActivate: [authGuard]},
   {path : 'shared-decks', component : SharedDecksComponent, canActivate: [authGuard]},
@@ -34,12 +39,11 @@ const routes: Routes = [
   {path : 'achievements', component : AchievementsComponent, canActivate: [authGuard]},
   {path : 'glossary', component : GlossaryComponent, canActivate: [authGuard]},
   {path : 'documentation', component : DocumentationComponent, canActivate: [authGuard]},
-  {path : 'about', component : AboutComponent, canActivate: [authGuard]},
   {path : 'settings', component : SettingsComponent, canActivate: [authGuard]},
-  {path : 'soon', component : SoonComponent, canActivate: [authGuard]},
   {path : 'change-password', component : ChangePasswordComponent, canActivate: [authGuard]},
   {path : 'new-card', component : NewCardComponent, canActivate: [authGuard]},
   {path : 'new-package', component : NewPackageComponent, canActivate: [authGuard]},
+  {path : 'lesson-view', component : LessonViewComponent, canActivate: [authGuard]},
 ];
 
 @NgModule({

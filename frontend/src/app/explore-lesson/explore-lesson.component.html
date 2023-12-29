@@ -2,10 +2,19 @@
   <ul class="list-group-item">
     <li *ngFor="let package of userLearningPackages" class="list-group-item mb-3">
       <div class="card">
+        <!-- Progress bar added here -->
+        <div class="progress" style="height: 10px;">
+          <div class="progress-bar bg-dark" role="progressbar" [style.width.%]="package.progress" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
         <div class="card-body">
           <h5 class="card-title">{{ package.title }}</h5>
           <p class="card-text">{{ package.description }}</p>
-          <button class="btn btn-primary bg-dark border border-dark" (click)="startPackage(package.packageId)">Study Now</button>
+          <!-- Button and progress in the same row -->
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-primary bg-dark border border-dark" (click)="startPackage(package.packageId)">Study Now</button>
+            <small class="text-muted">Progress: {{ package.progress }}%</small>
+          </div>
         </div>
       </div>
     </li>
