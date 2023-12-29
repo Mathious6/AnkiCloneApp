@@ -85,6 +85,14 @@ export class HttpFacadeService {
   getAllUsers(): Observable<user[]> {
     return this.httpClient.get<user[]>(`api/user`);
   }
+  createUser(username: string, mail: string, password: string): Observable<user> {
+    return this.httpClient.post<user>(`api/user`,{
+      mail: mail,
+      pseudo: username,
+      password: password,
+      profilePicture: 'https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg',
+    });
+  }
 
   getAllLearningFactByPackageId(packageId: number): Observable<LearningFact[]> {
     return this.httpClient.get<LearningFact[]>(`api/package/${packageId}/fact`);

@@ -20,11 +20,15 @@ import {ChangePasswordComponent} from "./change-password/change-password.compone
 import {NewCardComponent} from "./new-card/new-card.component";
 import {NewPackageComponent} from "./new-package/new-package.component";
 import {LessonViewComponent} from "./lesson-view/lesson-view.component";
+import {SignUpComponent} from "./sign-up/sign-up.component";
 
 const routes: Routes = [
   {path : '', redirectTo : '/home', pathMatch: 'full'},
   {path : 'login', component : LoginComponent},
   {path : 'home', component:HomeCarousselComponent},
+  {path : 'about', component : AboutComponent},
+  {path : 'soon', component : SoonComponent},
+  {path : 'sign-up', component : SignUpComponent},
   {path : 'explore-lesson', component:ExploreLessonComponent, canActivate: [authGuard]},
   {path : 'app', component:AppComponent, canActivate: [authGuard]},
   {path : 'footer', component: FooterComponent, canActivate: [authGuard]},
@@ -35,9 +39,7 @@ const routes: Routes = [
   {path : 'achievements', component : AchievementsComponent, canActivate: [authGuard]},
   {path : 'glossary', component : GlossaryComponent, canActivate: [authGuard]},
   {path : 'documentation', component : DocumentationComponent, canActivate: [authGuard]},
-  {path : 'about', component : AboutComponent},
   {path : 'settings', component : SettingsComponent, canActivate: [authGuard]},
-  {path : 'soon', component : SoonComponent},
   {path : 'change-password', component : ChangePasswordComponent, canActivate: [authGuard]},
   {path : 'new-card', component : NewCardComponent, canActivate: [authGuard]},
   {path : 'new-package', component : NewPackageComponent, canActivate: [authGuard]},

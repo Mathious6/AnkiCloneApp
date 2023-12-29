@@ -30,6 +30,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { LessonViewComponent } from './lesson-view/lesson-view.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HighchartsChartModule} from "highcharts-angular";
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {HighchartsChartModule} from "highcharts-angular";
     SettingsComponent,
     AboutComponent,
     ChangePasswordComponent,
-    LessonViewComponent
+    LessonViewComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
