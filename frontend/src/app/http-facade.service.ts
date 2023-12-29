@@ -50,6 +50,26 @@ export interface user {
   isActive: boolean;
 }
 
+export interface UserLearningPackage {
+  userLearningPackageId: number;
+  startDate: Date;
+  expectedEndDate: Date;
+  minutesPerDayObjective: number;
+  progress: number;
+  userId: number;
+  learningPackageId: number;
+}
+
+export interface UserLearningFact {
+  userLearningFactId: number;
+  reviewCount: number;
+  confidenceLevel: string;
+  lastReviewed: Date;
+  nextReviewDate: Date;
+  factId: number;
+  userId: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -107,4 +127,11 @@ export class HttpFacadeService {
     return this.httpClient.get<any>(`api/package/${packageId}/user/${userId}/overview`)
   }
 
+  getUserLearningPackage(userId: string, factId: number): Observable<UserLearningFact> {
+    return this.httpClient.get<UserLearningFact>(`api/fact/${factId}/user/${userId}`)
+  }
+
+  reviewUserLearningFact(userId: string, factId: number, confidenceLevel: number): Observable<UserLearningFact> {
+    return this.httpClient.put<UserLearningFact>(`api/fact/${factId}/review/${userId}`, {confidenceLevel: confidenceLevel})
+  }
 }
