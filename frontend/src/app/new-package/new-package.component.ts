@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpFacadeService} from "../http-facade.service";
+import {Router} from "@angular/router";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-new-package',
@@ -10,24 +12,21 @@ import {HttpFacadeService} from "../http-facade.service";
 
 
 export class NewPackageComponent {
-  session: any;
+
   lessonForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private httpservice : HttpFacadeService) {
-    let session: any = localStorage.getItem('session');
-    if (session){
-      session = JSON.parse(session);
-    }
-    this.session = session;
+  constructor(private formBuilder: FormBuilder, private httpservice : HttpFacadeService, private router: Router, private authService : AuthService) {
     this.lessonForm = formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       category: ['', Validators.required],
-      tags: ['', Validators.required],
+      targetAudience: ['', Validators.required],
       duration:['', [Validators.required, Validators.min(0)]]
     });
-  }
+    }
+
+
+
   onCreate() {
-    const id = this.session.id()
     // @ts-ignore
     const title = this.lessonForm.get('title').value
     // @ts-ignore
@@ -39,7 +38,13 @@ export class NewPackageComponent {
     // @ts-ignore
     const duration = this.lessonForm.get('duration').value
 
-    this.httpservice.postNewLearningPackage(title,description,category,targetAudience,duration,id)
+    this.httpservice.postNewLearningPackage(title,description,category,targetAudience,duration,this.authService.session.userId).subscribe({
+      next: (value) => {
+        this.lessonForm.reset();
+      },
+      error: (error) => { console.error(title,description,category,targetAudience,duration,this.authService.session.userId, 'error :', error)},
+      complete: () => {}
+    });
   }
 
 }

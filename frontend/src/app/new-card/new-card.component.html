@@ -48,8 +48,8 @@
 <form  [formGroup]="lessonForm">
   <div class="container mt-5 mb-5">
     <div class="form-group">
-      <label for="dropdownMenu">choose a learning package:</label>
-      <select class="form-control" id="dropdownMenu" name="dropdownMenu" [(ngModel)]="selectedPackage">>
+      <label for="dropdownMenu" [class]="lessonForm.get('selectedPackage')?.invalid ? 'text-danger' : ''">choose a learning package:</label>
+      <select class="form-control" id="dropdownMenu" name="dropdownMenu" formControlName="selectedPackage">>
         <option *ngFor="let package of lp" [value]="package.title">{{ package.title }}</option>
       </select>
     </div>
@@ -66,12 +66,12 @@
 
     <div class="form-group">
       <label for="url">URL (optional)</label>
-      <input type="url" class="form-control" id="url" name="url" placeholder="Saisissez l'URL" formControlName="url">
+      <input type="url" class="form-control" id="url" name="url" placeholder="enter the link to a resource" formControlName="url">
     </div>
 
-    <div class="form-group mb-5">
+    <div class="form-group">
       <label for="source" [class]="lessonForm.get('source')?.invalid ? 'text-danger' : ''">source :</label>
-      <textarea class="form-control" id="source" name="source" rows="1" formControlName="source"></textarea>
+      <input type="url" class="form-control" id="source" name="source" formControlName="source" placeholder="indicate the source">
     </div>
 
 

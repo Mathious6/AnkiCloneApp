@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpFacadeService, LearningFact, LearningPackage} from "../http-facade.service";
 import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
+
+
 @Component({
   selector: 'app-new-card',
   templateUrl: './new-card.component.html',
@@ -9,34 +12,38 @@ import {AuthService} from "../auth.service";
 })
 
 
-export class NewCardComponent {
+export class NewCardComponent implements OnInit{
 
-  public lp : LearningPackage[] = [];
-  selectedPackage: string = '';
+  lp : LearningPackage[] = [];
+  public lessonForm: FormGroup;
 
-  lessonForm: FormGroup;
-  session: any;
 
-  constructor(private formBuilder: FormBuilder, private httpservice : HttpFacadeService) {
-    let session: any = localStorage.getItem('session');
-    if (session){
-      session = JSON.parse(session);
-    }
-    this.session = session;
-
+  constructor(private formBuilder: FormBuilder, private httpFacadeService : HttpFacadeService, private router: Router, private authService : AuthService) {
     this.lessonForm = formBuilder.group({
+      selectedPackage: ['',Validators.required],
       recto: ['', Validators.required],
       verso: ['', Validators.required],
       image: [''],
       url: [''],
-      source: ['']
+      source: ['', Validators.required]
     });
   }
+
+    ngOnInit(){
+      this.httpFacadeService.getAllUserLearningPackage(this.authService.session.userId).subscribe({
+        next: learningPackages =>{
+          this.lp = learningPackages
+        } ,
+      });
+    }
+
+
+
 
   PackageId(): number {
     var id = 0;
     for (let p of this.lp) {
-      if (this.selectedPackage === p.title) {
+      if (this.lessonForm.get('selectedPackage')?.value === p.title) {
         id = p.packageId;
       }
     }
@@ -45,23 +52,25 @@ export class NewCardComponent {
 
 
   onCreate() {
-    const id = this.session.id()
-
     // @ts-ignore
-    const front = this.lessonForm.get('front').value;
+    const front = this.lessonForm.get('recto')?.value;
     // @ts-ignore
-    const image = this.lessonForm.get('image').value;
+    const image = this.lessonForm.get('image')?.value;
     // @ts-ignore
-    const url = this.lessonForm.get('url').value;
+    const url = this.lessonForm.get('url')?.value;
     // @ts-ignore
-    const back = this.lessonForm.get('back').value;
+    const back = this.lessonForm.get('verso')?.value;
     // @ts-ignore
-    const source = this.lessonForm.get('source').value;
-
+    const source = this.lessonForm.get('source')?.value;
     if (this.lessonForm.valid) {
-      this.httpservice.postNewLearningFact(front, back, source,
-        image, url,this.PackageId(), id)  //packageId,
-
+      this.httpFacadeService.postNewLearningFact(front, back, source,
+        image, url,this.PackageId(), this.authService.session.userId).subscribe({
+        next: (value) => {
+          this.lessonForm.reset();
+        },
+        error: (error) => {},
+        complete: () => {}
+      });
     } else {
       console.log('Form is invalid. Please check the required fields.');
     }

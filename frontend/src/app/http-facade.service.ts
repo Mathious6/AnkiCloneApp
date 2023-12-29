@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable, switchMap} from "rxjs";
 import {AuthService} from "./auth.service";
 export interface LearningFact {
@@ -95,20 +95,24 @@ export class HttpFacadeService {
   }
 
   getSearchPackage(title: string, description : string, category : string): Observable<LearningPackage[]> {
-    const search = [title,description,category];
-    return this.httpClient.get<LearningPackage[]>('api/package/search/${search}')
+    //const search = {title,description,category};
+    const params = new HttpParams()
+      .set('title', title)
+      .set('description', description)
+      .set('category', category);
+    return this.httpClient.get<LearningPackage[]>(`api/package/search`,{params})
   }
 
-  postNewLearningFact(front: string, back : string,source : string,
-                      relatedImage : string, relatedLink : string, packageId : number, creatorId : number ): Observable<LearningFact>{
-    const values = [front, back, source, relatedImage, relatedLink, creatorId];
+  postNewLearningFact(front: string, back : string,source : string, relatedImage : string,
+                      relatedLink : string, packageId : number, creatorId : number ): Observable<LearningFact>{
+    const values = {front, back, source, relatedImage, relatedLink, creatorId};
     return this.httpClient.post<LearningFact>(`api/package/${packageId}/fact`, values)
   }
 
   postNewLearningPackage(title: string, description : string, category : string,
                          targetAudience : string, duration : number, creatorId : number)
   {
-    const values = [title, description, category, targetAudience, duration, creatorId];
+    const values = {title, description, category, targetAudience, duration, creatorId};
     return this.httpClient.post<LearningPackage>(`api/package`, values)
   }
 
