@@ -173,13 +173,13 @@ router.get('/fact/:id/user/:userId', handlers_errors_userLearningFact, async (re
     }
 });
 
-function getDaysToAdd(confidenceLevel: String) {
+function getDaysToAdd(confidenceLevel: number) {
     switch (confidenceLevel) {
-        case '1':
+        case 3:
             return 3;
-        case '2':
+        case 2:
             return 7;
-        case '3':
+        case 1:
             return 15;
         default:
             return 15;

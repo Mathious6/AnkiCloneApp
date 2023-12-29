@@ -29,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { LessonViewComponent } from './lesson-view/lesson-view.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HighchartsChartModule} from "highcharts-angular";
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     HttpClientModule,
     RouterModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

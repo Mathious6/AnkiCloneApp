@@ -144,7 +144,7 @@ router.get('/statistics/user/:userId', async (req: Request, res: Response) => {
     const today = new Date();
     const nextDays = {};
 
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 17; i++) {
         const dayToCheck = new Date(today);
         dayToCheck.setDate(today.getDate() + i);
 

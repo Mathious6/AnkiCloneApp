@@ -134,4 +134,8 @@ export class HttpFacadeService {
   reviewUserLearningFact(userId: string, factId: number, confidenceLevel: number): Observable<UserLearningFact> {
     return this.httpClient.put<UserLearningFact>(`api/fact/${factId}/review/${userId}`, {confidenceLevel: confidenceLevel})
   }
+
+  getUserStatistics(userId: string): Observable<any> {
+    return this.httpClient.get<any>(`api/statistics/user/${userId}`);
+  }
 }
