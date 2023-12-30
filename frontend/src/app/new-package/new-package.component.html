@@ -61,7 +61,7 @@
           <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
           <div class="col-md-6 d-flex align-items-center">
-            <button type="button" class="btn btn-primary bg-dark border border-dark" (click)="onCreateTag()" [disabled]="!tagForm.valid" >add tag</button>
+            <button type="button" class="btn btn-dark" (click)="onCreateTag()" [disabled]="!tagForm.valid" >add tag</button>
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
   </div>
 
   <div class="container mt-3">
-    <button type="button" class="btn btn-primary bg-dark border border-dark" (click)="onCreate()" [disabled]="!lessonForm.valid" >create</button>
+    <button type="button" class="btn btn-dark" (click)="onCreate()" [disabled]="!lessonForm.valid" >create</button>
     <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger"> Please fill out all required fields.</span>
   </div>
 </form>

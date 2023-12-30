@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <div class="text-center">
-    <button class="btn btn-primary bg-dark border border-dark my-2 discover-button" (click)="startLesson()">Discover News Lesson</button>
+    <button class="btn btn-dark my-2 discover-button" (click)="startLesson()">Discover News Lesson</button>
     <h1 class="my-4">My Lessons</h1>
     <input type="text" class="form-control mb-2" id="searchInput" [(ngModel)]="searchTerm" (input)="handleSearchInput()" placeholder="Enter search term">
   </div>
@@ -13,9 +13,9 @@
           <p *ngFor="let tag of learningPackage.tags" class="badge bg-secondary mt-2" style="margin-right: 6px">{{ tag.englishKeyword }}</p>
           <div class="d-flex justify-content-between mt-2">
             <div class="d-flex">
-              <button class="btn btn-primary bg-dark border border-dark" (click)="startPackage(learningPackage.packageId, learningPackage.title)">Study Now</button>
+              <button class="btn btn-dark" (click)="startPackage(learningPackage.packageId, learningPackage.title)">Study Now</button>
               <button class="btn btn-warning text-white mx-2" (click)="resetProgress(learningPackage.packageId, learningPackage.title)">Reset Progress</button>
-              <button class="btn btn-danger" (click)="deletePackage(learningPackage.packageId, learningPackage.title)">Stop Lesson</button>
+              <button class="btn btn-danger" (click)="deletePackage(learningPackage.packageId, learningPackage.title)">Delete Lesson</button>
             </div>
             <small class="text-muted">Progress: {{ learningPackage.progress }}%</small>
           </div>

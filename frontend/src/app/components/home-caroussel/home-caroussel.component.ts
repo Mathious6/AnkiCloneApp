@@ -8,11 +8,8 @@ import {AuthService} from "../../auth.service";
 })
 export class HomeCarousselComponent implements OnInit{
   isLoggedIn: boolean = this.authService.session !== null;
-
   constructor(private authService: AuthService) {}
-
   ngOnInit() {
     this.isLoggedIn = this.authService.session !== null;
   }
-
 }

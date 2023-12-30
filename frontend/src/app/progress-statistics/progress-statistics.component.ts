@@ -72,6 +72,9 @@ export class ProgressStatisticsComponent implements OnInit {
         align: 'right',
         verticalAlign: 'middle'
       },
+      accessibility: {
+        enabled: false,
+      }
     };
   }
 

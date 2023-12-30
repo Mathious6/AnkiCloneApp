@@ -75,7 +75,7 @@
       <textarea class="form-control mb-3" id="verso" name="verso" rows="4" formControlName="verso"></textarea>
     </div>
 
-    <button type="button" class="btn btn-primary bg-dark border border-dark" (click)="onCreate()" [disabled]="!lessonForm.valid">create</button>
+    <button type="button" class="btn btn-dark" (click)="onCreate()" [disabled]="!lessonForm.valid">create</button>
     <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger"> Please fill out all required fields.</span>
   </div>
 </form>

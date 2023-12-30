@@ -9,21 +9,17 @@ import { SharedService } from "../shared.service";
     styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent {
-    form: FormGroup = this.fb.group({
+    form: FormGroup = this.formBuilder.group({
         currentPassword: ['', Validators.required],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
     });
-
     errorMessage: string = '';
     successMessage: string = '';
-
-    constructor(private fb: FormBuilder, private authService: AuthService, private sharedService: SharedService) {}
-
+    constructor(private formBuilder: FormBuilder, private authService: AuthService, private sharedService: SharedService) {}
     changePassword() {
         const { currentPassword, newPassword, confirmPassword } = this.form.value;
         const currentUser = this.authService.session;
-
         if (currentUser.password !== currentPassword) {
             this.showErrorMessage('Current password didn\'t match your password.');
             return;

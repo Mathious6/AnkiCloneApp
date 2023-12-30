@@ -1,9 +1,5 @@
-<!-- src/app/glossary/glossary.component.html -->
-
 <div class="container mt-4">
   <h2 class="mb-4 text-center">Glossary</h2>
-
-  <!-- Alphabetical Navigation Bar -->
   <div class="d-flex justify-content-center mb-4">
     <ng-container *ngFor="let letter of alphabet">
       <a (click)="selectLetter(letter)" [class.active]="selectedLetter === letter" [class.text-muted]="selectedLetter === letter" [class.text-dark]="selectedLetter !== letter" class="btn btn-link">
@@ -14,7 +10,6 @@
     All
     </a>
   </div>
-  <!-- Checkbox Filters -->
   <div class="mb-4">
     <label class="form-check-inline mr-2">Filter by Type:</label>
     <ng-container *ngFor="let type of types">
@@ -24,18 +19,13 @@
       </div>
     </ng-container>
   </div>
-
-  <!-- Glossary Terms -->
-  <div *ngFor="let term of getFilteredTerms(); let last = last; let i = index" class="glossary-term mb-4">
-    <!-- Only show terms that match the selected letter and type -->
+  <div *ngFor="let term of getFilteredTerms(); let i = index" class="glossary-term mb-4">
     <ng-container *ngIf="!selectedLetter || term.term.startsWith(selectedLetter)">
-      <!-- Add separator if not the first term or the first letter is different from the previous term -->
       <ng-container *ngIf="i === 0 || term.term.charAt(0) !== getFilteredTerms()[i - 1].term.charAt(0)">
         <h3 class="separator">
           {{ term.term.charAt(0) }}
         </h3>
       </ng-container>
-
       <dt>{{ term.term }}</dt>
       <dd>{{ term.definition }}</dd>
     </ng-container>

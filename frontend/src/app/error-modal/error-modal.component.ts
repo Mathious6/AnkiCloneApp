@@ -9,7 +9,6 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 export class ErrorModalComponent {
   modal = inject(NgbActiveModal);
   errorMessage: string = '';
-
   setErrorMessage(errorMessage: string): void {
     this.errorMessage = errorMessage;
   }

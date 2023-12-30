@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {HttpFacadeService} from "../http-facade.service";
+import {of, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-lesson-modal',
@@ -16,6 +17,7 @@ export class LessonModalComponent {
 
   constructor(private httpFacadeService: HttpFacadeService) {
   }
+
   setUserId(userId: number): void {
     this.userId = userId;
   }
@@ -34,26 +36,23 @@ export class LessonModalComponent {
 
   doPackageAction() {
     if (this.action === 'reset the progress of') {
-      this.httpFacadeService.resetUserLearningPackage(this.userId, this.packageId).subscribe({
+      this.httpFacadeService.resetUserLearningPackage(this.userId, this.packageId).pipe(
+        switchMap(() => {
+          this.modal.close('Ok click');
+          window.location.reload();
+          return of();
+        })
+      ).subscribe();
+    } else if (this.action === 'delete') {
+      this.httpFacadeService.resetUserLearningPackage(this.userId, this.packageId).pipe(
+        switchMap(() => this.httpFacadeService.deleteUserLearningPackage(this.userId, this.packageId))
+      ).subscribe({
         next: () => {
           this.modal.close('Ok click');
           window.location.reload();
         }
       });
-      }
-    else if (this.action === 'delete') {
-      this.httpFacadeService.resetUserLearningPackage(this.userId, this.packageId).subscribe({
-        next: () => {
-          this.httpFacadeService.deleteUserLearningPackage(this.userId, this.packageId).subscribe({
-            next: () => {
-              this.modal.close('Ok click');
-              window.location.reload();
-            }
-          });
-        }
-      });
-    }
-    else{
+    } else {
       this.modal.close('Ok click');
     }
   }
