@@ -36,8 +36,10 @@ export class SignUpComponent {
               next: createdUser => {
                 this.authService.login(this.form.value.username, this.form.value.password)
                   .subscribe(() => {
-                      this.sharedService.notifyLoginStatusChanged(true);
-                      this.router.navigateByUrl('/home');
+                    this.router.navigate(['/home'])
+                      .then(() => {
+                        window.location.reload();
+                      });
                   });
               },
             });

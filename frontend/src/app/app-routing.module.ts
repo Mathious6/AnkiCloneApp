@@ -21,6 +21,7 @@ import {NewCardComponent} from "./new-card/new-card.component";
 import {NewPackageComponent} from "./new-package/new-package.component";
 import {LessonViewComponent} from "./lesson-view/lesson-view.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
+import {PricingComponent} from "./pricing/pricing.component";
 
 const routes: Routes = [
   {path : '', redirectTo : '/home', pathMatch: 'full'},
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path : 'about', component : AboutComponent},
   {path : 'soon', component : SoonComponent},
   {path : 'sign-up', component : SignUpComponent},
+  {path : 'pricing', component : PricingComponent},
   {path : 'explore-lesson', component:ExploreLessonComponent, canActivate: [authGuard]},
   {path : 'app', component:AppComponent, canActivate: [authGuard]},
   {path : 'footer', component: FooterComponent, canActivate: [authGuard]},

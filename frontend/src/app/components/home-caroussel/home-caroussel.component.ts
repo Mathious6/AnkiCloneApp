@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../auth.service";
-import {SharedService} from "../../shared.service";
 
 @Component({
   selector: 'app-home-caroussel',
@@ -8,14 +7,12 @@ import {SharedService} from "../../shared.service";
   styleUrls: ['./home-caroussel.component.css']
 })
 export class HomeCarousselComponent implements OnInit{
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean = this.authService.session !== null;
 
-  constructor(private sharedService: SharedService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.sharedService.loginStatus$.subscribe((loginSuccess) => {
-      this.isLoggedIn = !loginSuccess;
-    });
+    this.isLoggedIn = this.authService.session !== null;
   }
 
 }

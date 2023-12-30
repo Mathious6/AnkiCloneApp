@@ -1,34 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { AuthService } from "../../auth.service";
-import {Router} from "@angular/router";
-import {SharedService} from "../../shared.service";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit  {
   userPicture: string = '';
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = this.authService.session !== null;
 
-  constructor(private authService: AuthService, private sharedService : SharedService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
-    // Set the userPicture after component initialization
+    this.isLoggedIn = this.authService.session !== null;
     this.userPicture = this.authService.session?.profilePicture || 'assets/images/default_user_image.png';
-    this.sharedService.loginStatus$.subscribe((loginSuccess) => {
-      if (loginSuccess) {
-        this.isLoggedIn = true;
-        this.ngOnInit();
-      }
-    });
   }
 
   logout() {
     this.isLoggedIn = false;
     this.authService.logout();
-    this.sharedService.notifyLoginStatusChanged(false);
+    window.location.reload();
   }
 }
