@@ -21,6 +21,7 @@ import {NewPackageComponent} from "./new-package/new-package.component";
 import {LessonViewComponent} from "./lesson-view/lesson-view.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
 import {PricingComponent} from "./pricing/pricing.component";
+import {NotfoundComponent} from "./notfound/notfound.component";
 
 const routes: Routes = [
   {path : '', redirectTo : '/home', pathMatch: 'full'},
@@ -44,6 +45,8 @@ const routes: Routes = [
   {path : 'new-card', component : NewCardComponent, canActivate: [authGuard]},
   {path : 'new-package', component : NewPackageComponent, canActivate: [authGuard]},
   {path : 'lesson-view', component : LessonViewComponent, canActivate: [authGuard]},
+  {path: '404', component: NotfoundComponent},
+  {path: '**', redirectTo: '/404'},
 ];
 
 @NgModule({

@@ -31,6 +31,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HighchartsChartModule} from "highcharts-angular";
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { PricingComponent } from './pricing/pricing.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { PricingComponent } from './pricing/pricing.component';
     ChangePasswordComponent,
     LessonViewComponent,
     SignUpComponent,
-    PricingComponent
+    PricingComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
