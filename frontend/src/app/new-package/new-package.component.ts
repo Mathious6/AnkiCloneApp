@@ -83,7 +83,7 @@ export class NewPackageComponent implements OnInit {
   onCreateTag() : void{
     if(!this.tagExist(this.tagForm.get('newTag')?.value))
     {
-      this.httpservice.postTags(this.tagForm.get('newTag')?.value,this.tagForm.get('newTag')?.value).subscribe({
+      this.httpservice.postTag(this.tagForm.get('newTag')?.value,this.tagForm.get('newTag')?.value).subscribe({
         next: (value) => {
           this.tagForm.reset();
           this.httpservice.getTags().subscribe((data) => {this.tagsTab=data;})

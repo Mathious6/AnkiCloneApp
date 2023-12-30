@@ -152,4 +152,34 @@ export class HttpFacadeService {
   deleteUserLearningPackage(userId: number, packageId: number): Observable<any> {
     return this.httpClient.delete<any>(`api/package/${packageId}/stop/${userId}`);
   }
+
+  postNewLearningFact(front: string, back: string, source: string, image: string, url: string, packageId: number, userId: number): Observable<LearningFact> {
+    const body = { front, back, source, relatedImage: image, relatedLink: url, creatorId: userId };
+
+    return this.httpClient.post<LearningFact>(`api/package/${packageId}/fact`, body);
+  }
+
+  getPackageCreatorId(creatorId : number) : Observable<LearningPackage[]>
+  {
+    return this.httpClient.get<LearningPackage[]>(`api/package/creator/${creatorId}`)
+  }
+
+  postNewLearningPackage(title : string, description : string,category : string,targetAudience : string,duration : number, creatorId : number):Observable<LearningPackage>{
+    const body = {title, description,category,targetAudience,duration,creatorId};
+    return  this.httpClient.post<LearningPackage>(`api/package`, body);
+  }
+
+  getTags():Observable<tag[]>{
+    return  this.httpClient.get<tag[]>(`api/tag`);
+  }
+
+  postPackageTag(packageId : number,tagId : number, englishKeyword : string, frenchTranslation : string):Observable<tag>{
+    const body = {tagId, englishKeyword, frenchTranslation};
+    return  this.httpClient.post<tag>(`api/package/${packageId}/tag`, body)
+  }
+
+  postTag(englishKeyword : string, frenchTranslation : string): Observable<tag>{
+    const body = {englishKeyword, frenchTranslation};
+    return this.httpClient.post<tag>(`api/tag`, body);
+  }
 }
