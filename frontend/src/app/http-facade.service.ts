@@ -182,4 +182,8 @@ export class HttpFacadeService {
     const body = {englishKeyword, frenchTranslation};
     return this.httpClient.post<tag>(`api/tag`, body);
   }
+
+  startUserLearningPackage(userId: number, packageId: number): Observable<any> {
+    return this.httpClient.post<any>(`api/package/${packageId}/start/${userId}`, {});
+  }
 }

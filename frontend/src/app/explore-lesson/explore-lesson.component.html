@@ -1,15 +1,13 @@
-<div class="container mt-4 justify-content-center align-items-center">
-  <div>
-    <button class="btn btn-primary bg-dark border border-dark text-center" (click)="startLesson()">Discover News Lesson</button>
-    <h1 class="text-center mb-4">My Lessons</h1>
+<div class="container mt-4">
+  <div class="text-center">
+    <button class="btn btn-primary bg-dark border border-dark my-2" (click)="startLesson()">Discover News Lesson</button>
+    <h1 class="my-4">My Lessons</h1>
+    <input type="text" class="form-control mb-2" id="searchInput" [(ngModel)]="searchTerm" (input)="handleSearchInput()" placeholder="Enter search term">
   </div>
   <ul class="list-group-item">
-    <li *ngFor="let package of userLearningPackages" class="list-group-item mb-3">
+    <li *ngFor="let package of filteredLearningPackage" class="list-group-item mb-3">
       <div class="card">
-        <!-- Progress bar added here -->
-        <div class="progress" style="height: 10px;">
-          <div class="progress-bar bg-dark" role="progressbar" [style.width.%]="package.progress" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
+
 
         <div class="card-body">
           <h5 class="card-title">{{ package.title }}</h5>
@@ -26,6 +24,11 @@
             <!-- Progress percentage at the end -->
             <small class="text-muted">Progress: {{ package.progress }}%</small>
           </div>
+        </div>
+
+        <!-- Progress bar added here -->
+        <div class="progress rounded-top-0" style="height: 20px;">
+          <div class="progress-bar bg-dark progress-bar-striped progress-bar-animated " role="progressbar" [style.width.%]="package.progress" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
       </div>
     </li>
