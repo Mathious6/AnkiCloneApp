@@ -35,9 +35,12 @@ export class SharedDecksComponent implements OnInit{
   getSearchPackage(): void {
       const title = this.searchForm.get('title')?.value;
       const tag = this.searchForm.get('tag')?.value;
+      const params = new URLSearchParams();
+      params.set('title', title);
+      params.set('tag', tag);
+      const queryString = `title=${title}&tag=${tag}`;
       if (title !== null && tag !== null) {
-          console.error(title,tag);
-          this.httpFacadeService.getSearchPackage(title, tag).subscribe((data: LearningPackage[]) => {
+          this.httpFacadeService.getSearchPackage(queryString).subscribe((data: LearningPackage[]) => {
               this.lp = data;
           });
       } else {
