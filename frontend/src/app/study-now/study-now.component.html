@@ -13,7 +13,7 @@
     <div *ngFor="let fact of userFacts" class="col-lg-3 mb-4">
       <div class="card h-100 shadow text-center align-items-center" style="width: 100%;">
         <div class="card-body" style="width: 100%">
-          <img class="card-img-top rounded-circle mb-3" [src]="fact.relatedImage" alt="userFact">
+          <img class="card-img-top rounded-circle mb-3" [src]="fact.relatedImage || 'assets/images/question_mark.png'" alt="userFact">
           <h5 class="card-title mb-3">{{ fact.front }}</h5>
           <p class="card-text mb-3">
             <strong>Last Review</strong> <br>

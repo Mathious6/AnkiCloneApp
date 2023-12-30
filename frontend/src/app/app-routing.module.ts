@@ -12,7 +12,7 @@ import {GlossaryComponent} from "./glossary/glossary.component";
 import {DocumentationComponent} from "./documentation/documentation.component";
 import {AboutComponent} from "./about/about.component";
 import {SettingsComponent} from "./settings/settings.component";
-import {authGuard} from "./auth.guard";
+import {authGuard, connectAuthGuard} from "./auth.guard";
 import {LoginComponent} from "./login/login.component";
 import {SoonComponent} from "./soon/soon.component";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
@@ -24,11 +24,11 @@ import {PricingComponent} from "./pricing/pricing.component";
 
 const routes: Routes = [
   {path : '', redirectTo : '/home', pathMatch: 'full'},
-  {path : 'login', component : LoginComponent},
+  {path : 'login', component : LoginComponent, canActivate: [connectAuthGuard]},
   {path : 'home', component:HomeCarousselComponent},
   {path : 'about', component : AboutComponent},
   {path : 'soon', component : SoonComponent},
-  {path : 'sign-up', component : SignUpComponent},
+  {path : 'sign-up', component : SignUpComponent, canActivate: [connectAuthGuard]},
   {path : 'pricing', component : PricingComponent},
   {path : 'explore-lesson', component:ExploreLessonComponent, canActivate: [authGuard]},
   {path : 'app', component:AppComponent, canActivate: [authGuard]},
