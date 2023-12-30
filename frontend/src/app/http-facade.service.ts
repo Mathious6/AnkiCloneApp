@@ -186,4 +186,8 @@ export class HttpFacadeService {
   startUserLearningPackage(userId: number, packageId: number): Observable<any> {
     return this.httpClient.post<any>(`api/package/${packageId}/start/${userId}`, {});
   }
+
+  getPackageTag(packageId : number): Observable<tag[]>{
+    return this.httpClient.get<tag[]>(`api/package/${packageId}/tag`);
+  }
 }
