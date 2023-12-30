@@ -5,6 +5,7 @@ import LearningFact from "./models/learningFact.model";
 import Tag from "./models/tag.model";
 import UserLearningPackage from "./models/userLearningPackage.model";
 import UserLearningFact from "./models/userLearningFact.model";
+import LearningPackageTag from "./models/learningPackageTag.model";
 
 const users = [
     {
@@ -435,6 +436,27 @@ const userLearningPackages = [
         learningPackageId: 1
     }
 ];
+const learningPackageTags = [
+    {packageId: 1, tagId: 1}, // HTML
+    {packageId: 1, tagId: 4}, // Web Development
+    {packageId: 1, tagId: 9}, // Coding
+
+    {packageId: 2, tagId: 2}, // CSS
+    {packageId: 2, tagId: 4}, // Web Development
+    {packageId: 2, tagId: 9}, // Coding
+
+    {packageId: 3, tagId: 3}, // JavaScript
+    {packageId: 3, tagId: 4}, // Web Development
+    {packageId: 3, tagId: 7}, // Programming
+
+    {packageId: 4, tagId: 5}, // Responsive Design
+    {packageId: 4, tagId: 4}, // Web Development
+    {packageId: 4, tagId: 8}, // Web Design
+
+    {packageId: 5, tagId: 6}, // Front-End
+    {packageId: 5, tagId: 4}, // Web Development
+    {packageId: 5, tagId: 10} // Web Technologies
+];
 
 function addDays(date: Date, days: number): Date {
     const result = new Date(date);
@@ -539,6 +561,15 @@ const seedUserLearningFacts = async (): Promise<void> => {
     }
 }
 
+const seedLearningPackageTags = async (): Promise<void> => {
+    for (const learningPackageTag of learningPackageTags) {
+        await LearningPackageTag.findOrCreate({
+            where: {packageId: learningPackageTag.packageId, tagId: learningPackageTag.tagId},
+            defaults: learningPackageTag
+        })
+    }
+}
+
 export const seedDatabase = async (sequelize: Sequelize): Promise<void> => {
     try {
         console.log('Seeding the database...');
@@ -552,6 +583,7 @@ export const seedDatabase = async (sequelize: Sequelize): Promise<void> => {
 
         await seedUserLearningPackages();
         await seedUserLearningFacts();
+        await seedLearningPackageTags();
     } catch (error) {
         console.error('Error while seeding the database: ', error);
     }
