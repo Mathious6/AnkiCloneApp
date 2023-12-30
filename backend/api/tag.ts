@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import {body, check, validationResult} from "express-validator";
-import Tag from "../config/tag.model";
+import Tag from "../config/models/tag.model";
 
 const router: Router = Router();
 
@@ -17,7 +17,7 @@ const handler_errors = [
     check('frenchTranslation').if(body('frenchTranslation').exists({checkFalsy: true})).isLength({min: 3}),
 ]
 
-router.get('/tag', async (_req: Request, res) => {
+router.get('', async (_req: Request, res) => {
     try {
         const tags: Tag[] = await Tag.findAll();
         res.status(HTTP_OK).send(tags);
@@ -26,7 +26,7 @@ router.get('/tag', async (_req: Request, res) => {
     }
 });
 
-router.post('/tag', handler_errors, async (req: Request, res: Response) => {
+router.post('', handler_errors, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
@@ -47,7 +47,7 @@ router.post('/tag', handler_errors, async (req: Request, res: Response) => {
     }
 });
 
-router.put('/tag/:id', handler_errors, async (req: Request, res: Response) => {
+router.put('/:id', handler_errors, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
@@ -70,7 +70,7 @@ router.put('/tag/:id', handler_errors, async (req: Request, res: Response) => {
     }
 });
 
-router.delete('/tag/:id', async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
     try {
         const tagId: number = +req.params.id;
         const tagExists: Tag | null = await Tag.findByPk(tagId);

@@ -1,13 +1,13 @@
 import {Request, Response, Router} from 'express';
 import {body, check, validationResult} from "express-validator";
 import {Op} from "sequelize";
-import LearningPackage from '../config/learningPackage.model';
-import LearningFact from "../config/learningFact.model";
-import User from "../config/user.model";
-import LearningPackageTag from "../config/learningPackageTag.model";
-import Tag from "../config/tag.model";
-import UserLearningPackage from "../config/userLearningPackage.model";
-import UserLearningFact from "../config/userLearningFact.model";
+import LearningPackage from '../config/models/learningPackage.model';
+import LearningFact from "../config/models/learningFact.model";
+import User from "../config/models/user.model";
+import LearningPackageTag from "../config/models/learningPackageTag.model";
+import Tag from "../config/models/tag.model";
+import UserLearningPackage from "../config/models/userLearningPackage.model";
+import UserLearningFact from "../config/models/userLearningFact.model";
 
 const router = Router();
 
@@ -35,7 +35,7 @@ const handlers_errors_f = [
     check('relatedLink').if(body('relatedLink').exists({checkFalsy: true})).isURL(),
 ]
 
-router.get('/package', async (_req: Request, res: Response) => {
+router.get('', async (_req: Request, res: Response) => {
     try {
         const learningPackages: LearningPackage[] = await LearningPackage.findAll();
         res.status(HTTP_OK).send(learningPackages);
@@ -44,7 +44,7 @@ router.get('/package', async (_req: Request, res: Response) => {
     }
 });
 
-router.post('/package', handlers_errors_p, async (req: Request, res: Response) => {
+router.post('', handlers_errors_p, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
@@ -66,7 +66,7 @@ router.post('/package', handlers_errors_p, async (req: Request, res: Response) =
     }
 });
 
-router.get('/package/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
     try {
         const learningPackage: LearningPackage = await LearningPackage.findByPk(req.params.id);
         if (!learningPackage) {
@@ -78,7 +78,7 @@ router.get('/package/:id', async (req: Request, res: Response) => {
     }
 });
 
-router.put('/package/:id', handlers_errors_p, async (req: Request, res: Response) => {
+router.put('/:id', handlers_errors_p, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
@@ -99,7 +99,7 @@ router.put('/package/:id', handlers_errors_p, async (req: Request, res: Response
     }
 });
 
-router.get('/package/:id/fact', async (req: Request, res: Response) => {
+router.get('/:id/fact', async (req: Request, res: Response) => {
     try {
         const learningFacts: LearningFact[] = await LearningFact.findAll({where: {packageId: req.params.id}});
         res.status(HTTP_OK).send(learningFacts);
@@ -108,7 +108,7 @@ router.get('/package/:id/fact', async (req: Request, res: Response) => {
     }
 });
 
-router.post('/package/:id/fact', handlers_errors_f, async (req: Request, res: Response) => {
+router.post('/:id/fact', handlers_errors_f, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
@@ -136,7 +136,7 @@ router.post('/package/:id/fact', handlers_errors_f, async (req: Request, res: Re
     }
 });
 
-router.get('/package/:id/tag', async (req: Request, res: Response) => {
+router.get('/:id/tag', async (req: Request, res: Response) => {
     try {
         const packageTags: LearningPackageTag[] = await LearningPackageTag.findAll({
             where: {packageId: req.params.id}
@@ -151,7 +151,7 @@ router.get('/package/:id/tag', async (req: Request, res: Response) => {
     }
 });
 
-router.post('/package/:id/tag', async (req: Request, res: Response) => {
+router.post('/:id/tag', async (req: Request, res: Response) => {
     try {
         const packageId: number = +req.params.id;
         const packageExists: LearningPackage | null = await LearningPackage.findByPk(packageId);
@@ -183,7 +183,7 @@ router.post('/package/:id/tag', async (req: Request, res: Response) => {
     }
 });
 
-router.delete('/package/:id/tag/:tagId', async (req: Request, res: Response) => {
+router.delete('/:id/tag/:tagId', async (req: Request, res: Response) => {
     try {
         const packageId: number = +req.params.id;
         const packageExists: LearningPackage | null = await LearningPackage.findByPk(packageId);
@@ -204,7 +204,7 @@ router.delete('/package/:id/tag/:tagId', async (req: Request, res: Response) => 
     }
 });
 
-router.get('/package/summary', async (_req: Request, res: Response) => {
+router.get('/summary', async (_req: Request, res: Response) => {
     try {
         const learningPackagesSummaries: LearningPackage[] = await LearningPackage.findAll({attributes: ['packageId', 'title']});
         res.status(HTTP_OK).send(learningPackagesSummaries);
@@ -213,7 +213,7 @@ router.get('/package/summary', async (_req: Request, res: Response) => {
     }
 });
 
-router.get('/package/search', async (req: Request, res: Response) => {
+router.get('/search', async (req: Request, res: Response) => {
     const titleQuery = req.query.title?.toString().toLowerCase() || null;
     const descriptionQuery = req.query.description?.toString().toLowerCase() || null;
     const categoryQuery = req.query.category?.toString().toLowerCase() || null;
@@ -240,7 +240,7 @@ router.get('/package/search', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/package/user/:userId', async (req: Request, res: Response) => {
+router.get('/user/:userId', async (req: Request, res: Response) => {
     try {
         const userId = +req.params.userId;
         const userExists = await User.findByPk(userId);
@@ -291,7 +291,7 @@ router.get('/package/user/:userId', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/package/creator/:creatorId', async (req: Request, res: Response) => {
+router.get('/creator/:creatorId', async (req: Request, res: Response) => {
     try {
         const creatorId = +req.params.creatorId;
         const userExists = await User.findByPk(creatorId);
@@ -309,7 +309,7 @@ router.get('/package/creator/:creatorId', async (req: Request, res: Response) =>
     }
 });
 
-router.post('/package/:id/start/:userId', async (req: Request, res: Response) => {
+router.post('/:id/start/:userId', async (req: Request, res: Response) => {
     try {
         const packageId: number = +req.params.id;
         const packageExists: LearningPackage | null = await LearningPackage.findByPk(packageId);
@@ -342,7 +342,7 @@ router.post('/package/:id/start/:userId', async (req: Request, res: Response) =>
     }
 });
 
-router.put('/package/:id/reset/:userId', async (req: Request, res: Response) => {
+router.put('/:id/reset/:userId', async (req: Request, res: Response) => {
     try {
         const learningPackageId: number = +req.params.id;
         const userId: number = +req.params.userId;
@@ -363,14 +363,20 @@ router.put('/package/:id/reset/:userId', async (req: Request, res: Response) => 
             expectedEndDate: null,
             minutesPerDayObjective: null
         };
+
+        const learningFacts = await LearningFact.findAll({where: {packageId: learningPackageId}});
+        const factsIds = learningFacts.map(fact => fact.factId);
+
+        await UserLearningFact.destroy({where: {userId, factId: {[Op.in]: factsIds}}});
         await userPackageExists.update(resetUserPackage);
+
         res.status(HTTP_UPDATED).send({message: `User with ID ${userId} has reset package with ID ${learningPackageId}.`});
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
 });
 
-router.delete('/package/:id/stop/:userId', async (req: Request, res: Response) => {
+router.delete('/:id/stop/:userId', async (req: Request, res: Response) => {
     try {
         const learningPackageId: number = +req.params.id;
         const userId: number = +req.params.userId;
@@ -392,7 +398,7 @@ router.delete('/package/:id/stop/:userId', async (req: Request, res: Response) =
     }
 });
 
-router.get('/package/:id/user/:userId/overview', async (req: Request, res: Response) => {
+router.get('/:id/user/:userId/overview', async (req: Request, res: Response) => {
     try {
         const learningPackageId: number = +req.params.id;
         const userId: number = +req.params.userId;

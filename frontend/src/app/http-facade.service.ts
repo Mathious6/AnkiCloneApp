@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable, switchMap} from "rxjs";
 import {AuthService} from "./auth.service";
 export interface LearningFact {
@@ -70,12 +70,6 @@ export interface UserLearningFact {
   userId: number;
 }
 
-export interface LearningPackageTag{
-  learningPackageTagId: number;
-  packageId: number;
-  tagId: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -126,25 +120,7 @@ export class HttpFacadeService {
   }
 
   getSearchPackage(title: string, description : string, category : string): Observable<LearningPackage[]> {
-    //const search = {title,description,category};
-    const params = new HttpParams()
-      .set('title', title)
-      .set('description', description)
-      .set('category', category);
-    return this.httpClient.get<LearningPackage[]>(`api/package/search/${params}`)
-  }
-
-  postNewLearningFact(front: string, back : string,source : string, relatedImage : string,
-                      relatedLink : string, packageId : number, creatorId : number ): Observable<LearningFact>{
-    const values = {front, back, source, relatedImage, relatedLink, creatorId};
-    return this.httpClient.post<LearningFact>(`api/package/${packageId}/fact`, values)
-  }
-
-  postNewLearningPackage(title: string, description : string, category : string,
-                         targetAudience : string, duration : number, creatorId : number)
-  {
-    const values = {title, description, category, targetAudience, duration, creatorId};
-    return this.httpClient.post<LearningPackage>(`api/package`, values)
+    return this.httpClient.get<LearningPackage[]>('api/package/search')
   }
 
   getAllLearningFact(): Observable<LearningFact[]> {
@@ -170,22 +146,10 @@ export class HttpFacadeService {
   getUserStatistics(userId: string): Observable<any> {
     return this.httpClient.get<any>(`api/statistics/user/${userId}`);
   }
-
-  getTags(): Observable<tag[]> {
-    return this.httpClient.get<tag[]>('api/tag')
+  resetUserLearningPackage(userId: number, packageId: number): Observable<any> {
+    return this.httpClient.put<any>(`api/package/${packageId}/reset/${userId}`, {});
   }
-
-  postTags(englishKeyword : string, frenchTranslation: string):Observable<tag>{
-    const value = {englishKeyword, frenchTranslation}
-    return this.httpClient.post<tag>(`api/tag`,value)
-  }
-
-  getPackageCreatorId(creatorId : number): Observable<LearningPackage[]>{
-    return this.httpClient.get<LearningPackage[]>(`api/package/creator/${creatorId}`)
-  }
-
-  postPackageTag(packageId : number, tagId : number, englishKeyWord : string, frenchTranslation : string): Observable<LearningPackageTag>{
-    const value = {tagId, englishKeyWord, frenchTranslation}
-    return this.httpClient.post<LearningPackageTag>(`/api/package/${packageId}/tag`,value)
+  deleteUserLearningPackage(userId: number, packageId: number): Observable<any> {
+    return this.httpClient.delete<any>(`api/package/${packageId}/stop/${userId}`);
   }
 }

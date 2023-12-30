@@ -11,6 +11,7 @@ import {AuthService} from "../auth.service";
 export class StudyNowComponent implements OnInit{
   userId : string = '';
   packageId : string = '';
+  packageName : string = '';
   userFacts : { front: string; relatedImage: string, lastReviewed: Date; reviewCount: number}[] = [];
 
   constructor(private route: ActivatedRoute, private httpFacadeService : HttpFacadeService, private router : Router, private authService : AuthService) {}
@@ -20,6 +21,7 @@ export class StudyNowComponent implements OnInit{
       next: params => {
           this.userId = params['userId'];
           this.packageId = params['packageId'];
+          this.packageName = params['packageName'];
         }
     });
     this.httpFacadeService.getOverviewUserLearningPackage(this.userId, this.packageId).subscribe({
