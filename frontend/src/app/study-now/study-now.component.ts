@@ -13,6 +13,7 @@ export class StudyNowComponent implements OnInit{
   packageId : string = '';
   packageName : string = '';
   userFacts : { front: string; relatedImage: string, lastReviewed: Date; reviewCount: number}[] = [];
+  emptyPackage: boolean = false;
 
   constructor(private route: ActivatedRoute, private httpFacadeService : HttpFacadeService, private router : Router, private authService : AuthService) {}
 
@@ -32,11 +33,17 @@ export class StudyNowComponent implements OnInit{
           lastReviewed: userFact.lastReviewed,
           reviewCount: userFact.reviewCount,
         }));
+        if (this.userFacts.length ===0){
+          this.emptyPackage = true;
+        }
       },
     });
   }
 
   startLesson(packageId: string) {
-    this.router.navigate(['/lesson-view'], { queryParams: { userId : this.authService.session.userId, packageId: packageId } });
+    this.router.navigate(['/lesson-view'], { queryParams: { userId : this.authService.session.userId, packageId: packageId } }).then(() => {
+      window.location.reload();
+    });
+
   }
 }
