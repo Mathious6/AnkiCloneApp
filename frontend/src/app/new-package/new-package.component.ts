@@ -113,23 +113,8 @@ export class NewPackageComponent implements OnInit {
   findPackageId(title : string) : number
   {
     var id = 0;
-    this.httpservice.getPackageCreatorId(this.authService.session.userId).subscribe({
-      next: (learningPackages) => {
-        this.AllPackages = learningPackages;
-
-        for (const lp of this.AllPackages) {
-          if (title === lp.title) {
-            id = lp.packageId;
-          }
-        }
-      },
-      error: (error) => {
-        console.error('Error fetching packages:', error);
-      },
-      complete: () => {
-      }
-    });
-
+    this.httpservice.getPackageByTitle(title).subscribe({
+      next: (learningPackage) => {id=learningPackage.packageId; }});
     return id;
   }
 

@@ -119,8 +119,10 @@ export class HttpFacadeService {
     return this.httpClient.get<LearningPackage[]>('api/package')
   }
 
-  getSearchPackage(title: string, description : string, category : string): Observable<LearningPackage[]> {
-    return this.httpClient.get<LearningPackage[]>('api/package/search')
+  getSearchPackage(title: string, tag : string): Observable<LearningPackage[]> {
+    const body = {title, tag};
+    console.log(body);
+    return this.httpClient.get<LearningPackage[]>(`api/package/search/${body}`);
   }
 
   getAllLearningFact(): Observable<LearningFact[]> {
@@ -185,5 +187,9 @@ export class HttpFacadeService {
 
   startUserLearningPackage(userId: number, packageId: number): Observable<any> {
     return this.httpClient.post<any>(`api/package/${packageId}/start/${userId}`, {});
+  }
+
+  getPackageByTitle(title : string):Observable<LearningPackage>{
+    return this.httpClient.get<LearningPackage>(`/search-title/${title}`)
   }
 }
