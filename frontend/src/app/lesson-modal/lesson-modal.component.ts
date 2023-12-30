@@ -42,10 +42,14 @@ export class LessonModalComponent {
       });
       }
     else if (this.action === 'delete') {
-      this.httpFacadeService.deleteUserLearningPackage(this.userId, this.packageId).subscribe({
+      this.httpFacadeService.resetUserLearningPackage(this.userId, this.packageId).subscribe({
         next: () => {
-          this.modal.close('Ok click');
-          window.location.reload();
+          this.httpFacadeService.deleteUserLearningPackage(this.userId, this.packageId).subscribe({
+            next: () => {
+              this.modal.close('Ok click');
+              window.location.reload();
+            }
+          });
         }
       });
     }

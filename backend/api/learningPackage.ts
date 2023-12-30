@@ -434,4 +434,28 @@ router.get('/:id/user/:userId/overview', async (req: Request, res: Response) => 
     }
 });
 
+router.post('/search-title', async (req: Request, res: Response) => {
+    try {
+        const { title }: { title: string } = req.body;
+
+        // Validate that title is provided
+        if (!title) {
+            return res.status(HTTP_BAD_REQUEST).send({ error: 'Title is required in the request body.' });
+        }
+
+        // Check if LearningPackage exists
+        const learningPackage: LearningPackage | null = await LearningPackage.findOne({
+            where: { title },
+        });
+
+        if (!learningPackage) {
+            return res.status(HTTP_NOT_FOUND).send({ error: `LearningPackage with title ${title} not found.` });
+        }
+
+        res.status(HTTP_OK).send(learningPackage);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({ error: error.message });
+    }
+});
+
 export default router;

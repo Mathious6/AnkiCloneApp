@@ -1,0 +1,8 @@
+.form-control{
+  box-shadow: none;
+  border-color: black;
+}
+.discover-button {
+  font-size: 1.5rem; /* Increase the font size */
+  padding: 12px 24px; /* Adjust padding for a larger button */
+}
