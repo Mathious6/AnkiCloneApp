@@ -50,7 +50,9 @@ router.get('/statistics/user/:userId', async (req: Request, res: Response) => {
         let globalProgress = 0;
 
         for (let i = 0; i < nbPackages; i++) {
-            globalProgress += userLearningPackages[i].progress / nbPackages;
+            if (!isNaN(userLearningPackages[i].progress)) {
+                globalProgress += userLearningPackages[i].progress / nbPackages;
+            }
         }
 
         statistics.push({globalProgress: globalProgress});
