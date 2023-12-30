@@ -1,0 +1,9 @@
+.form-check-input{
+  box-shadow: none;
+}
+.form-check-input:checked {
+  background-color: black; /* Change the background color to black */
+  border-color: black; /* Change the border color to black */
+  color: white; /* Change the text color to white */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+}
