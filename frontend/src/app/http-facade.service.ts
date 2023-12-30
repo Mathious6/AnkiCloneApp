@@ -152,4 +152,8 @@ export class HttpFacadeService {
   deleteUserLearningPackage(userId: number, packageId: number): Observable<any> {
     return this.httpClient.delete<any>(`api/package/${packageId}/stop/${userId}`);
   }
+
+  startUserLearningPackage(userId: number, packageId: number): Observable<any> {
+    return this.httpClient.post<any>(`api/package/${packageId}/start/${userId}`, {});
+  }
 }
