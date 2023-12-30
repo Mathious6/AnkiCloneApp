@@ -146,4 +146,10 @@ export class HttpFacadeService {
   getUserStatistics(userId: string): Observable<any> {
     return this.httpClient.get<any>(`api/statistics/user/${userId}`);
   }
+  resetUserLearningPackage(userId: number, packageId: number): Observable<any> {
+    return this.httpClient.put<any>(`api/package/${packageId}/reset/${userId}`, {});
+  }
+  deleteUserLearningPackage(userId: number, packageId: number): Observable<any> {
+    return this.httpClient.delete<any>(`api/package/${packageId}/stop/${userId}`);
+  }
 }

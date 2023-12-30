@@ -32,6 +32,8 @@ import {HighchartsChartModule} from "highcharts-angular";
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { LessonModalComponent } from './lesson-modal/lesson-modal.component';
+import { NewLessonModalComponent } from './new-lesson-modal/new-lesson-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { NotfoundComponent } from './notfound/notfound.component';
     LessonViewComponent,
     SignUpComponent,
     PricingComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    LessonModalComponent,
+    NewLessonModalComponent
   ],
   imports: [
     BrowserModule,
