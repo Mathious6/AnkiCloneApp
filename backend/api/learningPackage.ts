@@ -66,6 +66,62 @@ router.post('', handlers_errors_p, async (req: Request, res: Response) => {
     }
 });
 
+router.get('/summary', async (_req: Request, res: Response) => {
+    try {
+        const learningPackagesSummaries: LearningPackage[] = await LearningPackage.findAll({attributes: ['packageId', 'title']});
+        res.status(HTTP_OK).send(learningPackagesSummaries);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+router.get('/search', async (req: Request, res: Response) => {
+    try {
+        const titleQuery = req.query.title?.toString().toLowerCase() || '';
+        const tagQuery = req.query.tag?.toString().toLowerCase() || '';
+
+        let learningPackagesByTitle = [];
+        let learningPackagesByTag = [];
+
+        if (titleQuery) {
+            learningPackagesByTitle = await LearningPackage.findAll({
+                where: {title: {[Op.iLike]: `%${titleQuery}%`}}
+            });
+        }
+
+        if (tagQuery) {
+            const tags = await Tag.findAll({
+                where: {englishKeyword: {[Op.iLike]: `%${tagQuery}%`}}
+            });
+            const tagIds = tags.map(tag => tag.tagId);
+
+            const learningPackageTags = await LearningPackageTag.findAll({
+                where: {tagId: {[Op.in]: tagIds}}
+            });
+            const packageIds = learningPackageTags.map(pkgTag => pkgTag.packageId);
+
+            learningPackagesByTag = await LearningPackage.findAll({
+                where: {packageId: {[Op.in]: packageIds}}
+            });
+        }
+
+        const allLearningPackages = [...learningPackagesByTitle, ...learningPackagesByTag];
+        const uniqueLearningPackages = Array.from(new Set(allLearningPackages.map(pkg => pkg.packageId)))
+            .map(id => {
+                return allLearningPackages.find(pkg => pkg.packageId === id);
+            });
+
+        if (uniqueLearningPackages.length === 0) {
+            return res.status(HTTP_NOT_FOUND).send({message: 'No matching packages found.'});
+        } else {
+            return res.status(HTTP_OK).send(uniqueLearningPackages);
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
 router.get('/:id', async (req: Request, res: Response) => {
     try {
         const learningPackage: LearningPackage = await LearningPackage.findByPk(req.params.id);
@@ -204,41 +260,6 @@ router.delete('/:id/tag/:tagId', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/summary', async (_req: Request, res: Response) => {
-    try {
-        const learningPackagesSummaries: LearningPackage[] = await LearningPackage.findAll({attributes: ['packageId', 'title']});
-        res.status(HTTP_OK).send(learningPackagesSummaries);
-    } catch (error) {
-        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
-    }
-});
-
-router.get('/search', async (req: Request, res: Response) => {
-    const titleQuery = req.query.title?.toString().toLowerCase() || null;
-    const descriptionQuery = req.query.description?.toString().toLowerCase() || null;
-    const categoryQuery = req.query.category?.toString().toLowerCase() || null;
-
-    try {
-        const learningPackages = await LearningPackage.findAll({
-            where: {
-                [Op.or]: [
-                    {title: {[Op.iLike]: `%${titleQuery}%`}},
-                    {description: {[Op.iLike]: `%${descriptionQuery}%`}},
-                    {category: {[Op.iLike]: `%${categoryQuery}%`}}
-                ]
-            }
-        });
-
-        if (learningPackages.length === 0) {
-            return res.status(HTTP_NOT_FOUND).send({message: 'No matching packages found.'});
-        } else {
-            return res.status(HTTP_OK).send(learningPackages);
-        }
-    } catch (error) {
-        console.error(error);
-        return res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
-    }
-});
 
 router.get('/user/:userId', async (req: Request, res: Response) => {
     try {
@@ -436,25 +457,25 @@ router.get('/:id/user/:userId/overview', async (req: Request, res: Response) => 
 
 router.post('/search-title', async (req: Request, res: Response) => {
     try {
-        const { title }: { title: string } = req.body;
+        const {title}: { title: string } = req.body;
 
         // Validate that title is provided
         if (!title) {
-            return res.status(HTTP_BAD_REQUEST).send({ error: 'Title is required in the request body.' });
+            return res.status(HTTP_BAD_REQUEST).send({error: 'Title is required in the request body.'});
         }
 
         // Check if LearningPackage exists
         const learningPackage: LearningPackage | null = await LearningPackage.findOne({
-            where: { title },
+            where: {title},
         });
 
         if (!learningPackage) {
-            return res.status(HTTP_NOT_FOUND).send({ error: `LearningPackage with title ${title} not found.` });
+            return res.status(HTTP_NOT_FOUND).send({error: `LearningPackage with title ${title} not found.`});
         }
 
         res.status(HTTP_OK).send(learningPackage);
     } catch (error) {
-        res.status(HTTP_INTERNAL_SERVER_ERROR).send({ error: error.message });
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
 });
 

@@ -393,15 +393,9 @@ paths:
           required: false
           schema:
             type: string
-        - name: description
+        - name: tag
           in: query
-          description: The description of the learning package
-          required: false
-          schema:
-            type: string
-        - name: category
-          in: query
-          description: The category of the learning package
+          description: The tag of the learning package
           required: false
           schema:
             type: string
