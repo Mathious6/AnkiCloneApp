@@ -8,7 +8,6 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
 import {StudyNowComponent} from "./study-now/study-now.component";
 import {SharedDecksComponent} from "./shared-decks/shared-decks.component";
 import {ProgressStatisticsComponent} from "./progress-statistics/progress-statistics.component";
-import {AchievementsComponent} from "./achievements/achievements.component";
 import {GlossaryComponent} from "./glossary/glossary.component";
 import {DocumentationComponent} from "./documentation/documentation.component";
 import {AboutComponent} from "./about/about.component";
@@ -38,7 +37,6 @@ const routes: Routes = [
   {path : 'study-now', component : StudyNowComponent, canActivate: [authGuard]},
   {path : 'shared-decks', component : SharedDecksComponent, canActivate: [authGuard]},
   {path : 'progress-statistics', component : ProgressStatisticsComponent, canActivate: [authGuard]},
-  {path : 'achievements', component : AchievementsComponent, canActivate: [authGuard]},
   {path : 'glossary', component : GlossaryComponent, canActivate: [authGuard]},
   {path : 'documentation', component : DocumentationComponent, canActivate: [authGuard]},
   {path : 'settings', component : SettingsComponent, canActivate: [authGuard]},
