@@ -3,6 +3,8 @@ import {AuthService} from "../auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {SharedService} from "../shared.service";
+import {HomeCarousselComponent} from "../components/home-caroussel/home-caroussel.component";
+import {NavbarComponent} from "../components/navbar/navbar.component";
 
 @Component({
   selector: 'app-login',
@@ -32,8 +34,10 @@ export class LoginComponent {
                     this.errorMessage = ''; // Clear error message after a delay
                 }, 3000);
             } else {
-                this.sharedService.notifyLoginStatusChanged(true);
-                this.router.navigateByUrl('/home');
+                this.router.navigate(['/home'])
+                  .then(() => {
+                    window.location.reload();
+                  });
             }
         });
   }

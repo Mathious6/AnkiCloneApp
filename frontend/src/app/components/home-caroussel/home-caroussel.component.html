@@ -10,7 +10,7 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img alt="Picture1-1000_350" class="d-block w-100" src="/assets/images/students.jpg">
+        <img alt="Students around a table" class="d-block w-100" src="/assets/images/students.jpg">
         <div class="carousel-caption d-none d-md-block">
           <h5>Learn at Your Own Pace</h5>
           <p>Discover a new way of learning that adapts to your schedule and learning style. Progress step by step
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <img alt="Picture2-1000_350" class="d-block w-100" src="/assets/images/ideas.jpg">
+        <img alt="Someone thinking" class="d-block w-100" src="/assets/images/ideas.jpg">
         <div class="carousel-caption d-none d-md-block">
           <h5>Illuminate Your Mind</h5>
           <p>Light up the darkest corners of your knowledge with interactive lessons that make learning fun and
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <img alt="Picture3-1000_350" class="d-block w-100" src="/assets/images/graduate.jpg">
+        <img alt="Students cap toss" class="d-block w-100" src="/assets/images/graduate.jpg">
         <div class="carousel-caption d-none d-md-block">
           <h5>Celebrate Every Victory</h5>
           <p>Every small victory is one more step towards your success. Our app helps you track your progress and
@@ -46,7 +46,7 @@
 
   <!-- Features Section -->
   <div class="mt-4">
-    <h2>Key Features</h2>
+    <h2 class="display-3">Key Features</h2>
     <div class="row">
       <div class="col-md-4">
         <h4>Interactive Lessons</h4>
@@ -64,22 +64,29 @@
     <!-- Add more features as needed -->
   </div>
 
+
   <!-- Testimonials Section -->
   <div class="mt-4">
     <h2>What Users Say</h2>
     <div class="card-deck">
-      <div class="card">
+      <div class="card shadow">
         <div class="card-body">
-          <p class="card-text">"AnkiCloneApp transformed the way I approach learning. It's a game-changer!"</p>
-          <p class="card-footer">- John Doe</p>
+          <p class="card-text fst-italic">"AnkiCloneApp transformed the way I approach learning. It's a game-changer! I can't believe how much more I enjoy my study sessions now."</p>
+          <p class="text-muted text-end">- John Doe, Computer Science Student</p>
+
+          <p class="card-text fst-italic">"I never thought learning could be this enjoyable. AnkiCloneApp made it possible! The variety of lessons and interactive content is simply amazing."</p>
+          <p class="text-muted text-end">- Jane Smith, Art History Enthusiast</p>
+
+          <p class="card-text fst-italic">"The interactive lessons are fantastic. AnkiCloneApp makes learning a breeze. The real-time feedback and engaging exercises keep me motivated."</p>
+          <p class="text-muted text-end">- Alex Johnson, Language Learner</p>
+
         </div>
       </div>
-      <!-- Add more testimonials as needed -->
     </div>
   </div>
 
   <!-- Get Started Section -->
-  <div class="mt-4">
+  <div class="mt-4" *ngIf="!isLoggedIn">
     <h2>Get Started Today</h2>
     <p>Join thousands of learners who are mastering new subjects every day. Sign up now!</p>
     <a class="btn btn-primary bg-dark border border-dark" routerLink="/sign-up" role="button">Sign Up</a>

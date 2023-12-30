@@ -42,6 +42,7 @@ export class GlossaryComponent implements OnInit{
 
           // Concatenate Learning Fact terms with existing glossaryTerms
           this.glossaryTerms = this.glossaryTerms.concat(learningFactTerms);
+          this.glossaryTerms.sort((a, b) => a.term.localeCompare(b.term));
         });
       },
     });

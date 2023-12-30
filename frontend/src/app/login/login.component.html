@@ -1,13 +1,13 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h1 class="text-center mb-4">Login</h1>
+    <div class="col-md-3">
+      <div class="card h-auto shadow">
+          <div class="card-body">
+          <img class="mx-auto d-block my-3" src="assets/images/anki_logo.png" alt="anki_logo" style="width: 100px; height: 100px">
           <form [formGroup]="form">
             <div class="mb-3">
-              <label for="username" class="form-label">Username or email</label>
-              <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter your username" autocomplete="username"/>
+              <label for="username" class="form-label">Username or Email</label>
+              <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter your username or your email" autocomplete="username"/>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
@@ -17,9 +17,12 @@
               <div class="text-danger">{{ errorMessage }}</div>
             </div>
             <div class="mb-3 text-center">
-              <button type="button" class="btn btn-primary bg-dark border border-dark" (click)="login()" [disabled]="!form.valid">Login</button>
+              <button type="button" class="btn btn-primary bg-dark border border-dark w-100" (click)="login()" [disabled]="!form.valid">Sign In</button>
             </div>
           </form>
+          <div class="mb-3 text-center">
+            <a routerLink="/sign-up" style="color : dimgray;">Sign Up</a>
+          </div>
         </div>
       </div>
     </div>

@@ -25,14 +25,17 @@
     </ng-container>
   </div>
 
-  <div *ngIf="selectedLetter" class="mb-4">
-    <h3 class="text-dark">{{ selectedLetter }}</h3>
-  </div>
-
   <!-- Glossary Terms -->
-  <div *ngFor="let term of getFilteredTerms(); let last = last" class="glossary-term mb-4">
+  <div *ngFor="let term of getFilteredTerms(); let last = last; let i = index" class="glossary-term mb-4">
     <!-- Only show terms that match the selected letter and type -->
     <ng-container *ngIf="!selectedLetter || term.term.startsWith(selectedLetter)">
+      <!-- Add separator if not the first term or the first letter is different from the previous term -->
+      <ng-container *ngIf="i === 0 || term.term.charAt(0) !== getFilteredTerms()[i - 1].term.charAt(0)">
+        <h3 class="separator">
+          {{ term.term.charAt(0) }}
+        </h3>
+      </ng-container>
+
       <dt>{{ term.term }}</dt>
       <dd>{{ term.definition }}</dd>
     </ng-container>

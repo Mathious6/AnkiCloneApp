@@ -291,6 +291,24 @@ router.get('/package/user/:userId', async (req: Request, res: Response) => {
     }
 });
 
+router.get('/package/creator/:creatorId', async (req: Request, res: Response) => {
+    try {
+        const creatorId = +req.params.creatorId;
+        const userExists = await User.findByPk(creatorId);
+        if (!userExists) {
+            return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${creatorId} does not exist.`});
+        }
+
+        const learningPackages = await LearningPackage.findAll({
+            where: {creatorId}
+        });
+
+        res.status(HTTP_OK).send(learningPackages);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
 router.post('/package/:id/start/:userId', async (req: Request, res: Response) => {
     try {
         const packageId: number = +req.params.id;

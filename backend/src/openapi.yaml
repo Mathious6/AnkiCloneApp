@@ -438,6 +438,26 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/package/creator/{creatorId}:
+    get:
+      summary: Get all learning packages created by a user
+      operationId: getLearningPackageByCreatorId
+      tags:
+        - Learning Packages
+      parameters:
+        - name: creatorId
+          in: path
+          description: The id of the creator
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
   /api/package/{id}/start/{userId}:
     post:
       summary: Start a learning package by id
