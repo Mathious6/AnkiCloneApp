@@ -12,7 +12,6 @@ import { ExploreLessonComponent } from './explore-lesson/explore-lesson.componen
 import { StudyNowComponent } from './study-now/study-now.component';
 import { SharedDecksComponent } from './shared-decks/shared-decks.component';
 import { ProgressStatisticsComponent } from './progress-statistics/progress-statistics.component';
-import { AchievementsComponent } from './achievements/achievements.component';
 import {HttpClientModule} from "@angular/common/http";
 import { NewCardComponent } from './new-card/new-card.component';
 import { NewPackageComponent } from './new-package/new-package.component';
@@ -24,7 +23,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { SettingsDeactivateModalComponent } from './settings-deactivate-modal/settings-deactivate-modal.component';
 import { ErrorModalComponent } from './error-modal/error-modal.component';
 import { SoonComponent } from './soon/soon.component';
-import {Router, RouterModule} from "@angular/router";
+import { RouterModule} from "@angular/router";
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { LessonViewComponent } from './lesson-view/lesson-view.component';
@@ -43,7 +42,6 @@ import { PricingComponent } from './pricing/pricing.component';
     StudyNowComponent,
     SharedDecksComponent,
     ProgressStatisticsComponent,
-    AchievementsComponent,
     NewCardComponent,
     NewPackageComponent,
     GlossaryComponent,
