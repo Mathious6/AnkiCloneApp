@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulaire de Création</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <style>
-    /* Ajoutez vos styles personnalisés ici, si nécessaire */
     .rounded {
       border-radius: 10px;
     }
@@ -14,11 +9,11 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      height: 80px; /* Ajustez la hauteur selon vos besoins */
+      height: 80px;
       background-color: #f0f0f0;
       border-radius: 10px;
       margin: 0 auto;
-      width: 70%; /* Ajustez la largeur selon vos besoins */
+      width: 70%;
     }
 
     .barre-selection button {
@@ -75,13 +70,13 @@
     </div>
 
 
-    <div class="form-group">
+    <div class="form-group mb-5">
       <label for="verso" [class]="lessonForm.get('verso')?.invalid ? 'text-danger' : ''">verso :</label>
       <textarea class="form-control" id="verso" name="verso" rows="4" formControlName="verso"></textarea>
     </div>
 
-    <button type="button" class="btn btn-primary" (click)="onCreate()" [disabled]="!lessonForm.valid">create</button>
-    <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger">Please fill out all required fields.</span>
+    <button type="button" class="btn btn-primary bg-dark border border-dark" (click)="onCreate()" [disabled]="!lessonForm.valid">create</button>
+    <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger"> Please fill out all required fields.</span>
   </div>
 </form>
 

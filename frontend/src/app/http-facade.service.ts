@@ -125,7 +125,7 @@ export class HttpFacadeService {
       .set('title', title)
       .set('description', description)
       .set('category', category);
-    return this.httpClient.get<LearningPackage[]>(`api/package/search`,{params})
+    return this.httpClient.get<LearningPackage[]>(`api/package/search/${params}`)
   }
 
   postNewLearningFact(front: string, back : string,source : string, relatedImage : string,
@@ -163,5 +163,14 @@ export class HttpFacadeService {
 
   getUserStatistics(userId: string): Observable<any> {
     return this.httpClient.get<any>(`api/statistics/user/${userId}`);
+  }
+
+  getTags(): Observable<tag[]> {
+    return this.httpClient.get<tag[]>('api/tag')
+  }
+
+  postTags(englishKeyword : string, frenchTranslation: string):Observable<tag>{
+    const value = {englishKeyword, frenchTranslation}
+    return this.httpClient.post<tag>(`api/tag`,value)
   }
 }
