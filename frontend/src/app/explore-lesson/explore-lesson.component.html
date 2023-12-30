@@ -1,4 +1,8 @@
-<div class="container mt-4">
+<div class="container mt-4 justify-content-center align-items-center">
+  <div>
+    <button class="btn btn-primary bg-dark border border-dark text-center" (click)="startLesson()">Discover News Lesson</button>
+    <h1 class="text-center mb-4">My Lessons</h1>
+  </div>
   <ul class="list-group-item">
     <li *ngFor="let package of userLearningPackages" class="list-group-item mb-3">
       <div class="card">
@@ -12,7 +16,14 @@
           <p class="card-text">{{ package.description }}</p>
           <!-- Button and progress in the same row -->
           <div class="d-flex justify-content-between">
-            <button class="btn btn-primary bg-dark border border-dark" (click)="startPackage(package.packageId)">Study Now</button>
+            <!-- Buttons at the beginning -->
+            <div class="d-flex">
+              <button class="btn btn-primary bg-dark border border-dark" (click)="startPackage(package.packageId, package.title)">Study Now</button>
+              <button class="btn btn-warning text-white mx-2" (click)="resetProgress(package.packageId, package.title)">Reset Progress</button>
+              <button class="btn btn-danger" (click)="deletePackage(package.packageId, package.title)">Stop Lesson</button>
+            </div>
+
+            <!-- Progress percentage at the end -->
             <small class="text-muted">Progress: {{ package.progress }}%</small>
           </div>
         </div>

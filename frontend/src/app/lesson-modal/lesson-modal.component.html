@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Lesson Message</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-describedby="modal-title"
+    (click)="modal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body">
+  <p>
+    <strong>You will {{action}} the following lesson : <span class="text-muted"><br>"{{packageTitle}}"</span></strong>
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+  <button *ngIf="action==='reset the progress of'" type="button" class="btn btn-warning text-white" (click)="doPackageAction()">Reset Lesson</button>
+  <button *ngIf="action==='delete'" type="button" class="btn btn-danger" (click)="doPackageAction()">Delete Lesson</button>
+</div>
