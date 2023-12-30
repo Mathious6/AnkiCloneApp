@@ -1,6 +1,16 @@
 import {Request, Response, Router} from 'express';
-import {body, check, validationResult} from "express-validator";
+import {validator_fact, validator_package} from "../utils/validator";
+import {validationResult} from "express-validator";
 import {Op} from "sequelize";
+import {
+    HTTP_BAD_REQUEST,
+    HTTP_CREATED,
+    HTTP_INTERNAL_SERVER_ERROR,
+    HTTP_NOT_FOUND,
+    HTTP_OK,
+    HTTP_UPDATED
+} from "../utils/httpCodes";
+
 import LearningPackage from '../config/models/learningPackage.model';
 import LearningFact from "../config/models/learningFact.model";
 import User from "../config/models/user.model";
@@ -11,48 +21,23 @@ import UserLearningFact from "../config/models/userLearningFact.model";
 
 const router = Router();
 
-const HTTP_OK: number = 200;
-const HTTP_CREATED: number = 201;
-const HTTP_UPDATED: number = 204;
-const HTTP_BAD_REQUEST: number = 400;
-const HTTP_NOT_FOUND: number = 404;
-const HTTP_INTERNAL_SERVER_ERROR: number = 500;
-
-const handlers_errors_p = [
-    check('title').isLength({min: 3}),
-    check('description').isLength({min: 3}),
-    check('category').isLength({min: 3}),
-    check('targetAudience').isLength({min: 3}),
-    check('duration').isNumeric(),
-    check('creatorId').isNumeric(),
-]
-
-const handlers_errors_f = [
-    check('front').isLength({min: 3}),
-    check('back').isLength({min: 3}),
-    check('source').isURL(),
-    check('relatedImage').if(body('relatedImage').exists({checkFalsy: true})).isURL(),
-    check('relatedLink').if(body('relatedLink').exists({checkFalsy: true})).isURL(),
-]
-
 router.get('', async (_req: Request, res: Response) => {
     try {
         const learningPackages: LearningPackage[] = await LearningPackage.findAll();
         res.status(HTTP_OK).send(learningPackages);
     } catch (error) {
-        res.status(HTTP_INTERNAL_SERVER_ERROR).send({message: error.message});
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
 });
 
-router.post('', handlers_errors_p, async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
-    }
-
-    const {title, description, category, targetAudience, duration, creatorId} = req.body;
-
+router.post('', validator_package, async (req: Request, res: Response) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
+        }
+
+        const {title, description, category, targetAudience, duration, creatorId} = req.body;
         const userExists: User | null = await User.findByPk(creatorId);
         if (!userExists) {
             return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${creatorId} does not exist.`});
@@ -122,11 +107,32 @@ router.get('/search', async (req: Request, res: Response) => {
     }
 });
 
+router.post('/search-title', async (req: Request, res: Response) => {
+    try {
+        const {title} = req.body;
+        if (!title) {
+            return res.status(HTTP_BAD_REQUEST).send({error: 'Title is required in the request body.'});
+        }
+
+        const learningPackage: LearningPackage | null = await LearningPackage.findOne({
+            where: {title},
+        });
+
+        if (!learningPackage) {
+            return res.status(HTTP_NOT_FOUND).send({error: `LearningPackage with title ${title} not found.`});
+        }
+
+        res.status(HTTP_OK).send(learningPackage);
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
 router.get('/:id', async (req: Request, res: Response) => {
     try {
         const learningPackage: LearningPackage = await LearningPackage.findByPk(req.params.id);
         if (!learningPackage) {
-            res.status(HTTP_NOT_FOUND).send({message: `Package not found for id: ${req.params.id}`});
+            return res.status(HTTP_NOT_FOUND).send({message: `Package not found for id: ${req.params.id}`});
         }
         res.status(HTTP_OK).send(learningPackage);
     } catch (error) {
@@ -134,19 +140,19 @@ router.get('/:id', async (req: Request, res: Response) => {
     }
 });
 
-router.put('/:id', handlers_errors_p, async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
-    }
-
-    const {title, description, category, targetAudience, duration} = req.body;
-
+router.put('/:id', validator_package, async (req: Request, res: Response) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
+        }
+
         const learningPackage: LearningPackage = await LearningPackage.findByPk(req.params.id);
         if (!learningPackage) {
-            return res.status(HTTP_NOT_FOUND).send({message: `Package not found for id: ${req.params.id}`});
+            return res.status(HTTP_NOT_FOUND).send({error: `Package not found for id: ${req.params.id}`});
         }
+
+        const {title, description, category, targetAudience, duration} = req.body;
         const updatedPackage = {title, description, category, targetAudience, duration};
         await learningPackage.update(updatedPackage);
         res.status(HTTP_UPDATED).send(updatedPackage);
@@ -154,6 +160,30 @@ router.put('/:id', handlers_errors_p, async (req: Request, res: Response) => {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
 });
+
+router.delete('/:id', async (req: Request, res: Response) => {
+    try {
+        const learningPackage: LearningPackage = await LearningPackage.findByPk(req.params.id);
+        if (!learningPackage) {
+            return res.status(HTTP_NOT_FOUND).send({error: `Package not found for id: ${req.params.id}`});
+        }
+
+        const learningFacts: LearningFact[] = await LearningFact.findAll({where: {packageId: req.params.id}});
+        const factsIds = learningFacts.map(fact => fact.factId);
+
+        await UserLearningFact.destroy({where: {factId: {[Op.in]: factsIds}}});
+        await UserLearningPackage.destroy({where: {learningPackageId: req.params.id}});
+        await LearningFact.destroy({where: {packageId: req.params.id}});
+        await LearningPackageTag.destroy({where: {packageId: req.params.id}});
+        await learningPackage.destroy();
+
+        res.status(HTTP_UPDATED).send({message: `Package deleted for id: ${req.params.id}`});
+    } catch (error) {
+        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
+    }
+});
+
+// API package <> fact
 
 router.get('/:id/fact', async (req: Request, res: Response) => {
     try {
@@ -164,21 +194,20 @@ router.get('/:id/fact', async (req: Request, res: Response) => {
     }
 });
 
-router.post('/:id/fact', handlers_errors_f, async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
-    }
-
-    const {front, back, source, relatedImage, relatedLink, creatorId} = req.body;
-
+router.post('/:id/fact', validator_fact, async (req: Request, res: Response) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
+        }
+
         const packageId: number = +req.params.id;
         const packageExists: LearningPackage | null = await LearningPackage.findByPk(packageId);
         if (!packageExists) {
             return res.status(HTTP_NOT_FOUND).send({error: `Package with ID ${packageId} does not exist.`});
         }
 
+        const {front, back, source, relatedImage, relatedLink, creatorId} = req.body;
         const userExists: User | null = await User.findByPk(creatorId);
         if (!userExists) {
             return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${creatorId} does not exist.`});
@@ -191,6 +220,8 @@ router.post('/:id/fact', handlers_errors_f, async (req: Request, res: Response) 
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }
 });
+
+// API package <> tag
 
 router.get('/:id/tag', async (req: Request, res: Response) => {
     try {
@@ -260,6 +291,7 @@ router.delete('/:id/tag/:tagId', async (req: Request, res: Response) => {
     }
 });
 
+// API package <> user
 
 router.get('/user/:userId', async (req: Request, res: Response) => {
     try {
@@ -450,30 +482,6 @@ router.get('/:id/user/:userId/overview', async (req: Request, res: Response) => 
         }
 
         res.status(HTTP_OK).send(packageOverview);
-    } catch (error) {
-        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
-    }
-});
-
-router.post('/search-title', async (req: Request, res: Response) => {
-    try {
-        const {title}: { title: string } = req.body;
-
-        // Validate that title is provided
-        if (!title) {
-            return res.status(HTTP_BAD_REQUEST).send({error: 'Title is required in the request body.'});
-        }
-
-        // Check if LearningPackage exists
-        const learningPackage: LearningPackage | null = await LearningPackage.findOne({
-            where: {title},
-        });
-
-        if (!learningPackage) {
-            return res.status(HTTP_NOT_FOUND).send({error: `LearningPackage with title ${title} not found.`});
-        }
-
-        res.status(HTTP_OK).send(learningPackage);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }

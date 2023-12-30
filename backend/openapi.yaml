@@ -1,12 +1,13 @@
 openapi: 3.0.0
 info:
-  version: 0.0.1
+  version: 2.0.1
   title: Anki Clone Application API
-  description: API for managing our Anki app
+  description: This is the API of the Anki Clone Application. It allows you to manage users, learning packages, learning facts, tags and statistics.
 paths:
+  # USER API
   /api/user:
     get:
-      summary: Get all users
+      summary: Get all users (only for admin)
       operationId: getUser
       tags:
         - Users
@@ -32,7 +33,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                mail:
+                  type: string
+                  description: The mail of the user
+                  example: john.doe@gmail.com
+                  required: true
+                pseudo:
+                  type: string
+                  description: The pseudo of the user
+                  example: John
+                  required: true
+                password:
+                  type: string
+                  description: The password of the user
+                  example: 123456
+                  required: true
+                profilePicture:
+                  type: string
+                  description: The profile picture of the user
+                  example: https://www.google.com/
+                  required: false
+
       responses:
         '201':
           description: Created
@@ -46,16 +69,16 @@ paths:
           description: Conflict
         '500':
           description: Internal Server Error
-  /api/user/{id}:
+  /api/user/{user_id}:
     get:
       summary: Get a user by id
       operationId: getUserById
       tags:
         - Users
       parameters:
-        - name: id
+        - name: user_id
           in: path
-          description: The id of the user
+          description: The id of the user to retrieve
           required: true
           schema:
             type: number
@@ -76,9 +99,9 @@ paths:
       tags:
         - Users
       parameters:
-        - name: id
+        - name: user_id
           in: path
-          description: The id of the user
+          description: The id of the user to update
           required: true
           schema:
             type: number
@@ -88,45 +111,55 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                mail:
+                  type: string
+                  description: The mail of the user
+                  example: john.doe@gmail.com
+                pseudo:
+                  type: string
+                  description: The pseudo of the user
+                  example: John
+                password:
+                  type: string
+                  description: The password of the user
+                  example: 123456
+                profilePicture:
+                  type: string
+                  description: The profile picture of the user
+                  example: https://www.google.com/
       responses:
         '204':
           description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
         '404':
           description: Not Found
-        '409':
-          description: Conflict
         '500':
           description: Internal Server Error
-  /api/user/{id}/deactivate:
+  /api/user/{user_id}/deactivate:
     put:
       summary: Deactivate a user by id
       operationId: deactivateUserById
       tags:
         - Users
       parameters:
-        - name: id
+        - name: user_id
           in: path
-          description: The id of the user
+          description: The id of the user to deactivate
           required: true
           schema:
             type: number
       responses:
         '204':
           description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
 
+  # LEARNING PACKAGE API
   /api/package:
     get:
       summary: Get all learning packages
@@ -145,8 +178,8 @@ paths:
         '500':
           description: Internal Server Error
     post:
-      summary: Create a new-card package
-      operationId: createPackage
+      summary: Create a new learning package
+      operationId: createLearningPackage
       tags:
         - Learning Packages
       requestBody:
@@ -155,7 +188,38 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningPackage'
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the learning package
+                  example: Learn TypeScript
+                  required: true
+                description:
+                  type: string
+                  description: The description of the learning package
+                  example: A comprehensive guide to understanding TypeScript, a statically typed superset of JavaScript.
+                  required: false
+                category:
+                  type: string
+                  description: The category of the learning package
+                  example: Programming Language
+                  required: false
+                targetAudience:
+                  type: string
+                  description: The target audience of the learning package
+                  example: Developers familiar with JavaScript
+                  required: false
+                duration:
+                  type: number
+                  description: The duration of the learning package in hours
+                  example: 2
+                  required: false
+                creatorId:
+                  type: number
+                  description: The id of the creator of the learning package
+                  example: 1
+                  required: true
       responses:
         '201':
           description: Created
@@ -165,207 +229,13 @@ paths:
                 $ref: '#/components/schemas/LearningPackage'
         '400':
           description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /api/package/{id}:
-    get:
-      summary: Get a learning package by id
-      operationId: getLearningPackageById
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningPackage'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-    put:
-      summary: Update a learning package by id
-      operationId: updateLearningPackageById
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-      requestBody:
-        description: The learning package to update
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LearningPackage'
-      responses:
-        '204':
-          description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningPackage'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /api/package/{id}/fact:
-    get:
-      summary: Get all learning facts by learning package id
-      operationId: getLearningFactByLearningPackageId
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LearningFact'
-        '500':
-          description: Internal Server Error
-    post:
-      summary: Create a new learning fact associated to a learning package
-      operationId: createLearningFact
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-      requestBody:
-        description: The learning fact to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LearningFact'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningFact'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /api/package/{id}/tag:
-    get:
-      summary: Get all tags by learning package id
-      operationId: getTagByLearningPackageId
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tag'
-        '500':
-          description: Internal Server Error
-    post:
-      summary: Create a new tag associated to a learning package
-      operationId: createTag
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-      requestBody:
-        description: The tag to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Tag'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tag'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /api/package/{id}/tag/{tagId}:
-    delete:
-      summary: Delete a tag associated to a learning package
-      operationId: deleteTagByLearningPackageIdAndTagId
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-        - name: tagId
-          in: path
-          description: The id of the tag
-          required: true
-          schema:
-            type: number
-      responses:
-        '204':
-          description: Deleted
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
   /api/package/summary:
     get:
-      summary: Get all learning packages summaries and return only id and title
+      summary: Get all learning packages summary
       operationId: getLearningPackageSummary
       tags:
         - Learning Packages
@@ -377,13 +247,22 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/LearningPackageSummary'
+                  type: object
+                  properties:
+                    packageId:
+                      type: number
+                      description: The id of the learning package
+                      example: 1
+                    title:
+                      type: string
+                      description: The title of the learning package
+                      example: Learn TypeScript
         '500':
           description: Internal Server Error
   /api/package/search:
     get:
-      summary: Get all learning packages by title, description or category
-      operationId: getLearningPackageByTitleDescriptionOrCategory
+      summary: Search learning packages by title or tag
+      operationId: searchLearningPackage
       tags:
         - Learning Packages
       parameters:
@@ -412,118 +291,122 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/package/user/{userId}:
-    get:
-      summary: Get all learning packages started by a user
-      operationId: getLearningPackageByUserId
-      tags:
-        - Learning Packages
-      parameters:
-        - name: userId
-          in: path
-          description: The id of the user
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: OK
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /api/package/creator/{creatorId}:
-    get:
-      summary: Get all learning packages created by a user
-      operationId: getLearningPackageByCreatorId
-      tags:
-        - Learning Packages
-      parameters:
-        - name: creatorId
-          in: path
-          description: The id of the creator
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: OK
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /api/package/{id}/start/{userId}:
+  /api/package/search-title:
     post:
-      summary: Start a learning package by id
-      operationId: startLearningPackageById
+      summary: Search learning packages by title
+      operationId: searchLearningPackageByTitle
       tags:
         - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-        - name: userId
-          in: path
-          description: The id of the user
-          required: true
-          schema:
-            type: number
+      requestBody:
+        description: The title of the learning package
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the learning package
+                  example: Introduction to HTML
+                  required: true
       responses:
-        '201':
-          description: Created
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserLearningPackage'
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackage'
+        '400':
+          description: Bad Request
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/package/{id}/reset/{userId}:
-    put:
-      summary: Reset a learning package by id
-      operationId: resetLearningPackageById
+  /api/package/{package_id}:
+    get:
+      summary: Get a learning package by id
+      operationId: getLearningPackageById
       tags:
         - Learning Packages
       parameters:
-        - name: id
+        - name: package_id
           in: path
           description: The id of the learning package
-          required: true
-          schema:
-            type: number
-        - name: userId
-          in: path
-          description: The id of the user
           required: true
           schema:
             type: number
       responses:
-        '204':
-          description: Updated
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackage'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/package/{id}/stop/{userId}:
-    delete:
-      summary: Stop a learning package by id
-      operationId: stopLearningPackageById
+    put:
+      summary: Update a learning package by id
+      operationId: updateLearningPackageById
       tags:
         - Learning Packages
       parameters:
-        - name: id
+        - name: package_id
           in: path
           description: The id of the learning package
           required: true
           schema:
             type: number
-        - name: userId
+      requestBody:
+        description: The learning package to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the learning package
+                  example: Learn TypeScript
+                description:
+                  type: string
+                  description: The description of the learning package
+                  example: A comprehensive guide to understanding TypeScript, a statically typed superset of JavaScript.
+                category:
+                  type: string
+                  description: The category of the learning package
+                  example: Programming Language
+                targetAudience:
+                  type: string
+                  description: The target audience of the learning package
+                  example: Developers familiar with JavaScript
+                duration:
+                  type: number
+                  description: The duration of the learning package in hours
+                  example: 2
+      responses:
+        '204':
+          description: Updated
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete a learning package by id
+      operationId: deleteLearningPackageById
+      tags:
+        - Learning Packages
+      parameters:
+        - name: package_id
           in: path
-          description: The id of the user
+          description: The id of the learning package
           required: true
           schema:
             type: number
@@ -534,33 +417,8 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/package/{id}/user/{userId}/overview:
-    get:
-      summary: Get the overview of a learning package by id and user id
-      operationId: getLearningPackageOverviewByIdAndUserId
-      tags:
-        - Learning Packages
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning package
-          required: true
-          schema:
-            type: number
-        - name: userId
-          in: path
-          description: The id of the user
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: OK
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
 
+  # LEARNING FACT API
   /api/fact:
     get:
       summary: Get all learning facts
@@ -578,38 +436,14 @@ paths:
                   $ref: '#/components/schemas/LearningFact'
         '500':
           description: Internal Server Error
-  /api/fact/user/{userId}:
-    get:
-      summary: Get all learning facts by user id
-      operationId: getLearningFactByUserId
-      tags:
-        - Learning Facts
-      parameters:
-        - name: userId
-          in: path
-          description: The id of the user
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LearningFact'
-        '500':
-          description: Internal Server Error
-  /api/fact/{id}:
+  /api/fact/{fact_id}:
     get:
       summary: Get a learning fact by id
       operationId: getLearningFactById
       tags:
         - Learning Facts
       parameters:
-        - name: id
+        - name: fact_id
           in: path
           description: The id of the learning fact
           required: true
@@ -632,7 +466,7 @@ paths:
       tags:
         - Learning Facts
       parameters:
-        - name: id
+        - name: fact_id
           in: path
           description: The id of the learning fact
           required: true
@@ -644,28 +478,72 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningFact'
+              type: object
+              properties:
+                front:
+                  type: string
+                  description: The front of the learning fact
+                  example: What is TypeScript?
+                back:
+                  type: string
+                  description: The back of the learning fact
+                  example: TypeScript is a statically typed superset of JavaScript.
+                source:
+                  type: string
+                  description: The source of the learning fact
+                  example: https://www.google.com/
+                relatedImage:
+                  type: string
+                  description: The related image of the learning fact
+                  example: https://www.google.com/
+                relatedLink:
+                  type: string
+                  description: The related link of the learning fact
+                  example: https://www.google.com/
+                packageId:
+                  type: number
+                  description: The id of the learning package
+                  example: 1
+                creatorId:
+                  type: number
+                  description: The id of the creator of the learning fact
+                  example: 1
       responses:
         '204':
           description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningFact'
         '400':
           description: Bad Request
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/fact/{id}/deactivate:
+    delete:
+      summary: Delete a learning fact by id
+      operationId: deleteLearningFactById
+      tags:
+        - Learning Facts
+      parameters:
+        - name: fact_id
+          in: path
+          description: The id of the learning fact
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/fact/{fact_id}/deactivate:
     put:
       summary: Deactivate a learning fact by id
       operationId: deactivateLearningFactById
       tags:
         - Learning Facts
       parameters:
-        - name: id
+        - name: fact_id
           in: path
           description: The id of the learning fact
           required: true
@@ -674,52 +552,12 @@ paths:
       responses:
         '204':
           description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LearningFact'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /api/fact/{id}/review/{userId}:
-    put:
-      summary: Review a learning fact by id
-      operationId: reviewLearningFactById
-      tags:
-        - Learning Facts
-      parameters:
-        - name: id
-          in: path
-          description: The id of the learning fact
-          required: true
-          schema:
-            type: number
-        - name: userId
-          in: path
-          description: The id of the user
-          required: true
-          schema:
-            type: number
-      requestBody:
-        description: The user learning fact to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserLearningFact'
-      responses:
-        '204':
-          description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserLearningFact'
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
 
+  # TAG API
   /api/tag:
     get:
       summary: Get all tags
@@ -748,7 +586,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tag'
+              type: object
+              properties:
+                englishKeyword:
+                  type: string
+                  description: The english keyword of the tag
+                  example: TypeScript
+                  required: true
+                frenchTranslation:
+                  type: string
+                  description: The french translation of the tag
+                  example: TypeScript
+                  required: true
       responses:
         '201':
           description: Created
@@ -762,14 +611,14 @@ paths:
           description: Conflict
         '500':
           description: Internal Server Error
-  /api/tag/{id}:
+  /api/tag/{tag_id}:
     put:
       summary: Update a tag by id
       operationId: updateTagById
       tags:
         - Tags
       parameters:
-        - name: id
+        - name: tag_id
           in: path
           description: The id of the tag
           required: true
@@ -781,14 +630,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tag'
+              type: object
+              properties:
+                englishKeyword:
+                  type: string
+                  description: The english keyword of the tag
+                  example: TypeScript
+                frenchTranslation:
+                  type: string
+                  description: The french translation of the tag
+                  example: TypeScript
       responses:
         '204':
           description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tag'
         '404':
           description: Not Found
         '409':
@@ -801,7 +655,7 @@ paths:
       tags:
         - Tags
       parameters:
-        - name: id
+        - name: tag_id
           in: path
           description: The id of the tag
           required: true
@@ -815,14 +669,234 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/statistics/user/{userId}:
+  # STATISTICS API
+  /api/statistics/user/{user_id}:
     get:
       summary: Get the statistics of a user by id
       operationId: getStatisticsByUserId
       tags:
         - Statistics
       parameters:
-        - name: userId
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: A list of user statistics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nextDays:
+                      type: object
+                      additionalProperties:
+                        type: integer
+                    todayFacts:
+                      type: integer
+                    globalProgress:
+                      type: number
+                      format: double
+                    nbCreatedPackages:
+                      type: integer
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  # LEARNING PACKAGE <> FACT API
+  /api/package/{package_id}/fact:
+    get:
+      summary: Get all learning facts by learning package id
+      operationId: getLearningFactByLearningPackageId
+      tags:
+        - Learning Packages <> Learning Facts
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningFact'
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a new learning fact
+      operationId: createLearningFact
+      tags:
+        - Learning Packages <> Learning Facts
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The learning fact to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                front:
+                  type: string
+                  description: The front of the learning fact
+                  example: What is TypeScript?
+                  required: true
+                back:
+                  type: string
+                  description: The back of the learning fact
+                  example: TypeScript is a statically typed superset of JavaScript.
+                  required: true
+                source:
+                  type: string
+                  description: The source of the learning fact
+                  example: https://www.google.com/
+                  required: false
+                relatedImage:
+                  type: string
+                  description: The related image of the learning fact
+                  example: https://www.google.com/
+                  required: false
+                relatedLink:
+                  type: string
+                  description: The related link of the learning fact
+                  example: https://www.google.com/
+                  required: false
+                creatorId:
+                  type: number
+                  description: The id of the creator of the learning fact
+                  example: 1
+                  required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningFact'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  # LEARNING PACKAGE <> TAG API
+  /api/package/{package_id}/tag:
+    get:
+      summary: Get all tags by learning package id
+      operationId: getTagByLearningPackageId
+      tags:
+        - Learning Packages <> Tags
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a new tag
+      operationId: createTag
+      tags:
+        - Learning Packages <> Tags
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The tag to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tagId:
+                  type: number
+                  description: The id of the tag
+                  example: 1
+                  required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPackageTag'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{package_id}/tag/{tag_id}:
+    delete:
+      summary: Delete a tag by learning package id and tag id
+      operationId: deleteTagByLearningPackageIdAndTagId
+      tags:
+        - Learning Packages <> Tags
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: tag_id
+          in: path
+          description: The id of the tag
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  # LEARNING PACKAGE <> USER API
+  /api/package/user/{user_id}:
+    get:
+      summary: Get all learning packages by user id
+      operationId: getLearningPackageByUserId
+      tags:
+        - Learning Packages <> Users
+      parameters:
+        - name: user_id
           in: path
           description: The id of the user
           required: true
@@ -831,10 +905,321 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    packageId:
+                      type: number
+                      description: The id of the learning package
+                      example: 1
+                    title:
+                      type: string
+                      description: The title of the learning package
+                      example: Learn TypeScript
+                    description:
+                      type: string
+                      description: The description of the learning package
+                      example: A comprehensive guide to understanding TypeScript, a statically typed superset of JavaScript.
+                    category:
+                      type: string
+                      description: The category of the learning package
+                      example: Programming Language
+                    targetAudience:
+                      type: string
+                      description: The target audience of the learning package
+                      example: Developers familiar with JavaScript
+                    duration:
+                      type: number
+                      description: The duration of the learning package in hours
+                      example: 2
+                    creationDate:
+                      type: string
+                      description: The creation date of the learning package
+                      example: 2021-01-01
+                    creatorId:
+                      type: number
+                      description: The id of the creator of the learning package
+                      example: 1
+                    progress:
+                      type: number
+                      description: The progress of the user learning package
+                      example: 0
+                    expectedEndDate:
+                      type: string
+                      description: The expected end date of the user learning package
+                      example: 2021-01-01
+                    minutesPerDayObjective:
+                      type: number
+                      description: The minutes per day objective of the user learning package
+                      example: 30
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/package/creator/{creator_id}:
+    get:
+      summary: Get all learning packages by creator id
+      operationId: getLearningPackageByCreatorId
+      tags:
+        - Learning Packages <> Users
+      parameters:
+        - name: creator_id
+          in: path
+          description: The id of the creator
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningPackage'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{package_id}/start/{user_id}:
+    post:
+      summary: Start a learning package by learning package id and user id
+      operationId: startLearningPackageByLearningPackageIdAndUserId
+      tags:
+        - Learning Packages <> Users
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLearningPackage'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{package_id}/reset/{user_id}:
+    put:
+      summary: Reset a learning package by learning package id and user id
+      operationId: resetLearningPackageByLearningPackageIdAndUserId
+      tags:
+        - Learning Packages <> Users
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Updated
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{package_id}/stop/{user_id}:
+    delete:
+      summary: Stop a learning package by learning package id and user id
+      operationId: stopLearningPackageByLearningPackageIdAndUserId
+      tags:
+        - Learning Packages <> Users
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/package/{package_id}/user/{user_id}/overview:
+    get:
+      summary: Get the overview of a learning package by learning package id and user id
+      operationId: getOverviewByLearningPackageIdAndUserId
+      tags:
+        - Learning Packages <> Users
+      parameters:
+        - name: package_id
+          in: path
+          description: The id of the learning package
+          required: true
+          schema:
+            type: number
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    factId:
+                      type: number
+                      description: The id of the learning fact
+                      example: 1
+                    front:
+                      type: string
+                      description: The front of the learning fact
+                      example: What is TypeScript?
+                    relatedImage:
+                      type: string
+                      description: The related image of the learning fact
+                      example: https://www.google.com/
+                    lastReviewed:
+                      type: string
+                      description: The last reviewed date of the user learning fact
+                      example: 2021-01-01
+                    reviewCount:
+                      type: number
+                      description: The review count of the user learning fact
+                      example: 1
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  # LEARNING FACT <> USER API
+  /api/fact/user/{user_id}:
+    get:
+      summary: Get all learning facts by user id
+      operationId: getLearningFactByUserId
+      tags:
+        - Learning Facts <> Users
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: A list of learning facts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserLearningFact'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/fact/{fact_id}/user/{user_id}:
+    get:
+      summary: Get a learning fact by id and user id
+      operationId: getLearningFactByIdAndUserId
+      tags:
+        - Learning Facts <> Users
+      parameters:
+        - name: fact_id
+          in: path
+          description: The id of the learning fact
+          required: true
+          schema:
+            type: number
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: A learning fact
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLearningFact'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/fact/{fact_id}/review/{user_id}:
+    put:
+      summary: Review a learning fact by id and user id
+      operationId: reviewLearningFactByIdAndUserId
+      tags:
+        - Learning Facts <> Users
+      parameters:
+        - name: fact_id
+          in: path
+          description: The id of the learning fact
+          required: true
+          schema:
+            type: number
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The user learning fact to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                confidenceLevel:
+                  type: string
+                  description: The confidence level of the user learning fact
+                  example: 3
+      responses:
+        '204':
+          description: Updated
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
 
 servers:
   [
@@ -923,20 +1308,6 @@ components:
         - title
         - creationDate
         - creatorId
-    LearningPackageSummary:
-      type: object
-      properties:
-        id:
-          type: number
-          description: The id of the learning package
-          example: 1
-        title:
-          type: string
-          description: The title of the learning package
-          example: Learn TypeScript
-      required:
-        - id
-        - title
     LearningFact:
       type: object
       properties:
@@ -1078,3 +1449,22 @@ components:
         - nextReviewDate
         - factId
         - userId
+    LearningPackageTag:
+      type: object
+      properties:
+        learningPackageTagId:
+          type: number
+          description: The id of the learning package tag
+          example: 1
+        packageId:
+          type: number
+          description: The id of the learning package
+          example: 1
+        tagId:
+          type: number
+          description: The id of the tag
+          example: 1
+      required:
+        - learningPackageTagId
+        - packageId
+        - tagId

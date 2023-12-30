@@ -7,7 +7,6 @@ import LearningFact from './models/learningFact.model';
 import UserLearningFact from './models/userLearningFact.model';
 import Tag from './models/tag.model';
 import LearningPackageTag from './models/learningPackageTag.model';
-import seedDatabase from "./seed";
 
 config();
 const DB_NAME: string = process.env.DB_NAME || null;
@@ -45,7 +44,8 @@ const setupDatabase = async (): Promise<void> => {
 
     await sequelize.sync();
 
-    await seedDatabase(sequelize)
+    //TODO: Add a flag to seed the database or not
+    // await seedDatabase(sequelize)
 };
 
 export default setupDatabase;
