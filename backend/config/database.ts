@@ -1,28 +1,51 @@
 import {Sequelize} from 'sequelize';
-import * as dotenv from "dotenv";
+import {config} from 'dotenv';
+import User from './models/user.model';
+import LearningPackage from './models/learningPackage.model';
+import UserLearningPackage from './models/userLearningPackage.model';
+import LearningFact from './models/learningFact.model';
+import UserLearningFact from './models/userLearningFact.model';
+import Tag from './models/tag.model';
+import LearningPackageTag from './models/learningPackageTag.model';
+import seedDatabase from "./seed";
 
-dotenv.config();
+config();
+const DB_NAME: string = process.env.DB_NAME || null;
+const DB_USER: string = process.env.DB_USER || null;
+const DB_PASSWORD: string = process.env.DB_PASSWORD || null;
+const DB_HOST: string = process.env.DB_HOST || null;
+const DB_PORT: number = Number(process.env.DB_PORT) || null;
 
-console.log('DB_NAME: ', process.env.DB_NAME);
-console.log('DB_USER: ', process.env.DB_USER);
-console.log('DB_HOST: ', process.env.DB_HOST);
+const setupDatabase = async (): Promise<void> => {
+    if (!DB_NAME || !DB_USER || !DB_PASSWORD || !DB_HOST || !DB_PORT) {
+        console.error('Missing database environment variables, refer to the BUILD.md file to set them up.');
+        process.exit(1);
+    }
 
-export const sequelize: Sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-        host: process.env.DB_HOST,
-        port: Number(process.env.DB_PORT),
+    const sequelize: Sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+        host: DB_HOST,
+        port: Number(DB_PORT),
         dialect: 'postgres',
         logging: false, // set to console.log to see the raw SQL queries
-        pool: {
-            max: 5, // maximum number of connection in pool
-            min: 0, // minimum number of connection in pool
-            acquire: 30000, // maximum time, in milliseconds, that pool will try to get connection before throwing error
-            idle: 10000 // maximum time, in milliseconds, that a connection can be idle before being released
-        },
         define: {
             timestamps: false // true by default. false because default sequelize adds createdAt, modifiedAt
         }
     });
+
+    User.initModel(sequelize);
+
+    LearningPackage.initModel(sequelize);
+    UserLearningPackage.initModel(sequelize);
+
+    LearningFact.initModel(sequelize);
+    UserLearningFact.initModel(sequelize);
+
+    Tag.initModel(sequelize);
+    LearningPackageTag.initModel(sequelize);
+
+    await sequelize.sync();
+
+    await seedDatabase(sequelize)
+};
+
+export default setupDatabase;

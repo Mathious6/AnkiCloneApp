@@ -1,7 +1,7 @@
 import {Request, Response, Router} from 'express';
-import LearningPackage from '../config/learningPackage.model';
-import UserLearningPackage from "../config/userLearningPackage.model";
-import UserLearningFact from "../config/userLearningFact.model";
+import LearningPackage from '../config/models/learningPackage.model';
+import UserLearningPackage from "../config/models/userLearningPackage.model";
+import UserLearningFact from "../config/models/userLearningFact.model";
 
 const router = Router();
 

@@ -1,9 +1,9 @@
 import {Request, Response, Router} from 'express';
 import {body, check, validationResult} from "express-validator";
-import LearningFact from '../config/learningFact.model';
-import LearningPackage from "../config/learningPackage.model";
-import User from "../config/user.model";
-import UserLearningFact from "../config/userLearningFact.model";
+import LearningFact from '../config/models/learningFact.model';
+import LearningPackage from "../config/models/learningPackage.model";
+import User from "../config/models/user.model";
+import UserLearningFact from "../config/models/userLearningFact.model";
 
 const router = Router();
 
@@ -25,7 +25,7 @@ const handlers_errors_userLearningFact = [
     check('confidenceLevel').isIn(['1', '2', '3']),
 ]
 
-router.get('/fact', async (_req: Request, res: Response) => {
+router.get('', async (_req: Request, res: Response) => {
     try {
         const learningFacts: LearningFact[] = await LearningFact.findAll();
         res.status(HTTP_OK).send(learningFacts);
@@ -34,7 +34,7 @@ router.get('/fact', async (_req: Request, res: Response) => {
     }
 });
 
-router.get('/fact/user/:userId', async (req: Request, res: Response) => {
+router.get('/user/:userId', async (req: Request, res: Response) => {
     try {
         const userId: number = +req.params.userId;
         const userExists: User | null = await User.findByPk(userId);
@@ -49,7 +49,7 @@ router.get('/fact/user/:userId', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/fact/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
     try {
         const factId: number = +req.params.id;
         const factExists: LearningFact | null = await LearningFact.findByPk(factId);
@@ -62,7 +62,7 @@ router.get('/fact/:id', async (req: Request, res: Response) => {
     }
 });
 
-router.put('/fact/:id', handlers_errors_fact, async (req: Request, res: Response) => {
+router.put('/:id', handlers_errors_fact, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(HTTP_BAD_REQUEST).send({error: errors.array()});
@@ -95,7 +95,7 @@ router.put('/fact/:id', handlers_errors_fact, async (req: Request, res: Response
     }
 });
 
-router.put('/fact/:id/deactivate', async (req: Request, res: Response) => {
+router.put('/:id/deactivate', async (req: Request, res: Response) => {
     try {
         const factId: number = +req.params.id;
         const factExists: LearningFact | null = await LearningFact.findByPk(factId);
@@ -110,7 +110,7 @@ router.put('/fact/:id/deactivate', async (req: Request, res: Response) => {
     }
 });
 
-router.put('/fact/:id/review/:userId', handlers_errors_userLearningFact, async (req: Request, res: Response) => {
+router.put('/:id/review/:userId', handlers_errors_userLearningFact, async (req: Request, res: Response) => {
     try {
         const factId = parseInt(req.params.id);
         const userId = parseInt(req.params.userId);
@@ -154,7 +154,7 @@ router.put('/fact/:id/review/:userId', handlers_errors_userLearningFact, async (
     }
 });
 
-router.get('/fact/:id/user/:userId', handlers_errors_userLearningFact, async (req: Request, res: Response) => {
+router.get('/:id/user/:userId', handlers_errors_userLearningFact, async (req: Request, res: Response) => {
     try {
         const factId = parseInt(req.params.id);
         const userId = parseInt(req.params.userId);

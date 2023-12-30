@@ -1,8 +1,8 @@
 {
-  "name": "td2",
-  "version": "1.0.0",
-  "description": "Anki APP",
-  "main": "index.js",
+  "name": "anki-app-backend",
+  "version": "2.0.20",
+  "description": "Anki Clone App Backend",
+  "main": "./src/app.js",
   "scripts": {
     "start": "tsc && node ./src/app.js",
     "build": "tsc",
