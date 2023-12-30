@@ -49,8 +49,8 @@
       <div class="col-md-3">
         <div class="form-group rounded">
           <label for="tags" >Tags (hold down the Ctrl button to select multiple options)</label>
-          <select class="form-control" id="tags" size="8" multiple>
-            <option *ngFor="let tag of tagsTab" [value]="tag.englishKeyword">{{ tag.englishKeyword }}</option>
+          <select class="form-control" id="tags" size="8" multiple formControlName="selectTag">
+            <option *ngFor="let tag of tagsTab" [value]="tag">{{ tag.englishKeyword }}</option>
           </select>
         </div>
       </div>

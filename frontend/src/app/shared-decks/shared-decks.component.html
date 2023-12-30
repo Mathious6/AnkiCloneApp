@@ -9,20 +9,14 @@
       </div>
       <div class="col-md-3 mb-2">
         <div class="form-group rounded">
-          <label for="description" [class]="searchForm.get('description')?.invalid ? 'text-danger' : ''">Description</label>
-          <input type="text" class="form-control" id="description" name="description" formControlName="description">
-        </div>
-      </div>
-      <div class="col-md-3 mb-2">
-        <div class="form-group rounded">
-          <label for="category" [class]="searchForm.get('category')?.invalid ? 'text-danger' : ''">Category</label>
-          <input type="text" class="form-control" id="category" name="category" formControlName="category">
+          <label for="tag" [class]="searchForm.get('description')?.invalid ? 'text-danger' : ''">Tag</label>
+          <input type="text" class="form-control" id="tag" name="tag" formControlName="tag">
         </div>
       </div>
     </div>
 
 
-    <button type="button" class="btn btn-primary" (click)="getSearchPackage()" [disabled]="!searchForm.valid">Search</button>
+    <button type="button" class="btn btn-primary"  [disabled]="!searchForm.valid">Search</button><!--(click)="getSearchPackage()"-->
   </form>
 
 

@@ -30,7 +30,7 @@ export class NewCardComponent implements OnInit{
   }
 
     ngOnInit(){
-      this.httpFacadeService.getAllUserLearningPackage(this.authService.session.userId).subscribe({
+      this.httpFacadeService.getPackageCreatorId(this.authService.session.userId).subscribe({
         next: learningPackages =>{
           this.lp = learningPackages
         } ,

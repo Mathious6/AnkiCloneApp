@@ -70,6 +70,12 @@ export interface UserLearningFact {
   userId: number;
 }
 
+export interface LearningPackageTag{
+  learningPackageTagId: number;
+  packageId: number;
+  tagId: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -172,5 +178,14 @@ export class HttpFacadeService {
   postTags(englishKeyword : string, frenchTranslation: string):Observable<tag>{
     const value = {englishKeyword, frenchTranslation}
     return this.httpClient.post<tag>(`api/tag`,value)
+  }
+
+  getPackageCreatorId(creatorId : number): Observable<LearningPackage[]>{
+    return this.httpClient.get<LearningPackage[]>(`api/package/creator/${creatorId}`)
+  }
+
+  postPackageTag(packageId : number, tagId : number, englishKeyWord : string, frenchTranslation : string): Observable<LearningPackageTag>{
+    const value = {tagId, englishKeyWord, frenchTranslation}
+    return this.httpClient.post<LearningPackageTag>(`/api/package/${packageId}/tag`,value)
   }
 }

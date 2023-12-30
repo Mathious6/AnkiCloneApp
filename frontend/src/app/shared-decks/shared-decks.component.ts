@@ -16,14 +16,13 @@ export class SharedDecksComponent {
   constructor(private formBuilder: FormBuilder, private httpFacadeService: HttpFacadeService) {
     this.searchForm = this.formBuilder.group({
       title: ['', Validators.required],
-      description: ['', Validators.required],
-      category: ['', Validators.required],
+      tag: ['', Validators.required]
     });
   }
 
   public lp: LearningPackage[] = [];
 
-  getSearchPackage(): void {
+  /*getSearchPackage(): void {
     const titleControl = this.searchForm.get('title');
     const descriptionControl = this.searchForm.get('description');
     const categoryControl = this.searchForm.get('category');
@@ -35,5 +34,5 @@ export class SharedDecksComponent {
         this.lp = data;
       })
     }
-  }
+  }*/
 }
