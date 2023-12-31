@@ -212,7 +212,6 @@ router.post('/:id/fact', validator_fact, async (req: Request, res: Response) => 
         if (!userExists) {
             return res.status(HTTP_NOT_FOUND).send({error: `User with ID ${creatorId} does not exist.`});
         }
-
         const newFact = {front, back, source, relatedImage, relatedLink, packageId, creatorId};
         const createdFact: LearningFact = await LearningFact.create(newFact);
         res.status(HTTP_CREATED).send(createdFact);

@@ -30,14 +30,14 @@ export class NewCardComponent implements OnInit{
   onCreate() {
     if (this.factForm.valid) {
       this.httpFacadeService.postNewLearningFact(
-        this.capitalizeFirstLetter(this.factForm.value.front),
-        this.factForm.value.back,
+        this.capitalizeFirstLetter(this.factForm.value.recto),
+        this.factForm.value.verso,
         this.factForm.value.source,
         this.factForm.value.image,
         this.factForm.value.url,
-        this.factForm.get('selectedPackage')?.value.packageId,
+        this.factForm.value.selectedPackage,
         this.authService.session.userId).subscribe({
-        next: (value) => this.factForm.reset(),
+        next: () => this.factForm.reset(),
       });
     }
   }

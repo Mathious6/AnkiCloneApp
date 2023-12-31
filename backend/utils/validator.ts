@@ -20,8 +20,6 @@ export const validator_fact = [
     check('front').if(check('front').exists()).isLength({min: 3}),
     check('back').if(check('back').exists()).isLength({min: 3}),
     check('source').if(check('source').exists()).isURL(),
-    check('relatedImage').if(check('relatedImage').exists()).isURL(),
-    check('relatedLink').if(check('relatedLink').exists()).isURL(),
 ]
 
 export const validator_tag = [

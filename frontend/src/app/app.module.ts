@@ -33,6 +33,7 @@ import { PricingComponent } from './pricing/pricing.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { LessonModalComponent } from './lesson-modal/lesson-modal.component';
 import { NewLessonModalComponent } from './new-lesson-modal/new-lesson-modal.component';
+import { DeleteFactPackageComponent } from './delete-fact-package/delete-fact-package.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { NewLessonModalComponent } from './new-lesson-modal/new-lesson-modal.com
     PricingComponent,
     NotfoundComponent,
     LessonModalComponent,
-    NewLessonModalComponent
+    NewLessonModalComponent,
+    DeleteFactPackageComponent
   ],
   imports: [
     BrowserModule,
