@@ -76,7 +76,6 @@ export interface UserLearningFact {
 export class HttpFacadeService {
 
   constructor(private httpClient: HttpClient) {
-
   }
   deactivateUser(userId: number): Observable<void>{
     return this.httpClient.put<void>(`api/user/${userId}/deactivate`, {});
@@ -188,7 +187,15 @@ export class HttpFacadeService {
     return this.httpClient.get<tag[]>(`api/package/${packageId}/tag`);
   }
 
-  getPackageByTitle(title : string): Observable<LearningPackage>{
-    return this.httpClient.post<LearningPackage>(`/search-title`, {title})
+  deleteLearningPackage(packageId : string): Observable<any>{
+    return this.httpClient.delete<any>(`api/package/${packageId}`);
+  }
+
+  deleteLearningFact(factId : string): Observable<any>{
+    return this.httpClient.delete<any>(`api/fact/${factId}`)
+  }
+
+  deleteTagById(tagId : string): Observable<any>{
+    return this.httpClient.delete<any>(`api/tag/${tagId}`)
   }
 }

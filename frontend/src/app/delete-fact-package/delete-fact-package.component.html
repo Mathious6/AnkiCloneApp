@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <div class="container mt-3">
+    <h1 class="text-center display-6 fst-italic">DELETE LEARNING FACT AND PACKAGE</h1>
+  </div>
+  <form [formGroup]="deletePackageFact">
+    <div class="form-group">
+      <label for="selectedPackageDropdownMenu" class="mb-1">Choose a learning package<span class="text-danger"> *</span></label>
+      <select class="form-control mb-3" id="selectedPackageDropdownMenu" formControlName="selectedPackage" (change)="onSelectPackage()">
+        <option *ngFor="let learningPackage of existingLearningPackages" [value]="learningPackage.packageId">{{ learningPackage.title }}</option>
+      </select>
+      <label for="selectedFactDropdownMenu" class="mb-1">Choose a learning fact (optional)</label>
+      <select class="form-control mb-3" id="selectedFactDropdownMenu" formControlName="selectedFact">
+        <option *ngFor="let learningFact of existingLearningFacts" [value]="learningFact.factId">{{ learningFact.front }}</option>
+      </select>
+      <div class="text-center">
+        <p *ngIf="deletePackageFact.invalid" class="text-danger">Please fill out all required fields.</p>
+        <button type="button" class="btn btn-danger" (click)="onDeletePackageFact()" [disabled]="!deletePackageFact.valid">Delete Learning Fact or Package</button>
+      </div>
+    </div>
+  </form>
+  <form [formGroup]="deleteTag">
+    <div class="form-group">
+      <label for="selectedTagDropdownMenu" class="mb-1">Choose a learning package<span class="text-danger"> *</span></label>
+      <select class="form-control mb-3" id="selectedTagDropdownMenu" formControlName="selectedTag" (change)="onSelectPackage()">
+        <ng-container *ngFor="let tagsArray of existingTags">
+          <ng-container *ngFor="let tag of tagsArray">
+            <option [value]="tag.tagId">{{ tag.englishKeyword }}</option>
+          </ng-container>
+        </ng-container>
+      </select>
+      <div class="text-center">
+        <p *ngIf="deleteTag.invalid" class="text-danger">Please fill out all required fields.</p>
+        <button type="button" class="btn btn-danger" (click)="onDeleteTag()" [disabled]="!deleteTag.valid">Delete Learning Fact or Package</button>
+      </div>
+    </div>
+  </form>
+</div>
