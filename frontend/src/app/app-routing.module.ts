@@ -6,7 +6,6 @@ import {FooterComponent} from "./components/footer/footer.component";
 import {HomeCarousselComponent} from "./components/home-caroussel/home-caroussel.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {StudyNowComponent} from "./study-now/study-now.component";
-import {SharedDecksComponent} from "./shared-decks/shared-decks.component";
 import {ProgressStatisticsComponent} from "./progress-statistics/progress-statistics.component";
 import {GlossaryComponent} from "./glossary/glossary.component";
 import {DocumentationComponent} from "./documentation/documentation.component";
@@ -36,7 +35,6 @@ const routes: Routes = [
   {path : 'footer', component: FooterComponent, canActivate: [authGuard]},
   {path : 'header', component : NavbarComponent, canActivate: [authGuard]},
   {path : 'study-now', component : StudyNowComponent, canActivate: [authGuard]},
-  {path : 'shared-decks', component : SharedDecksComponent, canActivate: [authGuard]},
   {path : 'progress-statistics', component : ProgressStatisticsComponent, canActivate: [authGuard]},
   {path : 'glossary', component : GlossaryComponent, canActivate: [authGuard]},
   {path : 'documentation', component : DocumentationComponent, canActivate: [authGuard]},

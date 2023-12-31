@@ -10,7 +10,6 @@ import {FooterComponent} from './components/footer/footer.component';
 import {HomeCarousselComponent} from './components/home-caroussel/home-caroussel.component';
 import { ExploreLessonComponent } from './explore-lesson/explore-lesson.component';
 import { StudyNowComponent } from './study-now/study-now.component';
-import { SharedDecksComponent } from './shared-decks/shared-decks.component';
 import { ProgressStatisticsComponent } from './progress-statistics/progress-statistics.component';
 import {HttpClientModule} from "@angular/common/http";
 import { NewCardComponent } from './new-card/new-card.component';
@@ -43,7 +42,6 @@ import { NewLessonModalComponent } from './new-lesson-modal/new-lesson-modal.com
     HomeCarousselComponent,
     ExploreLessonComponent,
     StudyNowComponent,
-    SharedDecksComponent,
     ProgressStatisticsComponent,
     NewCardComponent,
     NewPackageComponent,

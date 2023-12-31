@@ -1,85 +1,37 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <style>
-    .rounded {
-      border-radius: 10px;
-    }
-    .barre-selection {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 80px;
-      background-color: #f0f0f0;
-      border-radius: 10px;
-      margin: 0 auto;
-      width: 70%;
-    }
-
-    .barre-selection button {
-      border: none;
-      background: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .barre-selection button:hover {
-      background-color: #ddd;
-    }
-  </style>
-</head>
-<body>
-
-<div class="barre-selection mt-3">
-  <button routerLink="/new-card">new learning fact</button>
-  <button routerLink="/new-package">new learning package</button>
-</div>
-
-<div class="container mt-3">
-  <h1 class="text-center">NEW LEARNING FACT</h1>
-</div>
-
-<form  [formGroup]="lessonForm">
-  <div class="container mt-5 mb-5">
+<div class="container mt-4">
+  <div class="text-center">
+    <button class="btn btn-close-white text-black rounded-end-0 border-dark border-2" routerLink="/new-card">New Learning Fact</button>
+    <button class="btn btn-dark text-white rounded-start-0 border-2" routerLink="/new-package">New Learning Package</button>
+  </div>
+  <div class="container mt-3">
+    <h1 class="text-center display-6 fst-italic">NEW LEARNING FACT</h1>
+  </div>
+  <form [formGroup]="factForm">
     <div class="form-group">
-      <label for="dropdownMenu" [class]="lessonForm.get('selectedPackage')?.invalid ? 'text-danger' : ''">choose a learning package:</label>
-      <select class="form-control mb-3" id="dropdownMenu" name="dropdownMenu" formControlName="selectedPackage">>
-        <option *ngFor="let package of lp" [value]="package.title">{{ package.title }}</option>
+      <label for="dropdownMenu" class="mb-1">Choose a learning package<span class="text-danger"> *</span></label>
+      <select class="form-control mb-3" id="dropdownMenu" name="dropdownMenu" formControlName="selectedPackage">
+        <option *ngFor="let learningPackage of existingLearningPackages" [value]="learningPackage">{{ learningPackage.title }}</option>
       </select>
-    </div>
 
-    <div class="form-group">
-      <label for="recto" [class]="lessonForm.get('recto')?.invalid ? 'text-danger' : ''">recto :</label>
-      <textarea class="form-control mb-4" id="recto" name="recto" rows="4" formControlName="recto"></textarea>
-    </div>
+      <label for="recto" class="mb-1">Recto<span class="text-danger"> *</span></label>
+      <textarea class="form-control mb-3" id="recto" name="recto" rows="4" formControlName="recto"></textarea>
+      <p>
+        <label for="image" class="mb-1">Image (optional)</label><br>
+        <input type="file" class="form-control-file mb-3" id="image" name="image" accept="image/*" formControlName="image">
+      </p>
+      <p>
+        <label for="url" class="mb-1">URL (optional)</label>
+        <input type="url" class="form-control mb-3" id="url" name="url" placeholder="Enter the link to a resource" formControlName="url">
+      </p>
+      <label for="source" class="mb-1">Source<span class="text-danger"> *</span></label>
+      <input type="url" class="form-control mb-3" id="source" name="source" formControlName="source" placeholder="Indicate the source">
 
-    <div class="form-group">
-      <label for="image">Image (optional) </label>
-      <input type="file" class="form-control-file mb-3" id="image" name="image" accept="image/*" formControlName="image">
-    </div>
-
-    <div class="form-group">
-      <label for="url">URL (optional)</label>
-      <input type="url" class="form-control mb-3" id="url" name="url" placeholder="enter the link to a resource" formControlName="url">
-    </div>
-
-    <div class="form-group">
-      <label for="source" [class]="lessonForm.get('source')?.invalid ? 'text-danger' : ''">source :</label>
-      <input type="url" class="form-control mb-3" id="source" name="source" formControlName="source" placeholder="indicate the source">
-    </div>
-
-
-    <div class="form-group mb-5">
-      <label for="verso" [class]="lessonForm.get('verso')?.invalid ? 'text-danger' : ''">verso :</label>
+      <label for="verso" class="mb-1">Verso<span class="text-danger"> *</span></label>
       <textarea class="form-control mb-3" id="verso" name="verso" rows="4" formControlName="verso"></textarea>
     </div>
-
-    <button type="button" class="btn btn-dark" (click)="onCreate()" [disabled]="!lessonForm.valid">create</button>
-    <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger"> Please fill out all required fields.</span>
-  </div>
-</form>
-
-</body>
-</html>
-
+    <div class="text-center">
+      <p *ngIf="factForm.invalid" class="text-danger">Please fill out all required fields.</p>
+      <button type="button" class="btn btn-dark" (click)="onCreate()" [disabled]="!factForm.valid">Create New Learning Fact</button>
+    </div>
+  </form>
+</div>
