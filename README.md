@@ -23,7 +23,7 @@ With a team of 4 developers, we built this application using the following techn
 
 Let's preview the application!
 
-![AnkiCloneApp preview](./docs/preview.gif)
+![AnkiCloneApp preview](./docs/presentation.gif)
 
 ## 🏃‍♂️ Run Locally
 
@@ -105,4 +105,9 @@ You will be able to test the endpoints directly on the documentation page. We al
 
 ## 🗄 Database overview
 
-COMING SOON
+To store the data, we decided to use PostgreSQL, a relational database management system. We chose this database because it's open-source, and it's one of the most popular databases.
+It's also very easy to use and to set up. We used the pgAdmin tool to manage the database. It's a free and open-source administration and development platform for PostgreSQL.
+
+Here is the database schema:
+
+![Database schema](./docs/UML.webp)
