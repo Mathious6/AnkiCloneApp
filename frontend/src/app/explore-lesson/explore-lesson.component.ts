@@ -76,40 +76,14 @@ export class ExploreLessonComponent implements OnInit{
     modalRef.componentInstance.setUserId(this.authService.session.userId);
     modalRef.componentInstance.setUserPackage(this.userLearningPackages.map(userPackages => userPackages.packageId));
   }
-  handleSearchInput(): void {
-    if (this.searchTerm.trim() === '') {
-      this.filteredLearningPackage = this.userLearningPackages;
-    } else {
-      try {
-        const searchRegex = new RegExp(this.searchTerm, 'i');
-        this.filteredLearningPackage = this.userLearningPackages.filter((item) =>
-          this.matchSearchTerm(item, searchRegex)
-        );
-      } catch (e) {
-        this.filteredLearningPackage = [];
-      }
-    }
-  }
   matchSearchTerm(item: any, regex: RegExp): boolean {
     return (
       item.title.match(regex) ||
       item.description.match(regex));
   }
 
-  filterByTag(tagId: number): void {
-    this.selectedTagId = tagId;
-    this.applyFilters();
-  }
-
-  clearTagFilter(): void {
-    this.selectedTagId = null;
-    this.applyFilters();
-  }
-
   applyFilters(): void {
-    // Combine search term and tag filter
     const searchRegex = this.searchTerm.trim() !== '' ? new RegExp(this.searchTerm, 'i') : null;
-
     this.filteredLearningPackage = this.userLearningPackages.filter((item) => {
       const matchesSearchTerm = !searchRegex || this.matchSearchTerm(item, searchRegex);
       const matchesTagFilter = this.selectedTagId === null || this.packageHasTag(item, this.selectedTagId);

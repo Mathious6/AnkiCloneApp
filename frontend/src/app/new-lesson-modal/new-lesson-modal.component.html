@@ -9,7 +9,15 @@
 </div>
 <div class="modal-body" >
   <div class="form-group mb-2">
-    <input type="text" class="form-control" id="searchInput" [(ngModel)]="searchTerm" (input)="handleSearchInput()" placeholder="Enter search term">
+    <input type="text" class="form-control" id="searchInput" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Enter search term">
+    <div class="d-flex flex-wrap mt-2 justify-content-between">
+      <div class="d-flex">
+          <span class="badge m-1" [ngClass]="{'bg-secondary': tag.tagId === selectedTagId, 'bg-dark': tag.tagId !== selectedTagId}" *ngFor="let tag of filteredTags" (click)="toggleTag(tag.tagId)">
+            {{ tag.englishKeyword }}
+          </span>
+      </div>
+      <span class="badge bg-info m-1" (click)="resetFilters()">Reset Tag</span>
+    </div>
   </div>
   <div class="overflow-y-auto">
     <ul class="list-group-item">
@@ -17,11 +25,12 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ learningPackage.title }}</h5>
-            <p class="card-text">{{ learningPackage.description }}</p>
+            <p class="card-text mb-1">{{ learningPackage.description }}</p>
+            <span *ngFor="let tag of learningPackage.tags" style="margin-right: 6px;" class="badge bg-secondary mb-3">{{ tag.englishKeyword }}</span>
             <div class="d-flex justify-content-between align-items-center">
               <div class="mb-2">
                 <span class="badge bg-primary">{{ learningPackage.category }}</span>
-                <span class="badge bg-secondary mx-2">{{ learningPackage.targetAudience }}</span>
+                <span class="badge bg-warning text-white mx-2">{{ learningPackage.targetAudience }}</span>
                 <span class="badge bg-info">{{ learningPackage.duration }} minutes</span>
               </div>
               <button class="btn btn-success" (click)="startUserPackage(learningPackage.packageId)">Start Now</button>
