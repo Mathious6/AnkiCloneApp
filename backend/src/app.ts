@@ -8,11 +8,11 @@ import setupSwagger from '../config/swagger';
 config();
 const app: Express = express();
 const PORT: string | 3000 = process.env.PORT || 3000;
-
+const shouldSeedDB = process.argv.includes('--seed');
 
 app.use(express.json());
 
-setupDatabase()
+setupDatabase(shouldSeedDB)
     .then(() => setupRoutes(app))
     .then(() => setupSwagger(app))
     .then(() => {

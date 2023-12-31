@@ -507,7 +507,6 @@ const seedUserLearningPackages = async (): Promise<void> => {
             defaults: userLearningPackage
         })
     }
-
 }
 
 const seedUserLearningFacts = async (): Promise<void> => {
@@ -574,7 +573,7 @@ export const seedDatabase = async (sequelize: Sequelize): Promise<void> => {
     try {
         console.log('Seeding the database...');
 
-        await sequelize.sync();
+        await sequelize.sync({force: true});
 
         await seedUsers();
         await seedLearningPackages();

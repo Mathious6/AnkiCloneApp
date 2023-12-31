@@ -7,6 +7,7 @@ import LearningFact from './models/learningFact.model';
 import UserLearningFact from './models/userLearningFact.model';
 import Tag from './models/tag.model';
 import LearningPackageTag from './models/learningPackageTag.model';
+import seedDatabase from "./seed";
 
 config();
 const DB_NAME: string = process.env.DB_NAME || null;
@@ -15,7 +16,7 @@ const DB_PASSWORD: string = process.env.DB_PASSWORD || null;
 const DB_HOST: string = process.env.DB_HOST || null;
 const DB_PORT: number = Number(process.env.DB_PORT) || null;
 
-const setupDatabase = async (): Promise<void> => {
+const setupDatabase = async (seedDB: boolean): Promise<void> => {
     if (!DB_NAME || !DB_USER || !DB_PASSWORD || !DB_HOST || !DB_PORT) {
         console.error('Missing database environment variables, refer to the BUILD.md file to set them up.');
         process.exit(1);
@@ -44,8 +45,9 @@ const setupDatabase = async (): Promise<void> => {
 
     await sequelize.sync();
 
-    //TODO: Add a flag to seed the database or not
-    // await seedDatabase(sequelize)
+    if (seedDB) {
+        await seedDatabase(sequelize)
+    }
 };
 
 export default setupDatabase;
