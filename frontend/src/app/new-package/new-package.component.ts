@@ -42,7 +42,6 @@ export class NewPackageComponent implements OnInit {
         this.lessonForm.value.duration,
         this.authService.session.userId).subscribe({
       next: (learningPackage) => {
-        console.log(learningPackage);
         createdPackageId = learningPackage.packageId;
         this.lessonForm.reset();
         if (this.selectedTags.length > 0) {

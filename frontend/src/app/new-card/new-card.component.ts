@@ -20,7 +20,7 @@ export class NewCardComponent implements OnInit{
     url: [''],
     source: ['', Validators.required]
   });
-  constructor(private formBuilder: FormBuilder, private httpFacadeService : HttpFacadeService, private router: Router, private authService : AuthService) {
+  constructor(private formBuilder: FormBuilder, private httpFacadeService : HttpFacadeService, private authService : AuthService) {
   }
   ngOnInit(){
     this.httpFacadeService.getPackageCreatorId(this.authService.session.userId).subscribe({
