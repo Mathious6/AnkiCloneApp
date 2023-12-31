@@ -11,6 +11,7 @@ import {
     HTTP_OK,
     HTTP_UPDATED
 } from "../utils/httpCodes";
+import LearningPackageTag from "../config/models/learningPackageTag.model";
 
 const router: Router = Router();
 
@@ -74,6 +75,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
             return res.status(HTTP_NOT_FOUND).send({error: `Tag with ID ${tagId} does not exist.`});
         }
 
+        await LearningPackageTag.destroy({where: {tagId}});
         await Tag.destroy({where: {tagId}});
         res.status(HTTP_UPDATED).send();
     } catch (error) {
