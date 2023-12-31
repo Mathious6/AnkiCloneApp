@@ -30,6 +30,14 @@ Let's preview the application!
 To run the application locally, you need to follow the steps detailed on the [BUILD.md](./BUILD.md) file.
 It will guide you through the process of setting up the database, the API and the frontend.
 
+If you want to test the application, here are some credentials you can use:
+
+| ID | Username | Password |
+|----|----------|----------|
+| 1  | John     | 123456   |
+| 2  | Tony     | 123456   |
+| 3  | Danielle | 123456   |
+
 ## 🖥 Frontend overview
 
 The frontend is built using Angular, a TypeScript-based open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations.
