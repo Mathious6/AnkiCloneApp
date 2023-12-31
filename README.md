@@ -93,3 +93,16 @@ your global progress and the number of packages you created.
 - [Profile page](http://localhost:4200/settings), [Progress statistics page](http://localhost:4200/progress-statistics)
 
 ![Profile page](./docs/7.png)
+
+## 📡 API overview
+
+The API is built using Node.js and Express.js, two JavaScript frameworks that allow us to build a REST API. This API is used by the frontend to communicate with the database.
+It provides endpoints to create, read, update and delete resources. To better understand the API, we decided to document it using Swagger. Each endpoint is documented with a description,
+the parameters, the responses and the possible errors. You can access the documentation by navigating to the [API documentation](http://localhost:3000/api-docs).
+You will be able to test the endpoints directly on the documentation page. We also documented the schemas of the database using the Swagger models.
+
+![API documentation](./docs/8.png)
+
+## 🗄 Database overview
+
+COMING SOON
