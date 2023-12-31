@@ -78,6 +78,7 @@ git clone https://github.com/Mathious6/AnkiCloneApp.git
 
 The project is composed of two parts: the frontend and the backend.
 For the next steps, you will have to stay in the root directory of the project.
+Next commands will be executed on bash, but you can use any linux shell.
 
 ## 📡 Backend configuration
 
@@ -141,7 +142,7 @@ If you want to seed the database with some data, you can run the following comma
 But be careful, this will delete all the data in the database and replace it with the data in the seed file.
 
 ```bash
-npm run --prefix backend -- --seed
+npm start --prefix backend -- --seed
 ```
 
 ### Frontend
@@ -149,7 +150,7 @@ npm run --prefix backend -- --seed
 To start the frontend, run the following command in your terminal:
 
 ```bash
-ng serve --prefix frontend
+npm start --prefix frontend
 ```
 
 After starting the frontend and the backend, you can access the application at the following address: [http://localhost:4200](http://localhost:4200) and test the backend on the Swagger UI at the following address: [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
