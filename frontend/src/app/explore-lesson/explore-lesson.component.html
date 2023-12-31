@@ -3,6 +3,11 @@
     <button class="btn btn-dark my-2 discover-button" (click)="startLesson()">Discover News Lesson</button>
     <h1 class="my-4">My Lessons</h1>
     <input type="text" class="form-control mb-2" id="searchInput" [(ngModel)]="searchTerm" (input)="handleSearchInput()" placeholder="Enter search term">
+    <div class="d-flex flex-wrap mt-2">
+  <span class="badge m-1" [ngClass]="{'bg-secondary': tag.tagId === selectedTagId, 'bg-dark': tag.tagId !== selectedTagId}" *ngFor="let tag of filteredTags" (click)="toggleTag(tag.tagId)">
+    {{ tag.englishKeyword }}
+  </span>
+    </div>
   </div>
   <ul class="list-group-item">
     <li *ngFor="let learningPackage of filteredLearningPackage" class="list-group-item mb-3">
