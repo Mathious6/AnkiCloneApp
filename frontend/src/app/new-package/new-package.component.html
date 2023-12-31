@@ -1,121 +1,63 @@
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <style>
-    /* Ajoutez vos styles personnalisés ici, si nécessaire */
-    .rounded {
-      border-radius: 10px;
-    }
-    .barre-selection {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 80px; /* Ajustez la hauteur selon vos besoins */
-      background-color: #f0f0f0;
-      border-radius: 10px;
-      margin: 0 auto;
-      width: 70%; /* Ajustez la largeur selon vos besoins */
-    }
-
-    .barre-selection button {
-      border: none;
-      background: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .barre-selection button:hover {
-      background-color: #ddd;
-    }
-  </style>
-</head>
-<body>
-
-<div class="barre-selection mt-3">
-  <button routerLink="/new-card">new learning fact</button>
-  <button routerLink="/new-package">new learning package</button>
-</div>
-
-
-<div class="container mt-3">
-  <h1 class="text-center mb-4">NEW LEARNING PACKAGE</h1>
-</div>
-
-<form [formGroup]="tagForm">
-  <div class="container mt-2">
-    <div class="row mb-3">
-      <div class="col-md-3">
-        <div class="form-group rounded">
-          <label for="tags" >Tags (hold down the Ctrl button to select multiple options)</label>
-          <select class="form-control" id="tags" size="8" multiple formControlName="selectTag">
-            <option *ngFor="let tag of tagsTab" [value]="tag">{{ tag.englishKeyword }}</option>
-          </select>
+<div class="container mt-4">
+  <div class="text-center">
+    <button class="btn btn-dark text-white rounded-end-0 border-2" routerLink="/new-card">New Learning Fact</button>
+    <button class="btn btn-close-white text-black rounded-start-0 border-dark border-2" routerLink="/new-package">New Learning Package</button>
+  </div>
+  <div class="container my-3">
+    <h1 class="text-center display-6 fst-italic">NEW LEARNING PACKAGE</h1>
+  </div>
+  <form [formGroup]="tagForm">
+    <div class="form-group">
+      <div class="row mb-3 align-items-center">
+        <div class="col-md-5">
+            <label for="tags" class="mb-1">Tags (hold down the Ctrl button to select multiple options)</label>
+            <select class="form-control" id="tags" size="8" multiple formControlName="selectTag">
+              <option *ngFor="let tag of tagsTab" [value]="tag">{{ tag.englishKeyword }}</option>
+            </select>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group rounded">
-          <label for="newTag" class="mb-4" >or Create a new tag to add to the list</label>
-          <input type="text" class="form-control mb-2" id="newTag" name="newTag" formControlName="newTag">
-          <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-
-          <div class="col-md-6 d-flex align-items-center">
-            <button type="button" class="btn btn-dark" (click)="onCreateTag()" [disabled]="!tagForm.valid" >add tag</button>
-          </div>
+        <div class="col-md-2 text-center">
+          <h2> OR </h2>
+        </div>
+        <div class="col-md-5">
+            <label for="newTag" class="mb-1" >Create a new tag to add to the list</label>
+            <input type="text" class="form-control mb-2" id="newTag" name="newTag" formControlName="newTag">
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+            <button type="button" class="btn btn-dark" (click)="onCreateTag()" [disabled]="!tagForm.valid" >Add Tag</button>
         </div>
       </div>
     </div>
-  </div>
-</form>
+  </form>
 
-<form  [formGroup]="lessonForm">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-3 mb-2">
-        <div class="form-group rounded">
-          <label for="title" [class]="lessonForm.get('title')?.invalid ? 'text-danger' : ''">Title</label>
+  <form [formGroup]="lessonForm">
+    <div class="form-group">
+      <div class="row mb-1">
+        <div class="col-md-12 mb-1">
+          <label for="title" class="mb-1">Title</label>
           <input type="text" class="form-control" id="title" name="title" formControlName="title">
         </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12 mb-2">
-        <div class="form-group rounded">
-          <label for="description" [class]="lessonForm.get('description')?.invalid ? 'text-danger' : ''">Description</label>
+        <div class="col-md-12">
+          <label for="description" class="mb-1">Description</label>
           <input type="text" class="form-control" id="description" name="description" formControlName="description">
         </div>
       </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-3">
-        <div class="form-group rounded">
-          <label for="targetAudience" [class]="lessonForm.get('targetAudience')?.invalid ? 'text-danger' : ''">Target Audience</label>
-          <input type="text" class="form-control" id="targetAudience" name="targetAudience" formControlName="targetAudience">
+      <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="targetAudience" class="mb-1">Target Audience</label>
+            <input type="text" class="form-control" id="targetAudience" name="targetAudience" formControlName="targetAudience">
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group rounded">
-          <label for="category" [class]="lessonForm.get('category')?.invalid ? 'text-danger' : ''">Category</label>
-          <input type="text" class="form-control" id="category" name="category" formControlName="category">
+        <div class="col-md-4">
+            <label for="category" class="mb-1">Category</label>
+            <input type="text" class="form-control" id="category" name="category" formControlName="category">
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group rounded">
-          <label for="numericFieldMin" [class]="lessonForm.get('duration')?.invalid ? 'text-danger' : ''">Duration (Min)</label>
-          <input type="number" class="form-control" id="numericFieldMin" name="numericFieldMin" formControlName="duration">
+        <div class="col-md-4">
+            <label for="numericFieldMin" class="mb-1">Duration (Min)</label>
+            <input type="number" class="form-control" id="numericFieldMin" name="numericFieldMin" formControlName="duration">
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="container mt-3">
-    <button type="button" class="btn btn-dark" (click)="onCreate()" [disabled]="!lessonForm.valid" >create</button>
-    <span *ngIf="lessonForm.invalid" class="col-md-8 text-danger"> Please fill out all required fields.</span>
-  </div>
-</form>
-
-</body>
-</html>
+    <div class="text-center">
+      <p *ngIf="lessonForm.invalid" class="text-danger"> Please fill out all required fields.</p>
+      <button type="button" class="btn btn-dark" (click)="onCreatePackage()" [disabled]="!lessonForm.valid" >Create New Learning Package</button>
+    </div>
+  </form>
+</div>

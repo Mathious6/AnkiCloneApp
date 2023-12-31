@@ -12,12 +12,12 @@ import {NavbarComponent} from "../components/navbar/navbar.component";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  form: FormGroup = this.fb.group({
+  form: FormGroup = this.formBuilder.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
   errorMessage: string = '';
-  constructor(private authService: AuthService, private fb: FormBuilder, private router : Router, private sharedService : SharedService){
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router : Router, private sharedService : SharedService){
 
   }
   login() {

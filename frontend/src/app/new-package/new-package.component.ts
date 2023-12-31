@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpFacadeService, LearningPackage, tag} from "../http-facade.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-new-package',
@@ -10,112 +11,66 @@ import {AuthService} from "../auth.service";
   styleUrls: ['./new-package.component.css']
 })
 
-
 export class NewPackageComponent implements OnInit {
-
-  lessonForm: FormGroup;
-  tagForm : FormGroup
+  lessonForm : FormGroup = this.formBuilder.group({
+    title: ['', Validators.required],
+    description: ['', Validators.required],
+    category: ['', Validators.required],
+    targetAudience: ['', Validators.required],
+    duration:['', [Validators.required, Validators.min(0)]],
+    tags: ['']
+  });
+  tagForm :FormGroup = this.formBuilder.group({
+    newTag: ['', [Validators.required, Validators.pattern(/\S/)]],
+    selectTag: ['']
+  });
   errorMessage: string = '';
   tagsTab : tag[] = [];
-  SelectedTags : tag[] = [];
-  AllPackages : LearningPackage[] = [];
-
-
-  constructor(private formBuilder: FormBuilder, private httpservice : HttpFacadeService, private router: Router, private authService : AuthService) {
-    this.lessonForm = formBuilder.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      category: ['', Validators.required],
-      targetAudience: ['', Validators.required],
-      duration:['', [Validators.required, Validators.min(0)]],
-      tags: ['']
-    });
-    this.tagForm = formBuilder.group({
-      newTag: ['', [Validators.required, Validators.pattern(/\S/)]],
-      selectTag: ['']
-    });
-    }
+  selectedTags : any = null;
+  constructor(private formBuilder: FormBuilder, private httpFacadeService : HttpFacadeService, private authService : AuthService) {
+  }
 
   ngOnInit() {
-    this.httpservice.getTags().subscribe((data) => {
-      this.tagsTab=data;
-    })
+    this.httpFacadeService.getTags().subscribe((tags) => this.tagsTab=tags);
   }
 
-  onCreate() {
-
-    this.SelectedTags = this.tagForm.get('selectTag')?.value;
-
-    // @ts-ignore
-    const title = this.lessonForm.get('title').value
-    // @ts-ignore
-    const description = this.lessonForm.get('description').value
-    // @ts-ignore
-    const category = this.lessonForm.get('category').value
-    // @ts-ignore
-    const targetAudience = this.lessonForm.get('targetAudience').value
-    // @ts-ignore
-    const duration = this.lessonForm.get('duration').value
-
-    this.httpservice.postNewLearningPackage(title,description,category,targetAudience,duration,this.authService.session.userId).subscribe({
-      next: (value) => {
+  onCreatePackage() {
+    let createdPackageId : number = 0;
+    this.selectedTags = this.tagForm.value.selectTag;
+    this.httpFacadeService.postNewLearningPackage(
+        this.lessonForm.value.title,
+        this.lessonForm.value.description,
+        this.lessonForm.value.category,
+        this.lessonForm.value.targetAudience,
+        this.lessonForm.value.duration,
+        this.authService.session.userId).subscribe({
+      next: (learningPackage) => {
+        console.log(learningPackage);
+        createdPackageId = learningPackage.packageId;
         this.lessonForm.reset();
+        if (this.selectedTags.length > 0) {
+          const observables = this.selectedTags.map((tags: tag) => this.httpFacadeService.postPackageTag(createdPackageId, tags.tagId));
+          forkJoin(observables).subscribe();
+        }
       },
-      error: (error) => { console.error(title,description,category,targetAudience,duration,this.authService.session.userId, 'error :', error)},
-      complete: () => {}
     });
-
-    if(this.SelectedTags.length>0)
-    {
-      for( const t of this.SelectedTags)
-      {
-        this.httpservice.postPackageTag(this.findPackageId(title), t.tagId, t.englishKeyword, t.frenchTranslation).subscribe({
-          next: (value) => {
-            this.tagForm.reset();
-          },
-          error: (error) => { console.error(t.tagId, t.englishKeyword, t.frenchTranslation, 'error :', error)},
-          complete: () => {}
-        });
-      }
-    }
   }
-
   onCreateTag() : void{
-    if(!this.tagExist(this.tagForm.get('newTag')?.value))
+    if(this.tagsTab.some(tag => tag.englishKeyword.toLowerCase() !== this.tagForm.value.newTag.toLowerCase()))
     {
-      this.httpservice.postTag(this.tagForm.get('newTag')?.value,this.tagForm.get('newTag')?.value).subscribe({
-        next: (value) => {
+      this.httpFacadeService.postTag(
+        this.tagForm.value.newTag).subscribe({
+        next: () => {
           this.tagForm.reset();
-          this.httpservice.getTags().subscribe((data) => {this.tagsTab=data;})
+          this.httpFacadeService.getTags().subscribe((tags) => this.tagsTab=tags)
         },
-        error: (error) => { console.error(this.tagForm.get('newTag')?.value, 'error :', error)},
-        complete: () => {}
       });
     }
     else {
-      this.errorMessage = 'tag already exists';
+      this.errorMessage = 'Tag has already been created';
+      setTimeout(() => {
+        this.errorMessage = ''; // Clear error message after a delay
+      }, 3000);
     }
-
   }
-
-  tagExist(name : string) : boolean {
-    var exists = false;
-    for (const tag of this.tagsTab)
-    {
-      if(tag.englishKeyword.toLowerCase() == name.toLowerCase())
-      {
-        exists = true;
-      }
-    }
-    return exists;
-  }
-
-  findPackageId(title : string) : number
-  {
-    var id = 0;
-    this.httpservice.getPackageByTitle(title).subscribe({
-      next: (learningPackage) => {id=learningPackage.packageId; }});
-    return id;
-  }
-
 }

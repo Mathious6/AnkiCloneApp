@@ -173,14 +173,12 @@ export class HttpFacadeService {
     return  this.httpClient.get<tag[]>(`api/tag`);
   }
 
-  postPackageTag(packageId : number,tagId : number, englishKeyword : string, frenchTranslation : string):Observable<tag>{
-    const body = {tagId, englishKeyword, frenchTranslation};
-    return  this.httpClient.post<tag>(`api/package/${packageId}/tag`, body)
+  postPackageTag(packageId : number,tagId : number):Observable<tag>{
+    return this.httpClient.post<tag>(`api/package/${packageId}/tag`, {tagId})
   }
 
-  postTag(englishKeyword : string, frenchTranslation : string): Observable<tag>{
-    const body = {englishKeyword, frenchTranslation};
-    return this.httpClient.post<tag>(`api/tag`, body);
+  postTag(englishKeyword : string): Observable<tag>{
+    return this.httpClient.post<tag>(`api/tag`, {englishKeyword});
   }
 
   startUserLearningPackage(userId: number, packageId: number): Observable<any> {
@@ -192,6 +190,6 @@ export class HttpFacadeService {
   }
 
   getPackageByTitle(title : string): Observable<LearningPackage>{
-    return this.httpClient.get<LearningPackage>(`/search-title/${title}`)
+    return this.httpClient.post<LearningPackage>(`/search-title`, {title})
   }
 }
