@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpFacadeService, user} from "./http-facade.service";
+import {HttpFacadeService, User} from "./http-facade.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 
@@ -16,11 +16,10 @@ export class AuthService {
     }
     this.session = session;
   }
-
   login(username: string, password: string): Observable<[boolean, boolean]> {
     return new Observable<[boolean, boolean]>(observer => {
       this.httpFacadeService.getAllUsers().subscribe({
-        next: (data: user[]) => {
+        next: (data: User[]) => {
           const requiredUser = data.find(user =>
               user.pseudo === username || user.mail === username
           );
@@ -51,7 +50,11 @@ export class AuthService {
       });
     });
   }
-
+  logout(){
+    this.session = undefined;
+    localStorage.removeItem('session');
+    this.router.navigateByUrl('/');
+  }
   changePassword(password: string): Observable<boolean> {
     return new Observable<boolean>((observer) => {
       this.httpFacadeService.changePassword(this.session, password).subscribe({
@@ -66,11 +69,5 @@ export class AuthService {
         }
       });
     });
-  }
-
-  logout(){
-    this.session = undefined;
-    localStorage.removeItem('session');
-    this.router.navigateByUrl('/');
   }
 }

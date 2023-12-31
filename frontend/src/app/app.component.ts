@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -9,15 +8,11 @@ import {Router} from "@angular/router";
 export class AppComponent implements OnInit {
   title: string = 'AnkiCloneApp';
 
-  constructor(private router: Router) {
+  constructor() {
     console.log('AppComponent.constructor()')
   }
 
   ngOnInit(): void {
     console.log('AppComponent.ngOnInit()')
-  }
-
-  isLoginPage() {
-    return this.router.url.includes('/login');
   }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpFacadeService, LearningFact} from "../http-facade.service";
+import {HttpFacadeService} from "../http-facade.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 
@@ -14,9 +14,7 @@ export class StudyNowComponent implements OnInit{
   packageName : string = '';
   userFacts : { front: string; relatedImage: string, lastReviewed: Date; reviewCount: number}[] = [];
   emptyPackage: boolean = false;
-
   constructor(private route: ActivatedRoute, private httpFacadeService : HttpFacadeService, private router : Router, private authService : AuthService) {}
-
   ngOnInit() {
     this.route.queryParams.subscribe({
       next: params => {
@@ -39,7 +37,6 @@ export class StudyNowComponent implements OnInit{
       },
     });
   }
-
   startLesson(packageId: string) {
     this.router.navigate(['/lesson-view'], { queryParams: { userId : this.authService.session.userId, packageId: packageId } }).then(() => {
       window.location.reload();

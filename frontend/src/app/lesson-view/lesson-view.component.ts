@@ -2,7 +2,6 @@ import {Component, HostBinding, OnInit} from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpFacadeService, LearningFact, UserLearningFact} from "../http-facade.service";
-import {delay} from "rxjs";
 
 @Component({
   selector: 'app-lesson-view',
@@ -48,7 +47,6 @@ export class LessonViewComponent implements OnInit{
         },
     });
   }
-
   setCurrentUserLearningFact(){
     this.httpFacadeService.getUserLearningPackage(this.userId, this.packageFacts[this.currentFactCounter].factId).subscribe({
       next: userLearningFact => {
@@ -59,7 +57,6 @@ export class LessonViewComponent implements OnInit{
   toggleFlip() {
     this.cardState = this.cardState === 'front' ? 'back' : 'front';
   }
-
   previousFact() {
     this.setAnimationDuration('0s'); // Set duration to 0 for immediate change
     this.cardState = "front";
@@ -71,7 +68,6 @@ export class LessonViewComponent implements OnInit{
     this.isPreviousButtonDisabled = this.currentFactCounter === 0;
     this.isNextButtonDisabled = this.currentFactCounter === this.packageFacts.length-1;
   }
-
   nextFact() {
     this.setAnimationDuration('0s'); // Set duration to 0 for immediate change
     this.cardState = "front";
@@ -86,7 +82,6 @@ export class LessonViewComponent implements OnInit{
   setAnimationDuration(duration: string) {
     this.animationDuration = duration;
   }
-
   reviewCard(confidenceLevel: number) {
     this.httpFacadeService.reviewUserLearningFact(this.userId, this.packageFacts[this.currentFactCounter].factId, confidenceLevel).subscribe(
       {

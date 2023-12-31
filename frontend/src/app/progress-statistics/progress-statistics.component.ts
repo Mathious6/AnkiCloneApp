@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { HttpFacadeService } from "../http-facade.service";
 import { AuthService } from "../auth.service";
-import {round} from "@popperjs/core/lib/utils/math";
 
 @Component({
   selector: 'app-progress-statistics',
@@ -20,9 +19,7 @@ export class ProgressStatisticsComponent implements OnInit {
   todayFacts: number =0;
   globalProgress: number=0;
   nbCreatedPackages: number=0;
-
   constructor(private httpFacadeService: HttpFacadeService, private authService: AuthService) {}
-
   ngOnInit() {
     this.httpFacadeService.getUserStatistics(this.authService.session.userId).subscribe({
       next: value => {
@@ -33,11 +30,9 @@ export class ProgressStatisticsComponent implements OnInit {
       },
     });
   }
-
   updateChartOptions(nextDaysData: Record<string, number>) {
     const dates = Object.keys(nextDaysData);
     const counts = Object.values(nextDaysData);
-
     this.chartOptions = {
       series: [{
         type: 'area',
@@ -77,7 +72,4 @@ export class ProgressStatisticsComponent implements OnInit {
       }
     };
   }
-
-  protected readonly prompt = prompt;
-  protected readonly round = round;
 }

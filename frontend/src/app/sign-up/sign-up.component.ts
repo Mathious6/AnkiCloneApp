@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
-import {SharedService} from "../shared.service";
 import {HttpFacadeService} from "../http-facade.service";
 
 @Component({
@@ -17,14 +16,11 @@ export class SignUpComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
   errorMessage: string = '';
-
   constructor(
     private httpFacadeService : HttpFacadeService,
     private fb: FormBuilder, private router : Router,
-    private authService : AuthService,
-    private sharedService : SharedService){
+    private authService : AuthService){
   }
-
   signup() {
     if (this.form.valid) {
       this.httpFacadeService.getAllUsers().subscribe({
@@ -48,7 +44,7 @@ export class SignUpComponent {
       });
     } else this.errorMessage = 'Please fill out the form correctly.';
     setTimeout(() => {
-      this.errorMessage = ''; // Clear error message after a delay
+      this.errorMessage = '';
     }, 3000);
   }
   get mailControl() {

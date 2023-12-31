@@ -15,12 +15,9 @@ export class SettingsDeactivateModalComponent {
   userPseudo: string = '';
   userId: number = 0;
   constructor(private httpFacadeService: HttpFacadeService, private authService: AuthService) {}
-
-  // Set the userPseudo value when the modal is opened
   setUserPseudo(userPseudo: string): void {
     this.userPseudo = userPseudo;
   }
-
   setUserId(userId: number): void {
     this.userId = userId;
   }

@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {HttpFacadeService, tag} from "../http-facade.service";
+import {HttpFacadeService, Tag} from "../http-facade.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -13,11 +13,11 @@ import {forkJoin, map, switchMap} from "rxjs";
 })
 
 export class ExploreLessonComponent implements OnInit{
-  userLearningPackages : { title : string, description:string, packageId: number, progress:number, tags: tag[] }[] = []
+  userLearningPackages : { title : string, description:string, packageId: number, progress:number, tags: Tag[] }[] = []
   private modalService = inject(NgbModal);
-  filteredLearningPackage: { title : string, description:string, packageId: number, progress:number, tags: tag[] }[]  = [];
+  filteredLearningPackage: { title : string, description:string, packageId: number, progress:number, tags: Tag[] }[]  = [];
   searchTerm: string = '';
-  filteredTags: tag[] = [];
+  filteredTags: Tag[] = [];
   selectedTagId: number | null = null;
   constructor(private httpFacadeService : HttpFacadeService, private router: Router, private authService : AuthService) {
   }
@@ -30,9 +30,9 @@ export class ExploreLessonComponent implements OnInit{
         return forkJoin(observablesTags).pipe(
           map((tagsArray: any) => {
             const allTags = tagsArray.flat();
-            const uniqueTags = new Set(allTags.map((tag: tag) => tag.englishKeyword.toLowerCase()));
+            const uniqueTags = new Set(allTags.map((tag: Tag) => tag.englishKeyword.toLowerCase()));
             this.filteredTags = Array.from(uniqueTags).map((englishKeyword) => {
-              return allTags.find((tag: tag) => tag.englishKeyword.toLowerCase() === englishKeyword);
+              return allTags.find((tag: Tag) => tag.englishKeyword.toLowerCase() === englishKeyword);
             });
             return learningPackages.map((learningPackage: any, index: string | number) => {
               learningPackage.tags = tagsArray[index] || [];
@@ -81,7 +81,6 @@ export class ExploreLessonComponent implements OnInit{
       item.title.match(regex) ||
       item.description.match(regex));
   }
-
   applyFilters(): void {
     const searchRegex = this.searchTerm.trim() !== '' ? new RegExp(this.searchTerm, 'i') : null;
     this.filteredLearningPackage = this.userLearningPackages.filter((item) => {
@@ -90,7 +89,6 @@ export class ExploreLessonComponent implements OnInit{
       return matchesSearchTerm && matchesTagFilter;
     });
   }
-
   packageHasTag(item: any, tagId: number): boolean {
     return item.tags.some((tag: { tagId: number; }) => tag.tagId === tagId);
   }
@@ -104,7 +102,6 @@ export class ExploreLessonComponent implements OnInit{
 
     this.applyFilters();
   }
-
   resetFilters(): void {
     this.selectedTagId = null;
     this.applyFilters();

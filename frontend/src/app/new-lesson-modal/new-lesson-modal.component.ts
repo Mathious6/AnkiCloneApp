@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {HttpFacadeService, tag} from "../http-facade.service";
+import {HttpFacadeService, Tag} from "../http-facade.service";
 import {forkJoin, map, switchMap} from "rxjs";
 
 @Component({
@@ -16,7 +16,7 @@ export class NewLessonModalComponent implements OnInit{
   filteredLearningPackage: any[] = [];
   searchTerm: string = '';
   selectedTagId: number | null = null;
-  filteredTags: tag[] = [];
+  filteredTags: Tag[] = [];
   constructor(private httpFacadeService : HttpFacadeService) {
   }
   setUserId(userId: number) {
@@ -34,9 +34,9 @@ export class NewLessonModalComponent implements OnInit{
         return forkJoin(observablesTags).pipe(
           map((tagsArray: any) => {
             const allTags = tagsArray.flat();
-            const uniqueTags = new Set(allTags.map((tag: tag) => tag.englishKeyword.toLowerCase()));
+            const uniqueTags = new Set(allTags.map((tag: Tag) => tag.englishKeyword.toLowerCase()));
             this.filteredTags = Array.from(uniqueTags).map((englishKeyword) => {
-              return allTags.find((tag: tag) => tag.englishKeyword.toLowerCase() === englishKeyword);
+              return allTags.find((tag: Tag) => tag.englishKeyword.toLowerCase() === englishKeyword);
             });
             return learningPackages.map((learningPackage: any, index: string | number) => {
               learningPackage.tags = tagsArray[index] || [];
@@ -52,7 +52,6 @@ export class NewLessonModalComponent implements OnInit{
       },
     });
   }
-
   startUserPackage(packageId: number) {
     this.httpFacadeService.startUserLearningPackage(this.userId, packageId).subscribe({
       next: () => {
@@ -61,13 +60,11 @@ export class NewLessonModalComponent implements OnInit{
       }
     });
   }
-
   matchSearchTerm(item: any, regex: RegExp): boolean {
     return (
       item.title.match(regex) ||
       item.description.match(regex));
   }
-
   applyFilters(): void {
     const searchRegex = this.searchTerm.trim() !== '' ? new RegExp(this.searchTerm, 'i') : null;
     this.filteredLearningPackage = this.newLearningPackage.filter((item) => {
@@ -76,7 +73,6 @@ export class NewLessonModalComponent implements OnInit{
       return matchesSearchTerm && matchesTagFilter;
     });
   }
-
   packageHasTag(item: any, tagId: number): boolean {
     return item.tags.some((tag: { tagId: number; }) => tag.tagId === tagId);
   }
@@ -90,7 +86,6 @@ export class NewLessonModalComponent implements OnInit{
 
     this.applyFilters();
   }
-
   resetFilters(): void {
     this.selectedTagId = null;
     this.applyFilters();

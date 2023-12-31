@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpFacadeService, LearningFact, LearningPackage, tag} from "../http-facade.service";
+import {HttpFacadeService, LearningFact, LearningPackage, Tag} from "../http-facade.service";
 import {AuthService} from "../auth.service";
 
 @Component({
@@ -18,7 +18,7 @@ export class DeleteFactPackageComponent implements OnInit{
   });
   existingLearningPackages: LearningPackage[] = [];
   existingLearningFacts: LearningFact[] = [];
-  existingTags: [tag[]] = [[]];
+  existingTags: [Tag[]] = [[]];
   constructor(private formBuilder: FormBuilder, private httpFacadeService : HttpFacadeService, private authService : AuthService){
   }
   ngOnInit() {
@@ -32,10 +32,7 @@ export class DeleteFactPackageComponent implements OnInit{
         });
       },
     });
-
-
   }
-
   onDeletePackageFact() {
     if (this.deletePackageFact.value.selectedFact === '') {
       this.httpFacadeService.deleteLearningPackage(this.deletePackageFact.value.selectedPackage).subscribe({
@@ -48,13 +45,11 @@ export class DeleteFactPackageComponent implements OnInit{
       });
     }
   }
-
   onSelectPackage() {
     this.httpFacadeService.getAllLearningFactByPackageId(this.deletePackageFact.value.selectedPackage).subscribe({
       next: learningFacts => this.existingLearningFacts = learningFacts,
     });
   }
-
   onDeleteTag() {
     this.httpFacadeService.deleteTagById(this.deleteTag.value.selectedTag).subscribe({  next: () => window.location.reload(),});
   }

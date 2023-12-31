@@ -14,26 +14,20 @@ export class LessonModalComponent {
   packageTitle: string = '';
   packageId: number = 0;
   userId: number = 0;
-
   constructor(private httpFacadeService: HttpFacadeService) {
   }
-
   setUserId(userId: number): void {
     this.userId = userId;
   }
-
   setPackageId(packageId: number) {
     this.packageId = packageId;
   }
-
   setPackageTitle(packageTitle: string): void {
     this.packageTitle = packageTitle;
   }
-
   setAction(action: string): void {
     this.action = action;
   }
-
   doPackageAction() {
     if (this.action === 'reset the progress of') {
       this.httpFacadeService.resetUserLearningPackage(this.userId, this.packageId).pipe(
