@@ -154,8 +154,7 @@ export class HttpFacadeService {
   }
 
   postNewLearningFact(front: string, back: string, source: string, image: string, url: string, packageId: number, userId: number): Observable<LearningFact> {
-    const body = { front, back, source, relatedImage: image, relatedLink: url, creatorId: userId };
-
+    const body = { front : front, back : back, source : source, relatedImage: image, relatedLink: url, creatorId: userId };
     return this.httpClient.post<LearningFact>(`api/package/${packageId}/fact`, body);
   }
 
