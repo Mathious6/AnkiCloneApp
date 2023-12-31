@@ -148,7 +148,8 @@ router.put('/:id/review/:userId', validator_userLearningFact, async (req: Reques
             await UserLearningFact.update(updatedUserLearningFact, {where: {factId, userId}});
         }
 
-        res.status(HTTP_UPDATED).send({message: `Fact with ID ${factId} has been reviewed.`});
+        const updatedRecord = await UserLearningFact.findOne({where: {factId, userId}});
+        res.status(HTTP_OK).send(updatedRecord);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }

@@ -1215,6 +1215,10 @@ paths:
       responses:
         '204':
           description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLearningFact'
         '404':
           description: Not Found
         '500':
