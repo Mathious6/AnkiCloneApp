@@ -14,8 +14,8 @@ export class NewCardComponent implements OnInit{
   existingLearningPackages : LearningPackage[] = [];
   factForm : FormGroup = this.formBuilder.group({
     selectedPackage: ['',Validators.required],
-    recto: ['', Validators.required],
-    verso: ['', Validators.required],
+    recto: ['', [Validators.required, Validators.minLength(3)]],
+    verso: ['', [Validators.required, Validators.minLength(3)]],
     image: [''],
     url: [''],
     source: ['', Validators.required]

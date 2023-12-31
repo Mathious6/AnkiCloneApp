@@ -20,7 +20,7 @@
   </form>
   <form [formGroup]="deleteTag">
     <div class="form-group">
-      <label for="selectedTagDropdownMenu" class="mb-1">Choose a learning package<span class="text-danger"> *</span></label>
+      <label for="selectedTagDropdownMenu" class="mb-1">Choose a Tag<span class="text-danger"> *</span></label>
       <select class="form-control mb-3" id="selectedTagDropdownMenu" formControlName="selectedTag" (change)="onSelectPackage()">
         <ng-container *ngFor="let tagsArray of existingTags">
           <ng-container *ngFor="let tag of tagsArray">
@@ -30,7 +30,7 @@
       </select>
       <div class="text-center">
         <p *ngIf="deleteTag.invalid" class="text-danger">Please fill out all required fields.</p>
-        <button type="button" class="btn btn-danger" (click)="onDeleteTag()" [disabled]="!deleteTag.valid">Delete Learning Fact or Package</button>
+        <button type="button" class="btn btn-danger" (click)="onDeleteTag()" [disabled]="!deleteTag.valid">Delete Tag</button>
       </div>
     </div>
   </form>

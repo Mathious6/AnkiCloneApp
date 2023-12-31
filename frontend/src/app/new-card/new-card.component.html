@@ -13,7 +13,7 @@
         <option *ngFor="let learningPackage of existingLearningPackages" [value]="learningPackage.packageId">{{ learningPackage.title }}</option>
       </select>
 
-      <label for="recto" class="mb-1">Recto<span class="text-danger"> *</span></label>
+      <label for="recto" class="mb-1">Recto (Min. 3 characters)<span class="text-danger"> *</span></label>
       <textarea class="form-control mb-3" id="recto" name="recto" rows="4" formControlName="recto"></textarea>
       <p>
         <label for="image" class="mb-1">Image (URL) (optional)</label><br>
@@ -23,10 +23,10 @@
         <label for="url" class="mb-1">URL (optional)</label>
         <input type="url" class="form-control mb-3" id="url" name="url" placeholder="Enter the link to a resource" formControlName="url">
       </p>
-      <label for="source" class="mb-1">Source (URL)<span class="text-danger"> *</span></label>
+      <label for="source" class="mb-1">Source (URL FORMAT MANDATORY)<span class="text-danger"> *</span></label>
       <input type="url" class="form-control mb-3" id="source" name="source" formControlName="source" placeholder="Indicate the source">
 
-      <label for="verso" class="mb-1">Verso<span class="text-danger"> *</span></label>
+      <label for="verso" class="mb-1">Verso (Min. 3 characters)<span class="text-danger"> *</span></label>
       <textarea class="form-control mb-3" id="verso" name="verso" rows="4" formControlName="verso"></textarea>
     </div>
     <div class="text-center">
