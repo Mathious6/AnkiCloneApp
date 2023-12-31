@@ -17,6 +17,8 @@ export class ExploreLessonComponent implements OnInit{
   private modalService = inject(NgbModal);
   filteredLearningPackage: { title : string, description:string, packageId: number, progress:number, tags: tag[] }[]  = [];
   searchTerm: string = '';
+  filteredTags: tag[] = [];
+  selectedTagId: number | null = null;
   constructor(private httpFacadeService : HttpFacadeService, private router: Router, private authService : AuthService) {
   }
   ngOnInit() {
@@ -27,10 +29,15 @@ export class ExploreLessonComponent implements OnInit{
         );
         return forkJoin(observablesTags).pipe(
           map((tagsArray: any) => {
-            return learningPackages.map((learningPackage: any, index: string | number) => ({
-              ...learningPackage,
-              tags: tagsArray[index],
-            }));
+            const allTags = tagsArray.flat();
+            const uniqueTags = new Set(allTags.map((tag: tag) => tag.englishKeyword.toLowerCase()));
+            this.filteredTags = Array.from(uniqueTags).map((englishKeyword) => {
+              return allTags.find((tag: tag) => tag.englishKeyword.toLowerCase() === englishKeyword);
+            });
+            return learningPackages.map((learningPackage: any, index: string | number) => {
+              learningPackage.tags = tagsArray[index] || [];
+              return learningPackage;
+            });
           })
         );
       })
@@ -87,6 +94,41 @@ export class ExploreLessonComponent implements OnInit{
     return (
       item.title.match(regex) ||
       item.description.match(regex));
+  }
+
+  filterByTag(tagId: number): void {
+    this.selectedTagId = tagId;
+    this.applyFilters();
+  }
+
+  clearTagFilter(): void {
+    this.selectedTagId = null;
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    // Combine search term and tag filter
+    const searchRegex = this.searchTerm.trim() !== '' ? new RegExp(this.searchTerm, 'i') : null;
+
+    this.filteredLearningPackage = this.userLearningPackages.filter((item) => {
+      const matchesSearchTerm = !searchRegex || this.matchSearchTerm(item, searchRegex);
+      const matchesTagFilter = this.selectedTagId === null || this.packageHasTag(item, this.selectedTagId);
+      return matchesSearchTerm && matchesTagFilter;
+    });
+  }
+
+  packageHasTag(item: any, tagId: number): boolean {
+    return item.tags.some((tag: { tagId: number; }) => tag.tagId === tagId);
+  }
+  toggleTag(tagId: number): void {
+    if (this.selectedTagId === tagId) {
+      // Toggle off if the same tag is clicked again
+      this.selectedTagId = null;
+    } else {
+      this.selectedTagId = tagId;
+    }
+
+    this.applyFilters();
   }
 }
 
