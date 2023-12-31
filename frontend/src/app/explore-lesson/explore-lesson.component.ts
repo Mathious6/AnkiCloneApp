@@ -130,5 +130,10 @@ export class ExploreLessonComponent implements OnInit{
 
     this.applyFilters();
   }
+
+  resetFilters(): void {
+    this.selectedTagId = null;
+    this.applyFilters();
+  }
 }
 
